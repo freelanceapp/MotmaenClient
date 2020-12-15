@@ -13,6 +13,7 @@ import com.motmaen_client.language.Language;
 import com.motmaen_client.models.DoctorModel;
 import com.motmaen_client.mvp.activity_reservation_mvp.ActivityReservationPresenter;
 import com.motmaen_client.mvp.activity_reservation_mvp.ActivityReservationView;
+import com.motmaen_client.ui.activity_live.LiveActivity;
 
 import io.paperdb.Paper;
 
@@ -64,6 +65,9 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
             binding.flCall.setBackgroundResource(0);
             binding.flChat.setBackgroundResource(0);
             binding.flLive.setBackgroundResource(R.drawable.small_rounded_red_strock);
+
+            Intent intent=new Intent(ReservationActivity.this, LiveActivity.class);
+            startActivity(intent);
         });
 
         binding.cardChat.setOnClickListener(view -> {

@@ -42,4 +42,5 @@ public class Fragment_Appointment extends Fragment {
         binding.recView.setAdapter(new AppointmentAdapter(new ArrayList<>(),activity));
         binding.progBar.setVisibility(View.GONE);
     }
+
 }

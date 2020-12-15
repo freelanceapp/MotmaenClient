@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.motmaen_client"
-        minSdkVersion 16
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -70,7 +70,7 @@ dependencies {
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     implementation 'io.supercharge:shimmerlayout:2.1.0'
     implementation 'com.github.warkiz.widget:indicatorseekbar:2.1.2'
-
+    implementation ('org.jitsi.react:jitsi-meet-sdk:2.11.0')
 
 
 }
