@@ -141,7 +141,7 @@ public interface Service {
     @POST("api/add-reservations")
     Call<ResponseBody> addreservision(@Field("user_id") String user_id,
                                       @Field("doctor_id") String doctor_id,
-                                      @Field("date") String date,
+                                       @Field("date") String date,
                                       @Field("time")String time,
                                       @Field("cost")String cost,
                                       @Field("reservation_type")String reservation_type,

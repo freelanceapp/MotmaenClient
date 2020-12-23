@@ -1,6 +1,7 @@
 package com.motmaen_client.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +12,18 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.motmaen_client.R;
 import com.motmaen_client.databinding.SliderRowBinding;
+import com.motmaen_client.models.Slider_Model;
+import com.motmaen_client.tags.Tags;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class SliderAdapter extends PagerAdapter {
-    private List<Integer> list ;
+    private List<Slider_Model.Data> list ;
     private Context context;
     private LayoutInflater inflater;
 
-    public SliderAdapter(List<Integer> list, Context context) {
+    public SliderAdapter(List<Slider_Model.Data> list, Context context) {
         this.list = list;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -39,8 +43,11 @@ public class SliderAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         SliderRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.slider_row,container,false);
-        binding.image.setImageResource(list.get(position));
-        container.addView(binding.getRoot());
+        Picasso.get().load(Tags.IMAGE_URL+list.get(position).getImage()).resize(720,480).onlyScaleDown()
+                .into(binding.image);
+
+     // Log.e("mmmmmmmmm",Tags.IMAGE_URL+list.get(position).getImage());
+      container.addView(binding.getRoot());
         return binding.getRoot();
     }
 
