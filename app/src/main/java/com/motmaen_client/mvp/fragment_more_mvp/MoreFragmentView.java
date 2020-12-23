@@ -7,5 +7,10 @@ import java.util.List;
 public interface MoreFragmentView {
     void onFailed(String msg);
 
+    void onLoad();
 
+    void onFinishload();
+
+
+    void logout();
 }

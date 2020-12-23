@@ -23,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -161,5 +162,18 @@ public interface Service {
             @Query("user_id") int user_id,
             @Query("reservation_type") String reservation_type
 
+    );
+
+    @FormUrlEncoded
+    @POST("api/contact-us")
+    Call<ResponseBody> contactUs(@Field("name") String name,
+                                 @Field("email") String email,
+                                 @Field("subject") String subject,
+                                 @Field("message") String message
+
+
+    );
+    @POST("api/logout")
+    Call<ResponseBody> logout(@Header("Authorization") String user_token
     );
 }

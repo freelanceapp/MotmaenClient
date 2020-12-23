@@ -144,5 +144,7 @@
     <string name="pay_online">Pay Online</string>
     <string name="detection_price">Detection price</string>
     <string name="address">Address</string>
+    <string name="subject">Subject</string>
+    <string name="message">Message</string>
 
 </resources>

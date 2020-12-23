@@ -69,7 +69,7 @@ public class Fragment_Home extends Fragment implements HomeFragmentView {
         binding.tab.setupWithViewPager(binding.pager);
 
         fragmentHomePresenter = new FragmentHomePresenter(this, activity);
-        fragmentHomePresenter.getSlider();
+
         sliderAdapter = new SliderAdapter(sliDataList, activity);
 
         binding.cardViewHospitals.setOnClickListener(view -> {
@@ -94,7 +94,7 @@ public class Fragment_Home extends Fragment implements HomeFragmentView {
             intent.putExtra("lng", lng);
             startActivity(intent);
         });
-
+        fragmentHomePresenter.getSlider();
     }
 
     @Override
@@ -118,11 +118,16 @@ public class Fragment_Home extends Fragment implements HomeFragmentView {
 
         binding.tab.setupWithViewPager(binding.pager);
         binding.pager.setAdapter(sliderAdapter);
+        sliDataList.addAll(sliderModelList);
+        sliderAdapter.notifyDataSetChanged();
         if (sliDataList.size() > 1) {
             timer = new Timer();
             timerTask = new MyTask();
             timer.scheduleAtFixedRate(timerTask, 6000, 6000);
         }
+
+        binding.flNoAds.setVisibility(View.GONE);
+
         if (sliDataList.size() == 0) {
             binding.flPager.setVisibility(View.GONE);
             binding.flNoAds.setVisibility(View.VISIBLE);
