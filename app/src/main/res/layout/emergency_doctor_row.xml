@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="model"
+            type="com.motmaen_client.models.SingleDoctorModel" />
+    </data>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,12 +20,15 @@
             android:orientation="vertical"
             >
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 app:civ_border_color="@color/colorPrimary"
                 app:civ_border_width="3dp"
+                android:transitionName="image"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_avatar"
+                image="@{model.logo}"
                 />
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -28,10 +36,13 @@
                 android:layout_marginTop="10dp"
                 >
                 <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                  android:id="@+id/rateBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srb_isIndicator="true"
+                    android:transitionName="rateBar"
                     app:srb_numberOfStars="5"
+                    rate="@{model.rates}"
                     app:srb_starBackgroundColor="@color/gray2"
                     app:srb_starBorderWidth="1"
                     app:srb_starSize="14dp"
@@ -53,7 +64,8 @@
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
                     android:textColor="@color/color1"
-                    android:text="20 كم"
+                    android:transitionName="tvDistance"
+                    android:text='@{model.distance+@string/km}'
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -79,6 +91,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:singleLine="true"
+                    android:text="@{model.name}"
                     android:textColor="@color/gray9"
                     />
             </LinearLayout>
@@ -102,14 +115,17 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:singleLine="true"
+                    android:text="@{model.specialization_fk.title}"
                     android:textColor="@color/gray9"
                     />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/llAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
+                android:transitionName="lladdress"
                 >
                 <ImageView
                     android:layout_width="24dp"
@@ -125,6 +141,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:singleLine="true"
+                    android:text="@{model.address}"
                     android:textColor="@color/gray9"
                     />
             </LinearLayout>

@@ -1,28 +1,43 @@
 package com.motmaen_client.ui.activity_doctor;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Pair;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
 import com.motmaen_client.R;
+import com.motmaen_client.adapters.CityAdapter;
 import com.motmaen_client.adapters.DoctorsAdapter;
 import com.motmaen_client.adapters.FilterAdapter;
+import com.motmaen_client.adapters.SpicialAdapter;
 import com.motmaen_client.databinding.ActivityDoctorBinding;
 import com.motmaen_client.databinding.DoctorRowBinding;
 import com.motmaen_client.language.Language;
+import com.motmaen_client.models.AllCityModel;
+import com.motmaen_client.models.AllSpiclixationModel;
+import com.motmaen_client.models.CityModel;
 import com.motmaen_client.models.DoctorModel;
 import com.motmaen_client.models.FilterModel;
+import com.motmaen_client.models.SingleDoctorModel;
+import com.motmaen_client.models.SpecializationModel;
+import com.motmaen_client.mvp.activity_doctors_mvp.ActivityDoctorsPresenter;
+import com.motmaen_client.mvp.activity_doctors_mvp.DoctorsActivityView;
+import com.motmaen_client.share.Common;
 import com.motmaen_client.ui.activity_doctor_details.DoctorDetailsActivity;
 import com.warkiz.widget.IndicatorSeekBar;
 import com.warkiz.widget.OnSeekChangeListener;
@@ -34,17 +49,24 @@ import java.util.Locale;
 
 import io.paperdb.Paper;
 
-public class DoctorActivity extends AppCompatActivity {
+public class DoctorActivity extends AppCompatActivity implements DoctorsActivityView {
     private ActivityDoctorBinding binding;
+    private ActivityDoctorsPresenter presenter;
     private String lang;
-    private double lat=0.0,lng=0.0;
-    private float distance =0f;
-    private String city_id="";
-    private int specialization_id=0;
+    private double lat = 0.0, lng = 0.0;
+    private float distance = 0f;
+    private String city_id = "";
     private String filter = "";
+    private String specialization_id ="all";
     private DoctorsAdapter adapter;
     private FilterAdapter filterAdapter;
     private List<FilterModel> filterModelList;
+    private List<SpecializationModel> specializationModels;
+    private SpicialAdapter spicialAdapter;
+    private List<CityModel> cityModels;
+    private List<SingleDoctorModel> singleDoctorModelList;
+    private CityAdapter cityAdapter;
+    private String query, near = "off";
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
@@ -67,15 +89,23 @@ public class DoctorActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        presenter = new ActivityDoctorsPresenter(this, this);
+        singleDoctorModelList = new ArrayList<>();
         filterModelList = new ArrayList<>();
+        specializationModels = new ArrayList<>();
+        cityModels = new ArrayList<>();
         Paper.init(this);
-        lang = Paper.book().read("lang","ar");
+        lang = Paper.book().read("lang", "ar");
         binding.setLang(lang);
-        binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this,R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+        adapter = new DoctorsAdapter(singleDoctorModelList, this);
+        binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         binding.recView.setLayoutManager(new LinearLayoutManager(this));
-        binding.recView.setAdapter(new DoctorsAdapter(new ArrayList<>(),this));
-        binding.progBar.setVisibility(View.GONE);
-        binding.llBack.setOnClickListener(view -> finish());
+        binding.recView.setAdapter(adapter);
+        //binding.progBar.setVisibility(View.GONE);
+        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near, 2);
+        binding.llBack.setOnClickListener(view -> {
+            presenter.backPress();
+        });
         binding.llSpecialization.setOnClickListener(view -> openSheet(1));
         binding.llNearby.setOnClickListener(view -> openSheet(2));
         binding.llCity.setOnClickListener(view -> openSheet(3));
@@ -85,10 +115,31 @@ public class DoctorActivity extends AppCompatActivity {
         binding.imageCloseCity.setOnClickListener(view -> closeSheet(3));
 
 
-        filterAdapter = new FilterAdapter(filterModelList,this);
-        binding.recViewFilter.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        filterAdapter = new FilterAdapter(filterModelList, this);
+        binding.recViewFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         binding.recViewFilter.setAdapter(filterAdapter);
+        spicialAdapter = new SpicialAdapter(specializationModels, this);
+        binding.recViewSpecialization.setLayoutManager(new LinearLayoutManager(this));
+        binding.recViewSpecialization.setAdapter(spicialAdapter);
+        cityAdapter = new CityAdapter(cityModels, this);
+        binding.recViewCity.setLayoutManager(new LinearLayoutManager(this));
+        binding.recViewCity.setAdapter(cityAdapter);
 
+        binding.editQuery.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                query = binding.editQuery.getText().toString();
+                if (!TextUtils.isEmpty(query)) {
+                    Common.CloseKeyBoard(DoctorActivity.this, binding.editQuery);
+                    presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near, 2);
+                    return false;
+                } else {
+                    query = "";
+                }
+                presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near, 2);
+
+            }
+            return false;
+        });
         binding.btnFilter.setOnClickListener(view -> {
             String title = "";
             if (binding.rbHighPrice.isChecked()){
@@ -115,6 +166,7 @@ public class DoctorActivity extends AppCompatActivity {
             binding.llFilter.setVisibility(View.VISIBLE);
         });
 
+        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near, 2);
 
 
     }
@@ -128,6 +180,7 @@ public class DoctorActivity extends AppCompatActivity {
             binding.flSpecializationSheet.clearAnimation();
             binding.flSpecializationSheet.startAnimation(animation);
 
+            presenter.getSpecilization(type);
 
         }
         else if (type ==2){
@@ -139,6 +192,7 @@ public class DoctorActivity extends AppCompatActivity {
         else if (type ==3){
             binding.flCitySheet.clearAnimation();
             binding.flCitySheet.startAnimation(animation);
+            presenter.getcities(type);
 
 
         }
@@ -179,7 +233,6 @@ public class DoctorActivity extends AppCompatActivity {
         if (type ==1){
             binding.flSpecializationSheet.clearAnimation();
             binding.flSpecializationSheet.startAnimation(animation);
-
 
         }
         else if (type ==2){
@@ -252,9 +305,9 @@ public class DoctorActivity extends AppCompatActivity {
             binding.rbTime.setChecked(false);
             filter = "";
         }else if (model.getType().equals("specialization")){
-            specialization_id = 0;
+            specialization_id = "all";
         }else if (model.getType().equals("city")){
-            city_id = "";
+            city_id = "all";
         }
 
         if (filterModelList.size()>0){
@@ -263,17 +316,135 @@ public class DoctorActivity extends AppCompatActivity {
             binding.llFilter.setVisibility(View.GONE);
 
         }
+        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near, 2);
+
     }
 
-    public void setItemData(DoctorModel doctorModel, DoctorRowBinding binding, int adapterPosition) {
+    public void setItemData(SingleDoctorModel doctorModel, DoctorRowBinding binding, int adapterPosition) {
         Intent intent = new Intent(this, DoctorDetailsActivity.class);
-        List<Pair<View,String>> pairs = new ArrayList<>();
+        intent.putExtra("data",doctorModel);
+        List<Pair<View, String>> pairs = new ArrayList<>();
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
-                Pair.create(binding.image,binding.image.getTransitionName()),
-                Pair.create(binding.rateBar,binding.rateBar.getTransitionName()),
-                Pair.create(binding.llAddress,binding.llAddress.getTransitionName()),
-                Pair.create(binding.tvDistance,binding.tvDistance.getTransitionName())
-                );
-        startActivity(intent,options.toBundle());
+                Pair.create(binding.image, binding.image.getTransitionName()),
+                Pair.create(binding.rateBar, binding.rateBar.getTransitionName()),
+                Pair.create(binding.llAddress, binding.llAddress.getTransitionName()),
+                Pair.create(binding.tvDistance, binding.tvDistance.getTransitionName())
+        );
+        startActivityForResult(intent, 1,options.toBundle());
+    }
+
+    @Override
+    public void onFinished() {
+        finish();
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode== Activity.RESULT_OK){
+            Intent intent=getIntent();
+            setResult(RESULT_OK,intent);
+
+            finish();}
+    }
+
+    @Override
+    public void onProgressShow(int type) {
+        if (type == 1) {
+            binding.progBarSpecialization.setVisibility(View.VISIBLE);
+        } else if (type == 3) {
+            binding.progBarCity.setVisibility(View.VISIBLE);
+
+        } else if (type == 2) {
+            binding.progBar.setVisibility(View.VISIBLE);
+
+        }
+    }
+
+    @Override
+    public void onProgressHide(int type) {
+        if (type == 1) {
+            binding.progBarSpecialization.setVisibility(View.GONE);
+        } else if (type == 3) {
+            binding.progBarCity.setVisibility(View.GONE);
+
+        } else if (type == 2) {
+            binding.progBar.setVisibility(View.GONE);
+
+        }
+
+    }
+
+    @Override
+    public void onFailed(String msg) {
+        Toast.makeText(DoctorActivity.this, msg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onSuccess(AllSpiclixationModel allSpiclixationModel) {
+        specializationModels.clear();
+        specializationModels.addAll(allSpiclixationModel.getData());
+        spicialAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSuccesscitie(AllCityModel allCityModel) {
+        cityModels.clear();
+        cityModels.addAll(allCityModel.getData());
+        cityAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void ondoctorsucess(DoctorModel body) {
+        singleDoctorModelList.clear();
+        singleDoctorModelList.addAll(body.getData());
+        adapter.notifyDataSetChanged();
+    }
+
+    public void setspicialization(int id) {
+//        specializationModels.clear();
+//        spicialAdapter.notifyDataSetChanged();
+        int pos = getItemPos("specialization");
+        String title = getString(R.string.specialization);
+
+        if (pos == -1) {
+            FilterModel filterModel = new FilterModel(title, "specialization");
+            filterModelList.add(filterModel);
+            filterAdapter.notifyDataSetChanged();
+        } else {
+            FilterModel filterModel = filterModelList.get(pos);
+            filterModel.setTitle(title);
+            filterModelList.set(pos, filterModel);
+            filterAdapter.notifyItemChanged(pos);
+        }
+        binding.llFilter.setVisibility(View.VISIBLE);
+        specialization_id = id + "";
+
+        closeSheet(1);
+        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near, 2);
+
+    }
+
+    public void setcity(int id) {
+//        specializationModels.clear();
+//        spicialAdapter.notifyDataSetChanged();
+        int pos = getItemPos("city");
+        String title = getString(R.string.city);
+
+        if (pos == -1) {
+            FilterModel filterModel = new FilterModel(title, "city");
+            filterModelList.add(filterModel);
+            filterAdapter.notifyDataSetChanged();
+        } else {
+            FilterModel filterModel = filterModelList.get(pos);
+            filterModel.setTitle(title);
+            filterModelList.set(pos, filterModel);
+            filterAdapter.notifyItemChanged(pos);
+        }
+        binding.llFilter.setVisibility(View.VISIBLE);
+        city_id = id + "";
+
+        closeSheet(3);
+        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near, 2);
+
     }
 }

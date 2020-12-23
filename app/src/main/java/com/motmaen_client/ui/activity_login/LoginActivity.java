@@ -15,6 +15,7 @@ import com.motmaen_client.language.Language;
 import com.motmaen_client.models.LoginModel;
 import com.motmaen_client.mvp.activity_login_presenter.ActivityLoginPresenter;
 import com.motmaen_client.mvp.activity_login_presenter.ActivityLoginView;
+import com.motmaen_client.ui.activity_confirm_code.ConfirmCodeActivity;
 import com.motmaen_client.ui.activity_home.HomeActivity;
 import com.motmaen_client.ui.activity_sign_up.SignUpActivity;
 
@@ -65,7 +66,7 @@ public class LoginActivity extends AppCompatActivity implements ActivityLoginVie
 
     @Override
     public void onLoginValid() {
-        Intent intent = new Intent(this, SignUpActivity.class);
+        Intent intent = new Intent(this, ConfirmCodeActivity.class);
         intent.putExtra("phone_code",model.getPhone_code());
         intent.putExtra("phone",model.getPhone());
         intent.putExtra("lat",lat);

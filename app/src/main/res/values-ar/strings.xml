@@ -131,5 +131,18 @@
     <string name="rate">تقييم</string>
     <string name="less_time">الاقرب في الوقت للكشف</string>
     <string name="call">إتصال</string>
+    <string name="server_error">Server Error</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="not_available">Not Avalible</string>
+    <string name="detection_duration">Detection duration</string>
+    <string name="reserve_now">Reserve now</string>
+    <string name="reserved">Reserved</string>
+    <string name="reservation_confirmation">reservation confirmation</string>
+    <string name="confirm_reservation_and_payment">Confirm reservation and payment</string>
+    <string name="cash">Cash</string>
+    <string name="pay_online">Pay Online</string>
+    <string name="detection_price">Detection price</string>
+    <string name="address">Address</string>
 
 </resources>

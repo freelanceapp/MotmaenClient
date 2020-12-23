@@ -99,20 +99,40 @@
                             android:src="@drawable/ic_search"
                             app:tint="@color/gray9" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:text="@string/search2"
-                            android:textColor="@color/gray9"
-                            android:textSize="15sp" />
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
+                            app:counterEnabled="false"
+                            app:errorEnabled="false"
+                            app:helperTextEnabled="false"
+                            app:hintAnimationEnabled="false"
+                            app:hintEnabled="false"
+                            app:hintTextColor="@color/black"
+
+
+                            >
+
+                            <EditText
+                                android:id="@+id/editQuery"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_vertical"
+                                android:hint="@string/search2"
+                                android:imeOptions="actionSearch"
+                                android:singleLine="true"
+                                android:padding="2dp"
+                                android:textColor="@color/black"
+                                android:background="@color/white"
+                                android:textColorHint="@color/gray4"
+                                android:textSize="14sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
 
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

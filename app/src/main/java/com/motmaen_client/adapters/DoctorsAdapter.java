@@ -12,17 +12,18 @@ import com.motmaen_client.R;
 import com.motmaen_client.databinding.DoctorRowBinding;
 import com.motmaen_client.databinding.EmergencyDoctorRowBinding;
 import com.motmaen_client.models.DoctorModel;
+import com.motmaen_client.models.SingleDoctorModel;
 import com.motmaen_client.ui.activity_doctor.DoctorActivity;
 
 import java.util.List;
 
 public class DoctorsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<DoctorModel> list;
+    private List<SingleDoctorModel> list;
     private Context context;
     private LayoutInflater inflater;
     private DoctorActivity activity;
 
-    public DoctorsAdapter(List<DoctorModel> list, Context context) {
+    public DoctorsAdapter(List<SingleDoctorModel> list, Context context) {
         this.list = list;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -44,16 +45,17 @@ public class DoctorsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         MyHolder myHolder = (MyHolder) holder;
+        myHolder.binding.setModel(list.get(position));
         myHolder.itemView.setOnClickListener(view -> {
-            DoctorModel doctorModel = null;
-            //DoctorModel doctorModel = list.get(myHolder.getAdapterPosition());
+            SingleDoctorModel doctorModel = null;
+             doctorModel = list.get(myHolder.getAdapterPosition());
             activity.setItemData(doctorModel,myHolder.binding,myHolder.getAdapterPosition());
         });
     }
 
     @Override
     public int getItemCount() {
-        return 8;
+        return list.size();
     }
 
     public static class MyHolder extends RecyclerView.ViewHolder {

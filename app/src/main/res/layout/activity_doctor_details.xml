@@ -8,9 +8,11 @@
         <variable
             name="lang"
             type="String" />
+        <variable
+            name="model"
+            type="com.motmaen_client.models.SingleDoctorModel" />
 
     </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -94,6 +96,7 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/image"
+                            image="@{model.logo}"
                             android:layout_width="90dp"
                             android:layout_height="90dp"
                             android:src="@drawable/ic_avatar"
@@ -107,6 +110,7 @@
                             tools:ignore="UnusedAttribute" />
 
                         <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                            rate="@{model.rates}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
@@ -170,7 +174,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="@string/doctor2"
+                                android:text="@{model.name}"
                                 android:textColor="@color/color1"
                                 android:textSize="14sp" />
 
@@ -183,7 +187,6 @@
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
 
-
                                 />
                         </LinearLayout>
 
@@ -194,6 +197,7 @@
                             android:gravity="center"
                             android:textColor="@color/gray9"
                             android:textSize="14sp"
+                            android:text="@{model.details}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/llName" />
@@ -241,6 +245,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
+                                    android:text="@{model.address}"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
                             </LinearLayout>
@@ -248,7 +253,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="20 كم"
+                                android:text='@{model.distance+@string/km}'
                                 android:textColor="@color/color1"
                                 android:textSize="14sp"
                                 android:transitionName="distance"
@@ -273,9 +278,8 @@
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
-
                 <androidx.cardview.widget.CardView
+                   android:id="@+id/card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -316,6 +320,7 @@
                         </LinearLayout>
 
                         <FrameLayout
+
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp">

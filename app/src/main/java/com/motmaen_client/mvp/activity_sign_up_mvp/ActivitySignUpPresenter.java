@@ -2,20 +2,34 @@ package com.motmaen_client.mvp.activity_sign_up_mvp;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
 import com.motmaen_client.R;
+import com.motmaen_client.models.AllDiseasesModel;
 import com.motmaen_client.models.DiseaseModel;
 import com.motmaen_client.models.SignUpModel;
+import com.motmaen_client.models.UserModel;
+import com.motmaen_client.remote.Api;
+import com.motmaen_client.share.Common;
+import com.motmaen_client.tags.Tags;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivitySignUpPresenter implements DatePickerDialog.OnDateSetListener{
     private Context context;
@@ -26,9 +40,7 @@ public class ActivitySignUpPresenter implements DatePickerDialog.OnDateSetListen
     private DatePickerDialog datePickerDialog;
 
 
-
-    public ActivitySignUpPresenter(Context context, ActivitySignUpView view)
-    {
+    public ActivitySignUpPresenter(Context context, ActivitySignUpView view) {
         this.context = context;
         this.view = view;
         genderList = new ArrayList<>();
@@ -38,12 +50,11 @@ public class ActivitySignUpPresenter implements DatePickerDialog.OnDateSetListen
 
     }
 
-    private void createDateDialog()
-    {
+    private void createDateDialog() {
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
-        calendar.set(Calendar.YEAR,calendar.get(Calendar.YEAR));
-        calendar.set(Calendar.DAY_OF_MONTH,1);
-        calendar.set(Calendar.MONTH,Calendar.JANUARY);
+        calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.MONTH, Calendar.JANUARY);
         datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.setOkText(context.getString(R.string.select));
         datePickerDialog.setCancelText(context.getString(R.string.cancel));
@@ -55,8 +66,8 @@ public class ActivitySignUpPresenter implements DatePickerDialog.OnDateSetListen
         datePickerDialog.setMaxDate(calendar);
 
     }
-    public void getGender()
-    {
+
+    public void getGender() {
         genderList.clear();
         genderList.add(context.getString(R.string.ch_gender));
         genderList.add(context.getString(R.string.male));
@@ -64,8 +75,8 @@ public class ActivitySignUpPresenter implements DatePickerDialog.OnDateSetListen
         view.onGenderSuccess(genderList);
 
     }
-    public void getBloodType()
-    {
+
+    public void getBloodType() {
         bloodList.clear();
         bloodList.add(context.getString(R.string.ch_blood));
         bloodList.add("A+");
@@ -78,56 +89,186 @@ public class ActivitySignUpPresenter implements DatePickerDialog.OnDateSetListen
         bloodList.add("AB-");
         view.onBloodSuccess(bloodList);
     }
-    public void getDiseases(){
-        diseaseModelList.clear();
-        DiseaseModel model = new DiseaseModel();
-        model.setId(0);
-        model.setTitle(context.getString(R.string.ch_diseases));
-        diseaseModelList.add(model);
 
-        DiseaseModel model1 = new DiseaseModel();
-        model1.setId(1);
-        model1.setTitle("الضغط");
-        diseaseModelList.add(model1);
+    public void getDiseases() {
+        // Log.e("tjtjtj",userModel.getIs_confirmed());
+        view.onLoad();
 
-        DiseaseModel model2 = new DiseaseModel();
-        model2.setId(2);
-        model2.setTitle("السكر");
-        diseaseModelList.add(model2);
+        Api.getService(Tags.base_url)
+                .getdiseas()
+                .enqueue(new Callback<AllDiseasesModel>() {
+                    @Override
+                    public void onResponse(Call<AllDiseasesModel> call, Response<AllDiseasesModel> response) {
+                        view.onFinishload();
+                        if (response.isSuccessful() && response.body() != null) {
+                            view.onDiseasesSuccess(response.body().getData());
+                        } else {
+                            view.onFinishload();
+                            view.onFailed(context.getString(R.string.something));
+                            try {
+                                Log.e("error_codess", response.code() + response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
 
-        DiseaseModel model3 = new DiseaseModel();
-        model3.setId(3);
-        model3.setTitle("القلب");
-        diseaseModelList.add(model3);
 
+                    }
 
+                    @Override
+                    public void onFailure(Call<AllDiseasesModel> call, Throwable t) {
+                        try {
+                            view.onFinishload();
+                            view.onFailed(context.getString(R.string.something));
+                            Log.e("Error", t.getMessage());
+                        } catch (Exception e) {
 
-        view.onDiseasesSuccess(diseaseModelList);
+                        }
+                    }
+                });
+
 
     }
-    public void checkData(SignUpModel signUpModel)
-    {
-        if (signUpModel.isDataValid(context)){
-            if (signUpModel.getImageUrl().isEmpty()){
+
+    public void checkData(SignUpModel signUpModel) {
+        if (signUpModel.isDataValid(context)) {
+            if (signUpModel.getImageUrl().isEmpty()) {
                 sign_up_without_image(signUpModel);
-            }else {
+            } else {
                 sign_up_with_image(signUpModel);
 
             }
         }
     }
-    public void showDateDialog(FragmentManager fragmentManager){
-        try {
-            datePickerDialog.show(fragmentManager,"");
 
-        }catch (Exception e){}
+    public void showDateDialog(FragmentManager fragmentManager) {
+        try {
+            datePickerDialog.show(fragmentManager, "");
+
+        } catch (Exception e) {
+        }
     }
 
     private void sign_up_with_image(SignUpModel signUpModel) {
+        RequestBody name_part = Common.getRequestBodyText(signUpModel.getName());
+        RequestBody phone_code_part = Common.getRequestBodyText(signUpModel.getPhone_code().replace("+", "00"));
+        RequestBody phone_part = Common.getRequestBodyText(signUpModel.getPhone());
+        RequestBody birth_part = Common.getRequestBodyText(signUpModel.getBirth_date());
+        RequestBody blood_part = Common.getRequestBodyText(signUpModel.getBlood_type());
+        RequestBody gender_part = Common.getRequestBodyText(signUpModel.getGender());
 
+        RequestBody type_part = Common.getRequestBodyText("patient");
+        RequestBody soft_part = Common.getRequestBodyText("android");
+
+        List<RequestBody> diseases_part = new ArrayList<>();
+        for (int i = 0 ; i < signUpModel.getDiseaseModelList().size(); i++) {
+            diseases_part.add(Common.getRequestBodyText(signUpModel.getDiseaseModelList().get(i).getId() + ""));
+        }
+
+
+        MultipartBody.Part image_form_part = Common.getMultiPart(context, Uri.parse(signUpModel.getImageUrl()), "logo");
+        view.onLoad();
+        Api.getService(Tags.base_url)
+                .signup(phone_code_part, phone_part, name_part, birth_part, blood_part, gender_part, type_part, soft_part, diseases_part, image_form_part)
+                .enqueue(new Callback<UserModel>() {
+                    @Override
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                        view.onFinishload();
+                        if (response.isSuccessful() && response.body() != null) {
+                            //  Log.e("eeeeee", response.body().getUser().getName());
+                            view.onSignupValid(response.body());
+                        } else {
+                            try {
+                                Log.e("mmmmmmmmmmssss", response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            if (response.code() == 500) {
+                                view.onServer();
+                            } else {
+                                view.onFailed();
+                                //  Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserModel> call, Throwable t) {
+                        try {
+                            view.onFinishload();
+                            if (t.getMessage() != null) {
+                                Log.e("msg_category_error", t.getMessage() + "__");
+
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    view.onnotconnect(t.getMessage().toLowerCase());
+                                    //  Toast.makeText(VerificationCodeActivity.this, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    view.onFailed();
+                                    // Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.e("Error", e.getMessage() + "__");
+                        }
+                    }
+                });
     }
 
     private void sign_up_without_image(SignUpModel signUpModel) {
+        Log.e("ddddd",signUpModel.getPhone_code()+" "+ signUpModel.getPhone()+" " +signUpModel.getName()+" "+  signUpModel.getBirth_date()+" "+  signUpModel.getBlood_type()+" "+ signUpModel.getGender()+" "+ "patient"+" "+ "android");
+        List<String> diseases_part = new ArrayList<>();
+        for (int i = 0 ; i < signUpModel.getDiseaseModelList().size(); i++) {
+            diseases_part.add(signUpModel.getDiseaseModelList().get(i).getId() + "");
+        }
+        view.onLoad();
+        Api.getService(Tags.base_url)
+                .signup(signUpModel.getPhone_code(), signUpModel.getPhone(), signUpModel.getName(), signUpModel.getBirth_date(), signUpModel.getBlood_type(), signUpModel.getGender(), "patient", "android", diseases_part)
+                .enqueue(new Callback<UserModel>() {
+                    @Override
+                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                        view.onFinishload();
+                        if (response.isSuccessful() && response.body() != null) {
+                            //  Log.e("eeeeee", response.body().getUser().getName());
+                            view.onSignupValid(response.body());
+                        } else {
+                            try {
+                                Log.e("mmmmmmmmmmssss", response.errorBody().string());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            if (response.code() == 500) {
+                                view.onServer();
+                            } else {
+                                view.onFailed();
+                                //  Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserModel> call, Throwable t) {
+                        try {
+                            view.onFinishload();
+                            if (t.getMessage() != null) {
+                                Log.e("msg_category_error", t.getMessage() + "__");
+
+                                if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                    view.onnotconnect(t.getMessage().toLowerCase());
+                                    //  Toast.makeText(VerificationCodeActivity.this, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    view.onFailed();
+                                    // Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.e("Error", e.getMessage() + "__");
+                        }
+                    }
+                });
 
 
     }

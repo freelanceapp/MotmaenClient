@@ -8,4 +8,9 @@ public interface ActivityConfirmCodeView {
     void onCodeFailed(String msg);
     void onUserFound(UserModel userModel);
     void onUserNoFound();
+    void onFailed();
+    void onServer();
+    void onLoad();
+    void onFinishload();
+    void onnotconnect(String msg);
 }

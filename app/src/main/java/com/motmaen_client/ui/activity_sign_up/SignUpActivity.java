@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -32,9 +33,12 @@ import com.motmaen_client.databinding.DialogSelectImageBinding;
 import com.motmaen_client.language.Language;
 import com.motmaen_client.models.DiseaseModel;
 import com.motmaen_client.models.SignUpModel;
+import com.motmaen_client.models.UserModel;
 import com.motmaen_client.mvp.activity_sign_up_mvp.ActivitySignUpPresenter;
 import com.motmaen_client.mvp.activity_sign_up_mvp.ActivitySignUpView;
+import com.motmaen_client.preferences.Preferences;
 import com.motmaen_client.share.Common;
+import com.motmaen_client.ui.activity_home.HomeActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -62,7 +66,11 @@ public class SignUpActivity extends AppCompatActivity implements ActivitySignUpV
     private DiseasesAdapter adapter;
     private SpinnerDiseasesAdapter spinnerDiseasesAdapter;
     private  AlertDialog dialog;
+    private ProgressDialog dialog2;
     private double lat=0.0,lng=0.0;
+    private String lang;
+
+    private Preferences preferences;
 
     @Override
     protected void attachBaseContext(Context newBase)
@@ -93,6 +101,9 @@ public class SignUpActivity extends AppCompatActivity implements ActivitySignUpV
     }
     private void initView()
     {
+        preferences=Preferences.getInstance();
+        Paper.init(this);
+        lang = Paper.book().read("lang","ar");
         model = new SignUpModel(phone_code,phone);
         binding.setModel(model);
         presenter = new ActivitySignUpPresenter(this,this);
@@ -113,8 +124,16 @@ public class SignUpActivity extends AppCompatActivity implements ActivitySignUpV
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i==0){
                     model.setGender("");
+                }else {if(lang.equals("ar")){
+                    if(i==1){
+                        model.setGender("male");
+                    }
+                    else {
+                        model.setGender("female");
+                    }
                 }else {
-                    model.setGender(genderList.get(i));
+
+                    model.setGender(genderList.get(i));}
                 }
                 binding.setModel(model);
             }
@@ -405,11 +424,47 @@ public class SignUpActivity extends AppCompatActivity implements ActivitySignUpV
         model.setBirth_date(date);
         binding.setModel(model);
     }
+    @Override
+    public void onLoad() {
+        dialog2 = Common.createProgressDialog(this, getString(R.string.wait));
+        dialog2.setCancelable(false);
+        dialog2.show();
+    }
 
+    @Override
+    public void onFinishload() {
+        dialog2.dismiss();
+    }
     @Override
     public void onFailed(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onnotconnect(String msg) {
+        Toast.makeText(SignUpActivity.this, msg, Toast.LENGTH_SHORT).show();
 
+    }
+    @Override
+    public void onSignupValid(UserModel userModel) {
+        preferences.create_update_userdata(SignUpActivity.this, userModel);
+
+
+        Intent intent = new Intent(this, HomeActivity.class);
+
+        startActivity(intent);
+        finish();
+
+    }
+
+    @Override
+    public void onFailed() {
+        Toast.makeText(SignUpActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onServer() {
+        Toast.makeText(SignUpActivity.this, getString(R.string.server_error), Toast.LENGTH_SHORT).show();
+
+    }
 }

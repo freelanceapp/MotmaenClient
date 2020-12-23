@@ -32,26 +32,27 @@ import java.net.URL;
 
 import io.paperdb.Paper;
 
-public class LiveActivity extends AppCompatActivity{
+public class LiveActivity extends AppCompatActivity {
     private String lang;
     private ActivityLiveBinding binding;
 
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
-        super.attachBaseContext(Language.updateResources(newBase,Paper.book().read("lang","ar")));
+        super.attachBaseContext(Language.updateResources(newBase, Paper.book().read("lang", "ar")));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_live);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_live);
         initView();
 
     }
 
     private void initView() {
         Paper.init(this);
-        lang = Paper.book().read("lang","ar");
+        lang = Paper.book().read("lang", "ar");
         binding.setLang(lang);
 
         try {
@@ -66,7 +67,7 @@ public class LiveActivity extends AppCompatActivity{
                     .setAudioOnly(false)
                     .setWelcomePageEnabled(false)
                     .build();
-            JitsiMeetActivity.launch(this,options);
+            JitsiMeetActivity.launch(this, options);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

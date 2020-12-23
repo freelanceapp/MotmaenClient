@@ -1,8 +1,10 @@
 package com.motmaen_client.ui.activity_confirm_code;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -16,6 +18,7 @@ import com.motmaen_client.models.UserModel;
 import com.motmaen_client.mvp.activity_confirm_code_mvp.ActivityConfirmCodePresenter;
 import com.motmaen_client.mvp.activity_confirm_code_mvp.ActivityConfirmCodeView;
 import com.motmaen_client.share.Common;
+import com.motmaen_client.ui.activity_home.HomeActivity;
 import com.motmaen_client.ui.activity_login.LoginActivity;
 import com.motmaen_client.ui.activity_sign_up.SignUpActivity;
 
@@ -29,6 +32,7 @@ public class ConfirmCodeActivity extends AppCompatActivity implements ActivityCo
     private String phone = "";
     private boolean canSend = false;
     private ActivityConfirmCodePresenter presenter;
+    private ProgressDialog dialog;
 
 
     @Override
@@ -104,16 +108,52 @@ public class ConfirmCodeActivity extends AppCompatActivity implements ActivityCo
 
     @Override
     public void onUserFound(UserModel userModel) {
+        Intent intent = new Intent(this, HomeActivity.class);
 
+        startActivity(intent);
+        finish();
     }
+
+
+
+
 
     @Override
     public void onUserNoFound() {
         Intent intent = new Intent(this, SignUpActivity.class);
-        intent.putExtra("phone_code",phone_code);
-        intent.putExtra("phone",phone);
+        intent.putExtra("phone_code", phone_code);
+        intent.putExtra("phone", phone);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onFailed() {
+        Toast.makeText(ConfirmCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onServer() {
+        Toast.makeText(ConfirmCodeActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onLoad() {
+        dialog = Common.createProgressDialog(this, getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    @Override
+    public void onFinishload() {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onnotconnect(String msg) {
+        Toast.makeText(ConfirmCodeActivity.this, msg, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
