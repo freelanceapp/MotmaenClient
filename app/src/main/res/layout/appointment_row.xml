@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+
+        <variable
+            name="model"
+            type="com.motmaen_client.models.ApointmentModel.Data" />
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,6 +52,7 @@
                     android:textColor="@color/colorPrimary"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
+                    android:text="@{model.doctor_fk.name}"
                     />
             </LinearLayout>
 
@@ -67,7 +76,7 @@
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
                     android:singleLine="true"
-                    android:text="انف واذن"
+                    android:text="@{model.doctor_fk.specialization_fk.title}"
                     />
                 <ImageView
                     android:id="@+id/image"
@@ -125,7 +134,7 @@
                         android:textColor="@color/gray9"
                         android:textSize="14sp"
                         android:singleLine="true"
-                        android:text="3:51 م"
+                        android:text="@{model.time}"
                         />
 
                     <TextView
@@ -134,7 +143,7 @@
                         android:textColor="@color/gray9"
                         android:textSize="14sp"
                         android:singleLine="true"
-                        android:text="08-11-2020"
+                        android:text="@{model.date}"
                         android:layout_marginTop="5dp"
                         />
                 </LinearLayout>

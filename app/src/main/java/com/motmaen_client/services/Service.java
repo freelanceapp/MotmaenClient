@@ -3,6 +3,7 @@ package com.motmaen_client.services;
 import com.motmaen_client.models.AllCityModel;
 import com.motmaen_client.models.AllDiseasesModel;
 import com.motmaen_client.models.AllSpiclixationModel;
+import com.motmaen_client.models.ApointmentModel;
 import com.motmaen_client.models.DoctorModel;
 import com.motmaen_client.models.NearbyModel;
 import com.motmaen_client.models.PlaceDetailsModel;
@@ -150,6 +151,15 @@ public interface Service {
 
 
 
+
+    );
+    @GET("api/get-reservations")
+    Call<ApointmentModel> getMyApointment(
+            @Query("pagination_status") String pagination_status,
+            @Query("per_link_") int per_link_,
+            @Query("page") int page,
+            @Query("user_id") int user_id,
+            @Query("reservation_type") String reservation_type
 
     );
 }

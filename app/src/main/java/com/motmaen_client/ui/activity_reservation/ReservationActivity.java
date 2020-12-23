@@ -72,8 +72,11 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
 
     private void getDataFromIntent() {
         Intent intent = getIntent();
-        doctorModel = (SingleDoctorModel) intent.getSerializableExtra("data");
-
+        if (intent.getSerializableExtra("data") != null) {
+            doctorModel = (SingleDoctorModel) intent.getSerializableExtra("data");
+        } else {
+            apointmentModel = (ApointmentModel.Data) intent.getSerializableExtra("DATA");
+        }
     }
 
     private void initView() {
