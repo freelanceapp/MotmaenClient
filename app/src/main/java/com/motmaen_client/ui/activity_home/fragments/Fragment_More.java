@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.motmaen_client.R;
 import com.motmaen_client.databinding.FragmentMedicineBinding;
 import com.motmaen_client.databinding.FragmentMoreBinding;
+import com.motmaen_client.models.SettingModel;
 import com.motmaen_client.models.UserModel;
 import com.motmaen_client.mvp.fragment_more_mvp.FragmentMorePresenter;
 import com.motmaen_client.mvp.fragment_more_mvp.MoreFragmentView;
@@ -38,6 +39,7 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
     private Preferences preferences;
     private UserModel userModel;
     private ProgressDialog dialog;
+    private SettingModel setting;
 
     public static Fragment_More newInstance() {
         return new Fragment_More();
@@ -54,8 +56,8 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
     private void initView() {
         activity = (HomeActivity) getActivity();
         Paper.init(activity);
-        preferences=Preferences.getInstance();
-        userModel=preferences.getUserData(activity);
+        preferences = Preferences.getInstance();
+        userModel = preferences.getUserData(activity);
         lang = Paper.book().read("lang", "ar");
         binding.setLang(lang);
         presenter = new FragmentMorePresenter(this, activity);
@@ -68,10 +70,14 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
             startActivity(intent);
         });
         binding.logout.setOnClickListener(view -> {
-            if(userModel!=null){
-            presenter.logout(userModel);}
-            Common.CreateDialogAlert(activity,activity.getResources().getString(R.string.please_sign_in_or_sign_up));
-        });
+            if (userModel != null) {
+                presenter.logout(userModel);
+            }
+            else {
+            Common.CreateDialogAlert(activity, activity.getResources().getString(R.string.please_sign_in_or_sign_up));
+        }});
+
+        presenter.getSetting();
     }
 
     @Override
@@ -86,7 +92,7 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
 
     @Override
     public void onFailed(String msg) {
-        Toast.makeText(activity,msg,Toast.LENGTH_LONG).show();
+        Toast.makeText(activity, msg, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -106,13 +112,17 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
     }
 
 
-
-
     @Override
     public void logout() {
         preferences.clear(activity);
         navigateToSignInActivity();
     }
+
+    @Override
+    public void onsetting(SettingModel body) {
+        this.setting=body;
+    }
+
     private void navigateToSignInActivity() {
 
         Intent intent = new Intent(activity, LoginActivity.class);

@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import com.motmaen_client.R;
 import com.motmaen_client.models.UserModel;
 import com.motmaen_client.preferences.Preferences;
+import com.motmaen_client.share.Common;
 import com.motmaen_client.ui.activity_home.fragments.Fragment_Appointment;
 import com.motmaen_client.ui.activity_home.fragments.Fragment_Home;
 import com.motmaen_client.ui.activity_home.fragments.Fragment_Medicine;
@@ -81,6 +82,7 @@ public class ActivityHomePresenter {
     }
 
     private void displayFragmentAppointment(){
+        if(userModel!=null){
         if (fragment_appointment==null){
             fragment_appointment = Fragment_Appointment.newInstance();
         }
@@ -101,6 +103,9 @@ public class ActivityHomePresenter {
             fragmentManager.beginTransaction().show(fragment_appointment).commit();
         }else {
             fragmentManager.beginTransaction().add(R.id.fragment_container,fragment_appointment,"fragment_appointment").commit();
+        }}
+        else {
+            Common.CreateDialogAlert(context, context.getResources().getString(R.string.please_sign_in_or_sign_up));
         }
     }
 

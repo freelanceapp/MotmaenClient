@@ -10,6 +10,7 @@ import com.motmaen_client.models.PlaceDetailsModel;
 import com.motmaen_client.models.PlaceGeocodeData;
 import com.motmaen_client.models.PlaceMapDetailsData;
 import com.motmaen_client.models.ReservisionTimeModel;
+import com.motmaen_client.models.SettingModel;
 import com.motmaen_client.models.SingleDataDoctorModel;
 import com.motmaen_client.models.Slider_Model;
 import com.motmaen_client.models.UserModel;
@@ -176,4 +177,6 @@ public interface Service {
     @POST("api/logout")
     Call<ResponseBody> logout(@Header("Authorization") String user_token
     );
+    @GET("api/sttings")
+    Call<SettingModel> getSetting();
 }
