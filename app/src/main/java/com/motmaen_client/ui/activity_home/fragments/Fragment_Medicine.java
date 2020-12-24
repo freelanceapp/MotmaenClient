@@ -17,13 +17,14 @@ import com.motmaen_client.databinding.FragmentMedicineBinding;
 public class Fragment_Medicine extends Fragment {
     private FragmentMedicineBinding binding;
 
-    public static Fragment_Medicine newInstance(){
+    public static Fragment_Medicine newInstance() {
         return new Fragment_Medicine();
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_medicine,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_medicine, container, false);
         initView();
         return binding.getRoot();
     }

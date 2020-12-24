@@ -122,4 +122,8 @@ public class FragmentMorePresenter {
                     }
                 });
     }
+
+    public void open(String facebook) {
+        view.ViewSocial(facebook);
+    }
 }

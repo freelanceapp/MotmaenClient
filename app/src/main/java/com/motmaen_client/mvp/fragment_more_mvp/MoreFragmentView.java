@@ -16,4 +16,5 @@ public interface MoreFragmentView {
     void logout();
 
     void onsetting(SettingModel body);
+    void ViewSocial(String path);
 }

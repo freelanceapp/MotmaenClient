@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,11 +73,43 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
         binding.logout.setOnClickListener(view -> {
             if (userModel != null) {
                 presenter.logout(userModel);
+            } else {
+                Common.CreateDialogAlert(activity, activity.getResources().getString(R.string.please_sign_in_or_sign_up));
             }
-            else {
-            Common.CreateDialogAlert(activity, activity.getResources().getString(R.string.please_sign_in_or_sign_up));
-        }});
+        });
 
+        binding.facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (setting != null && setting.getSettings() != null && setting.getSettings().getFacebook() != null) {
+                    presenter.open(setting.getSettings().getFacebook());
+                }
+            }
+        });
+        binding.instgram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (setting != null && setting.getSettings() != null && setting.getSettings().getInstagram() != null) {
+                    presenter.open(setting.getSettings().getInstagram());
+                }
+            }
+        });
+        binding.google.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (setting != null && setting.getSettings() != null && setting.getSettings().getGoogle_plus() != null) {
+                    presenter.open(setting.getSettings().getGoogle_plus());
+                }
+            }
+        });
+        binding.twitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (setting != null && setting.getSettings() != null && setting.getSettings().getTwitter() != null) {
+                    presenter.open(setting.getSettings().getTwitter());
+                }
+            }
+        });
         presenter.getSetting();
     }
 
@@ -120,7 +153,7 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
 
     @Override
     public void onsetting(SettingModel body) {
-        this.setting=body;
+        this.setting = body;
     }
 
     private void navigateToSignInActivity() {
@@ -128,5 +161,12 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
         Intent intent = new Intent(activity, LoginActivity.class);
         activity.finish();
         startActivity(intent);
+    }
+
+    @Override
+    public void ViewSocial(String path) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(path));
+        startActivity(intent);
+
     }
 }
