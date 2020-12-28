@@ -72,14 +72,14 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
             startActivity(intent);
         });
 
-        binding.logout.setOnClickListener(view -> {
+        binding.lleditprofile.setOnClickListener(view -> {
             if (userModel != null) {
                 Intent intent = new Intent(activity, EditprofileActivity.class);
                 startActivity(intent);            } else {
                 Common.CreateDialogAlert(activity, activity.getResources().getString(R.string.please_sign_in_or_sign_up));
             }
         });
-        binding.lleditprofile.setOnClickListener(view -> {
+        binding.logout.setOnClickListener(view -> {
             if (userModel != null) {
                 presenter.logout(userModel);
             } else {
