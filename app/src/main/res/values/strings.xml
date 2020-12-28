@@ -146,5 +146,10 @@
     <string name="address">Address</string>
     <string name="subject">Subject</string>
     <string name="message">Message</string>
+    <string name="cancel_reservision">Cancel Reservision</string>
+    <string name="set_another_appointment">Set Another Appoinment</string>
+    <string name="cancel_reason">Cancel Reason</string>
+    <string name="Update_resev">Update Reservision</string>
+    <string name="not_notification_to_show">No Notificaion To Show</string>
 
 </resources>

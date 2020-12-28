@@ -25,6 +25,7 @@ import com.motmaen_client.mvp.fragment_apointment_mvp.ApointmentPresenter;
 import com.motmaen_client.preferences.Preferences;
 import com.motmaen_client.ui.activity_home.HomeActivity;
 import com.motmaen_client.ui.activity_reservation.ReservationActivity;
+import com.motmaen_client.ui.activity_reservision_detials.ReservationDetialsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +96,7 @@ public class Fragment_Appointment extends Fragment implements ApointmentFragment
 
     }
     public void showdetails(ApointmentModel.Data data) {
-        Intent intent=new Intent(activity, ReservationActivity.class);
+        Intent intent=new Intent(activity, ReservationDetialsActivity.class);
         intent.putExtra("data",data);
         startActivity(intent);
     }

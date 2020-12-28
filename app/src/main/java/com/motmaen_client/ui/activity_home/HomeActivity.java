@@ -23,6 +23,7 @@ import com.motmaen_client.mvp.activity_home_mvp.HomeActivityView;
 import com.motmaen_client.ui.activity_doctor.DoctorActivity;
 import com.motmaen_client.ui.activity_login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.motmaen_client.ui.notification_activity.NotificationActivity;
 
 import java.util.List;
 
@@ -71,8 +72,11 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityView 
             intent.putExtra("lng",lng);
             startActivity(intent);
         });
+        binding.flnotification.setOnClickListener(view -> {
+            Intent intent = new Intent(this, NotificationActivity.class);
 
-
+            startActivity(intent);
+        });
     }
 
 

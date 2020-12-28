@@ -26,6 +26,7 @@
                     />
 
                 <FrameLayout
+                    android:id="@+id/flnotification"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="end"
@@ -33,13 +34,13 @@
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/circle_gray_bg"
                     >
+
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_nav_notification"
-                        app:tint="@color/color1"
-                        />
+                        app:tint="@color/color1" />
                 </FrameLayout>
 
                 <FrameLayout

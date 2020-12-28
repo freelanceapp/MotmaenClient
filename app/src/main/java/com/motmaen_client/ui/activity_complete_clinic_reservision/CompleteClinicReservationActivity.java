@@ -29,7 +29,7 @@ public class CompleteClinicReservationActivity extends AppCompatActivity impleme
     private SingleDoctorModel doctorModel;
     private String date = "";
     private String dayname = "";
-    private int type;
+    private int reservid;
     private ActivityCompleteClinicReservationPresenter presenter;
     SingleReservisionTimeModel.Detials singletimemodel;
     private ProgressDialog dialog2;
@@ -57,7 +57,7 @@ public class CompleteClinicReservationActivity extends AppCompatActivity impleme
         singletimemodel = (SingleReservisionTimeModel.Detials) intent.getSerializableExtra("time");
         date = intent.getStringExtra("date");
         dayname = intent.getStringExtra("dayname");
-        type=intent.getIntExtra("type",0);
+        reservid =intent.getIntExtra("type",0);
     }
 
     private void initView() {
@@ -76,13 +76,19 @@ public class CompleteClinicReservationActivity extends AppCompatActivity impleme
         binding.llBack.setOnClickListener(view -> {
             finish();
         });
+        if(reservid!=0){
+            binding.btnConsultationReserve.setText(getResources().getString(R.string.Update_resev));
+            binding.tv.setText(getResources().getString(R.string.Update_resev));
+
+        }
         binding.btnConsultationReserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(type==0) {
+                if(reservid ==0) {
                     presenter.addresrevision(usermodel, doctorModel, singletimemodel, date, dayname);
                 }
                 else {
+                    presenter.updateresrevision(usermodel,  singletimemodel, date,  reservid);
 
                 }
             }

@@ -6,9 +6,11 @@ import com.motmaen_client.models.AllSpiclixationModel;
 import com.motmaen_client.models.ApointmentModel;
 import com.motmaen_client.models.DoctorModel;
 import com.motmaen_client.models.NearbyModel;
+import com.motmaen_client.models.NotificationModel;
 import com.motmaen_client.models.PlaceDetailsModel;
 import com.motmaen_client.models.PlaceGeocodeData;
 import com.motmaen_client.models.PlaceMapDetailsData;
+import com.motmaen_client.models.ReasonModel;
 import com.motmaen_client.models.ReservisionTimeModel;
 import com.motmaen_client.models.SettingModel;
 import com.motmaen_client.models.SingleDataDoctorModel;
@@ -179,4 +181,26 @@ public interface Service {
     );
     @GET("api/sttings")
     Call<SettingModel> getSetting();
+    @FormUrlEncoded
+    @POST("api/change-reservations")
+    Call<ResponseBody> updatereservision(@Field("reservation_id") String reservation_id,
+                                      @Field("date") String date,
+                                      @Field("time")String time,
+                                      @Field("time_type")String time_type
+
+    );
+    @GET("api/reason-lists")
+    Call<ReasonModel> getreasons();
+    @FormUrlEncoded
+    @POST("api/cancel-reservation")
+    Call<ResponseBody> cancelreervision(@Field("reservation_id") String reservation_id,
+                                         @Field("cancel_reason") String cancel_reason
+
+    );
+    @GET("api/get-my-notifications")
+    Call<NotificationModel> getnotification(
+            @Query("user_id") String user_id
+
+
+    );
 }

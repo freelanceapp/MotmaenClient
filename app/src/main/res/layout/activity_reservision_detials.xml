@@ -13,16 +13,15 @@
             name="date"
             type="String" />
 
-        <variable
-            name="timemodel"
-            type="com.motmaen_client.models.SingleReservisionTimeModel.Detials" />
 
         <variable
             name="model"
-            type="com.motmaen_client.models.SingleDoctorModel" />
+            type="com.motmaen_client.models.ApointmentModel.Data" />
 
     </data>
-
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -56,7 +55,6 @@
                         app:tint="@color/color1" />
 
                     <TextView
-                        android:id="@+id/tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -107,7 +105,7 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/imagelogo"
-                            image="@{model.logo}"
+                            image="@{model.doctor_fk.logo}"
                             android:layout_width="90dp"
                             android:layout_height="90dp"
                             android:src="@drawable/ic_avatar"
@@ -137,7 +135,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="@{model.name}"
+                                android:text="@{model.doctor_fk.name}"
                                 android:textColor="@color/color1"
                                 android:textSize="14sp" />
 
@@ -147,7 +145,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="5dp"
                                 android:layout_marginEnd="5dp"
-                                android:text="@{model.details}"
+                                android:text='@{model.doctor_fk.details}'
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
 
@@ -208,7 +206,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text='@{timemodel.from.substring(0,timemodel.from.lastIndexOf(":"))+(lang.equals("en")?timemodel.from_hour_type:(timemodel.from_hour_type.equals("AM")?"ص":"م"))}'
+                                android:text='@{model.time.substring(0,model.time.lastIndexOf(":"))+(lang.equals("en")?model.time_type:(model.time_type.equals("AM")?"ص":"م"))}'
                                 android:textColor="@color/black"
                                 android:textSize="14sp" />
 
@@ -289,7 +287,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginStart="5dp"
                                 android:layout_marginEnd="5dp"
-                                android:text="@{model.address}"
+                                android:text="@{model.doctor_fk.address}"
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
 
@@ -299,105 +297,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    app:cardBackgroundColor="@color/color2"
-                    app:cardCornerRadius="5dp"
-                    app:cardElevation="2dp"
-                    app:contentPadding="8dp">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/image3"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/ic_pay"
-                            android:tint="@color/color1"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <View
-                            android:id="@+id/view3"
-                            android:layout_width="1dp"
-                            android:layout_height="0dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@color/black"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/image3"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:ignore="RtlCompat" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:orientation="vertical"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/view3"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:text="@string/detection_price"
-                                android:textColor="@color/black"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginEnd="5dp"
-                                android:text='@{model.detection_price+""}'
-                                android:textColor="@color/black"
-                                android:textSize="16sp"
-
-                                />
-                        </LinearLayout>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
-
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:weightSum="2">
-
-                    <RadioButton
-                        android:id="@+id/rdcash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/cash"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-
-                        />
-
-                    <RadioButton
-                        android:id="@+id/rdonline"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/pay_online"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-                </RadioGroup>
 
             </LinearLayout>
 
@@ -407,20 +307,122 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:layout_margin="20dp"
             android:orientation="horizontal">
 
 
             <Button
-                android:id="@+id/btnConsultationReserve"
+                android:id="@+id/btncahngeresev"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:text="@string/confirm_reservation_and_payment"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/small_rounded_red"
+                android:text="@string/set_another_appointment"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
+            <Button
+                android:id="@+id/cancelreserv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/small_rounded_red"
+                android:text="@string/cancel_reservision"
                 android:textColor="@color/white"
                 android:textSize="13sp" />
 
-
         </LinearLayout>
+
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/flSpecializationSheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_trans"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        >
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="0dp"
+            app:contentPadding="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageCloseSpecialization"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_close"
+                        app:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/cancel_reason"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/gray3" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:minHeight="250dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recViewreason"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <ProgressBar
+                        android:id="@+id/progBarreason"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:id="@+id/tvNoDatareason"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/no_data_to_show"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+                </FrameLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+
+</FrameLayout>
 </layout>

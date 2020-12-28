@@ -29,6 +29,7 @@ import com.motmaen_client.models.SingleReservisionTimeModel;
 import com.motmaen_client.mvp.activity_reservation_mvp.ActivityReservationPresenter;
 import com.motmaen_client.mvp.activity_reservation_mvp.ActivityReservationView;
 import com.motmaen_client.share.Common;
+import com.motmaen_client.ui.activity_complete_clinic_reservision.CompleteClinicReservationActivity;
 import com.motmaen_client.ui.activity_live.LiveActivity;
 
 import java.text.SimpleDateFormat;
@@ -194,7 +195,7 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
     }
 
     public void Setitem(SingleReservisionTimeModel.Detials detials) {
-        Intent intent = new Intent(this, ReservationActivity.class);
+        Intent intent = new Intent(this, CompleteClinicReservationActivity.class);
         if (doctorModel != null) {
             intent.putExtra("data", doctorModel);
             intent.putExtra("type", 0);
