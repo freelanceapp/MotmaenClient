@@ -13,6 +13,7 @@ import com.motmaen_client.R;
 import com.motmaen_client.BR;
 import com.motmaen_client.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EditProfileModel extends BaseObservable {
@@ -34,6 +35,22 @@ public class EditProfileModel extends BaseObservable {
     public ObservableField<String> error_weight = new ObservableField<>();
     public ObservableField<String> error_height = new ObservableField<>();
     public ObservableField<String> error_fat = new ObservableField<>();
+
+    public EditProfileModel() {
+        this.phone_code = "";
+        this.phone = "";
+        this.imageUrl="";
+        this.name = "";
+        this.gender="";
+        this.birth_date ="";
+        this.blood_type = "";
+        this.weight ="";
+        this.height ="";
+        this.fat ="";
+        have_diseases = false;
+        diseaseModelList = new ArrayList<>();
+    }
+
     public boolean isDataValid(Context context){
         if (!name.isEmpty()&&
                 !gender.isEmpty()&&

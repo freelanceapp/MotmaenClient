@@ -7,6 +7,10 @@ public class DiseaseModel implements Serializable {
     private String title;
     private String is_dangerous;
 
+    public DiseaseModel(String title) {
+        this.title = title;
+    }
+
     public int getId() {
         return id;
     }

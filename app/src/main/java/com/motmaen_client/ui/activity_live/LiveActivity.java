@@ -57,7 +57,6 @@ public class LiveActivity extends AppCompatActivity {
 
         try {
             JitsiMeetUserInfo userInfo = new JitsiMeetUserInfo();
-
             JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
                     .setServerURL(new URL("https://meet.jit.si"))
                     .setRoom("مطمئن")

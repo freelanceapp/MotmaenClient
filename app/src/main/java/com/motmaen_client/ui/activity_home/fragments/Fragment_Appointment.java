@@ -78,6 +78,12 @@ public class Fragment_Appointment extends Fragment implements ApointmentFragment
         apointmentModelList.clear();
         apointmentModelList.addAll(apointmentModel.getData());
         adapter.notifyDataSetChanged();
+        if(apointmentModelList.size()==0){
+            binding.tvNoData.setVisibility(View.VISIBLE);
+        }
+        else {
+            binding.tvNoData.setVisibility(View.GONE);
+        }
     }
 
     @Override

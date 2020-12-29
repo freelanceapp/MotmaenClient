@@ -17,6 +17,7 @@ import com.motmaen_client.language.Language;
 import com.motmaen_client.models.UserModel;
 import com.motmaen_client.mvp.activity_confirm_code_mvp.ActivityConfirmCodePresenter;
 import com.motmaen_client.mvp.activity_confirm_code_mvp.ActivityConfirmCodeView;
+import com.motmaen_client.preferences.Preferences;
 import com.motmaen_client.share.Common;
 import com.motmaen_client.ui.activity_home.HomeActivity;
 import com.motmaen_client.ui.activity_login.LoginActivity;
@@ -33,6 +34,7 @@ public class ConfirmCodeActivity extends AppCompatActivity implements ActivityCo
     private boolean canSend = false;
     private ActivityConfirmCodePresenter presenter;
     private ProgressDialog dialog;
+    private Preferences preferences;
 
 
     @Override
@@ -49,8 +51,7 @@ public class ConfirmCodeActivity extends AppCompatActivity implements ActivityCo
         initView();
     }
 
-    private void getDataFromIntent()
-    {
+    private void getDataFromIntent() {
         Intent intent = getIntent();
         if (intent != null) {
             phone_code = intent.getStringExtra("phone_code");
@@ -58,12 +59,12 @@ public class ConfirmCodeActivity extends AppCompatActivity implements ActivityCo
 
         }
     }
-    private void initView()
-    {
 
+    private void initView() {
+        preferences = Preferences.getInstance();
         String mPhone = phone_code + phone;
         binding.setPhone(mPhone);
-        presenter = new ActivityConfirmCodePresenter(this,this,phone,phone_code);
+        presenter = new ActivityConfirmCodePresenter(this, this, phone, phone_code);
 
 
         binding.btnConfirm.setOnClickListener(v -> {
@@ -75,14 +76,12 @@ public class ConfirmCodeActivity extends AppCompatActivity implements ActivityCo
             }
         });
         binding.btnResendCode.setOnClickListener(view -> {
-            if (canSend){
+            if (canSend) {
                 canSend = false;
                 presenter.resendCode();
             }
         });
     }
-
-
 
 
     @Override
@@ -102,20 +101,19 @@ public class ConfirmCodeActivity extends AppCompatActivity implements ActivityCo
 
     @Override
     public void onCodeFailed(String msg) {
-        Common.CreateDialogAlert(this,msg);
+        Common.CreateDialogAlert(this, msg);
 
     }
 
     @Override
     public void onUserFound(UserModel userModel) {
+        preferences.create_update_userdata(ConfirmCodeActivity.this, userModel);
+
         Intent intent = new Intent(this, HomeActivity.class);
 
         startActivity(intent);
         finish();
     }
-
-
-
 
 
     @Override
@@ -157,15 +155,14 @@ public class ConfirmCodeActivity extends AppCompatActivity implements ActivityCo
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
+
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         super.onDestroy();
         presenter.stopTimer();
     }

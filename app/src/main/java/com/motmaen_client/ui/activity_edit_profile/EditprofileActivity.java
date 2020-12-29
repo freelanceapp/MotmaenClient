@@ -72,6 +72,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.motmaen_client.ui.activity_home.HomeActivity;
+import com.motmaen_client.ui.activity_sign_up.SignUpActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -91,69 +92,70 @@ public class EditprofileActivity extends AppCompatActivity implements Editprofil
     private Uri uri = null;
     private List<String> genderList;
     private List<String> bloodList;
-    private SpinnerAdapter genderAdapter,bloodAdapter;
+    private SpinnerAdapter genderAdapter, bloodAdapter;
     private ActivityEditprofilePresenter presenter;
     private List<DiseaseModel> diseaseModelList;
-    private List<DiseaseModel>selectedDiseasesList;
+    private List<DiseaseModel> selectedDiseasesList;
     private DiseasesAdapter adapter;
     private SpinnerDiseasesAdapter spinnerDiseasesAdapter;
     private android.app.AlertDialog dialog;
     private ProgressDialog dialog2;
-    private double lat=0.0,lng=0.0;
+    private double lat = 0.0, lng = 0.0;
     private String lang;
-
+    private UserModel userModel;
     private Preferences preferences;
 
     @Override
-    protected void attachBaseContext(Context newBase)
-    {
+    protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
         super.attachBaseContext(Language.updateResources(newBase, Paper.book().read("lang", "ar")));
     }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_editprofile);
         initView();
 
     }
 
-    private void initView()
-    {
-        preferences=Preferences.getInstance();
+    private void initView() {
+        preferences = Preferences.getInstance();
+        userModel = preferences.getUserData(this);
         Paper.init(this);
-        lang = Paper.book().read("lang","ar");
+        lang = Paper.book().read("lang", "ar");
         model = new EditProfileModel();
+        updatedata();
         binding.setModel(model);
-        presenter = new ActivityEditprofilePresenter(this,this);
+        presenter = new ActivityEditprofilePresenter(this, this);
         diseaseModelList = new ArrayList<>();
         selectedDiseasesList = new ArrayList<>();
         genderList = new ArrayList<>();
         bloodList = new ArrayList<>();
-        genderAdapter = new SpinnerAdapter(genderList,this);
+        genderAdapter = new SpinnerAdapter(genderList, this);
         binding.spinnerGender.setAdapter(genderAdapter);
-        bloodAdapter = new SpinnerAdapter(bloodList,this);
+        bloodAdapter = new SpinnerAdapter(bloodList, this);
         binding.spinnerBlood.setAdapter(bloodAdapter);
 
-        spinnerDiseasesAdapter = new SpinnerDiseasesAdapter(diseaseModelList,this);
+        spinnerDiseasesAdapter = new SpinnerDiseasesAdapter(diseaseModelList, this);
         binding.spinnerDiseases.setAdapter(spinnerDiseasesAdapter);
 
         binding.spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i==0){
+                if (i == 0) {
                     model.setGender("");
-                }else {if(lang.equals("ar")){
-                    if(i==1){
-                        model.setGender("male");
-                    }
-                    else {
-                        model.setGender("female");
-                    }
-                }else {
+                } else {
+                    if (lang.equals("ar")) {
+                        if (i == 1) {
+                            model.setGender("male");
+                        } else {
+                            model.setGender("female");
+                        }
+                    } else {
 
-                    model.setGender(genderList.get(i));}
+                        model.setGender(genderList.get(i));
+                    }
                 }
                 binding.setModel(model);
             }
@@ -167,9 +169,9 @@ public class EditprofileActivity extends AppCompatActivity implements Editprofil
         binding.spinnerBlood.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i==0){
+                if (i == 0) {
                     model.setBlood_type("");
-                }else {
+                } else {
                     model.setBlood_type(bloodList.get(i));
                 }
                 binding.setModel(model);
@@ -185,10 +187,10 @@ public class EditprofileActivity extends AppCompatActivity implements Editprofil
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 DiseaseModel model = diseaseModelList.get(i);
-                if (model.getId()!=0){
-                    if (!isItemInDiseasesList(model)){
+                if (model.getId() != 0) {
+                    if (!isItemInDiseasesList(model)) {
                         selectedDiseasesList.add(model);
-                        adapter.notifyItemInserted(selectedDiseasesList.size()-1);
+                        adapter.notifyItemInserted(selectedDiseasesList.size() - 1);
                         EditprofileActivity.this.model.setDiseaseModelList(selectedDiseasesList);
                     }
                 }
@@ -200,19 +202,19 @@ public class EditprofileActivity extends AppCompatActivity implements Editprofil
             }
         });
 
-        adapter = new DiseasesAdapter(selectedDiseasesList,this);
-        binding.recView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        adapter = new DiseasesAdapter(selectedDiseasesList, this);
+        binding.recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         binding.recView.setAdapter(adapter);
 
         binding.flSelectImage.setOnClickListener(view -> {
             dialog.show();
         });
         binding.checkbox.setOnClickListener(view -> {
-            if (binding.checkbox.isChecked()){
+            if (binding.checkbox.isChecked()) {
                 model.setHave_diseases(true);
                 binding.recView.setVisibility(View.VISIBLE);
                 binding.cardViewDiseases.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 model.setHave_diseases(false);
                 binding.recView.setVisibility(View.GONE);
                 binding.spinnerDiseases.setSelection(0);
@@ -229,7 +231,7 @@ public class EditprofileActivity extends AppCompatActivity implements Editprofil
         });
 
         binding.btnSignUp.setOnClickListener(view -> {
-        //    presenter.checkData(model);
+            presenter.checkData(model, userModel);
         });
 
 
@@ -237,6 +239,27 @@ public class EditprofileActivity extends AppCompatActivity implements Editprofil
         presenter.getDiseases();
         presenter.getGender();
         presenter.getBloodType();
+    }
+
+    private void updatedata() {
+        model.setBirth_date(userModel.getData().getBirth_day());
+        model.setBlood_type(userModel.getData().getBlood_type());
+        if (userModel.getData().getUsers_with_diseases() != null && userModel.getData().getUsers_with_diseases().size() > 0) {
+            model.setDiseaseModelList(userModel.getData().getUsers_with_diseases());
+            model.setHave_diseases(true);
+            binding.checkbox.setChecked(true);
+            binding.cardViewDiseases.setVisibility(View.VISIBLE);
+            binding.recView.setVisibility(View.VISIBLE);
+        }
+        model.setGender(userModel.getData().getGender());
+        model.setName(userModel.getData().getName());
+        model.setPhone(userModel.getData().getPhone());
+        model.setPhone_code(userModel.getData().getPhone_code());
+
+        if (userModel.getData().getLogo() != null) {
+            Picasso.get().load(Tags.IMAGE_URL + userModel.getData().getLogo()).resize(720, 480).onlyScaleDown().into(binding.image);
+            binding.icon.setVisibility(View.GONE);
+        }
     }
 
     private void createImageDialogAlert() {
@@ -379,71 +402,95 @@ public class EditprofileActivity extends AppCompatActivity implements Editprofil
         return Uri.parse(MediaStore.Images.Media.insertImage(this.getContentResolver(), bitmap, "", ""));
     }
 
-    private boolean isItemInDiseasesList(DiseaseModel diseaseModel)
-    {
-        for (DiseaseModel model :selectedDiseasesList){
-            if (diseaseModel.getId()==model.getId()){
+    private boolean isItemInDiseasesList(DiseaseModel diseaseModel) {
+        for (DiseaseModel model : selectedDiseasesList) {
+            if (diseaseModel.getId() == model.getId()) {
                 return true;
             }
         }
         return false;
     }
-    private int getItemSpinnerPos(DiseaseModel diseaseModel)
-    {
+
+    private int getItemSpinnerPos(DiseaseModel diseaseModel) {
         int pos = -1;
-        for (int index=0;index<diseaseModelList.size();index++) {
+        for (int index = 0; index < diseaseModelList.size(); index++) {
             DiseaseModel model = diseaseModelList.get(index);
-            if (model.getId()==diseaseModel.getId()){
+            if (model.getId() == diseaseModel.getId()) {
                 pos = index;
                 return pos;
             }
         }
         return pos;
     }
-    public void deleteSelectedDisease(int adapterPosition)
-    {
+
+    public void deleteSelectedDisease(int adapterPosition) {
         selectedDiseasesList.remove(adapterPosition);
         adapter.notifyItemRemoved(adapterPosition);
-        if (selectedDiseasesList.size()>0){
-            int pos = getItemSpinnerPos(selectedDiseasesList.get(selectedDiseasesList.size()-1));
+        if (selectedDiseasesList.size() > 0) {
+            int pos = getItemSpinnerPos(selectedDiseasesList.get(selectedDiseasesList.size() - 1));
 
-            if (pos!=-1){
+            if (pos != -1) {
                 binding.spinnerDiseases.setSelection(pos);
-            }else {
+            } else {
                 binding.spinnerDiseases.setSelection(0);
             }
-        }else {
+        } else {
             binding.spinnerDiseases.setSelection(0);
 
         }
     }
+
     @Override
-    public void onGenderSuccess(List<String> genderList)
-    {
+    public void onGenderSuccess(List<String> genderList) {
         this.genderList.clear();
         this.genderList.addAll(genderList);
         genderAdapter.notifyDataSetChanged();
+        if (userModel.getData().getGender().equals("male")) {
+            binding.spinnerGender.setSelection(1);
+        } else {
+            binding.spinnerGender.setSelection(2);
+        }
+        genderAdapter.notifyDataSetChanged();
+
     }
+
     @Override
-    public void onBloodSuccess(List<String> bloodList)
-    {
+    public void onBloodSuccess(List<String> bloodList) {
         this.bloodList.clear();
         this.bloodList.addAll(bloodList);
         bloodAdapter.notifyDataSetChanged();
+        for (int i = 0; i < bloodList.size(); i++) {
+            if (bloodList.get(i).equals(userModel.getData().getBlood_type())) {
+                binding.spinnerBlood.setSelection(i);
+                break;
+            }
+        }
     }
+
     @Override
-    public void onDiseasesSuccess(List<DiseaseModel> diseaseModelList)
-    {
+    public void onDiseasesSuccess(List<DiseaseModel> diseaseModelList) {
+        this.diseaseModelList.add(new DiseaseModel(getResources().getString(R.string.select_disease)));
         this.diseaseModelList.addAll(diseaseModelList);
         runOnUiThread(() -> spinnerDiseasesAdapter.notifyDataSetChanged());
+        Log.e("ldldld", userModel.getData().getUsers_with_diseases().size() + "");
+        for (int i = 0; i < userModel.getData().getUsers_with_diseases().size(); i++) {
+            DiseaseModel model = userModel.getData().getUsers_with_diseases().get(i);
+            if (!isItemInDiseasesList(model)) {
+                selectedDiseasesList.add(model);
+                adapter.notifyItemInserted(selectedDiseasesList.size() - 1);
+                EditprofileActivity.this.model.setDiseaseModelList(selectedDiseasesList);
+            }
+
+        }
     }
+
     @Override
-    public void onDateSelected(String date)
-    {
+    public void onDateSelected(String date) {
         binding.tvDate.setText(date);
         model.setBirth_date(date);
         binding.setModel(model);
     }
+
     @Override
     public void onLoad() {
         dialog2 = Common.createProgressDialog(this, getString(R.string.wait));
@@ -462,9 +509,32 @@ public class EditprofileActivity extends AppCompatActivity implements Editprofil
     }
 
     @Override
+    public void onupdateValid(UserModel body) {
+        preferences.create_update_userdata(EditprofileActivity.this, body);
+        finish();
+    }
+
+
+    @Override
     public void onFailed(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onnotconnect(String msg) {
+        Toast.makeText(EditprofileActivity.this, msg, Toast.LENGTH_SHORT).show();
 
+    }
+
+
+    @Override
+    public void onFailed() {
+        Toast.makeText(EditprofileActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onServer() {
+        Toast.makeText(EditprofileActivity.this, getString(R.string.server_error), Toast.LENGTH_SHORT).show();
+
+    }
 }

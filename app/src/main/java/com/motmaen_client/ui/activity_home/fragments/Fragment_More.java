@@ -25,11 +25,13 @@ import com.motmaen_client.mvp.fragment_more_mvp.FragmentMorePresenter;
 import com.motmaen_client.mvp.fragment_more_mvp.MoreFragmentView;
 import com.motmaen_client.preferences.Preferences;
 import com.motmaen_client.share.Common;
+import com.motmaen_client.tags.Tags;
 import com.motmaen_client.ui.activity_contactus.ContactusActivity;
 import com.motmaen_client.ui.activity_edit_profile.EditprofileActivity;
 import com.motmaen_client.ui.activity_home.HomeActivity;
 import com.motmaen_client.ui.activity_language.LanguageActivity;
 import com.motmaen_client.ui.activity_login.LoginActivity;
+import com.squareup.picasso.Picasso;
 
 import io.paperdb.Paper;
 
@@ -176,5 +178,20 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(path));
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(preferences!=null){
+            userModel=preferences.getUserData(activity);
+            udpate();
+        }
+    }
+
+    private void udpate() {
+        if(userModel!=null&&userModel.getData().getLogo()!=null){
+            Picasso.get().load(Tags.IMAGE_URL+userModel.getData().getLogo()).resize(720, 480).onlyScaleDown().into(binding.image);
+        }
     }
 }

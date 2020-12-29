@@ -414,6 +414,7 @@ public class SignUpActivity extends AppCompatActivity implements ActivitySignUpV
     @Override
     public void onDiseasesSuccess(List<DiseaseModel> diseaseModelList)
     {
+        this.diseaseModelList.add(new DiseaseModel(getResources().getString(R.string.select_disease)));
         this.diseaseModelList.addAll(diseaseModelList);
         runOnUiThread(() -> spinnerDiseasesAdapter.notifyDataSetChanged());
     }

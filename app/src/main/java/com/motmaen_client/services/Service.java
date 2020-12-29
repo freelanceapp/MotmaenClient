@@ -62,52 +62,54 @@ public interface Service {
                                         @Query(value = "pagetoken") String pagetoken,
                                         @Query(value = "key") String key
     );
+
     @FormUrlEncoded
     @POST("api/login")
     Call<UserModel> login(@Field("phone_code") String phone_code,
                           @Field("phone") String phone
 
     );
+
     @GET("api/get-diseases")
     Call<AllDiseasesModel> getdiseas();
+
     @FormUrlEncoded
     @POST("api/patient-register")
     Call<UserModel> signup(@Field("phone_code") String phone_code,
                            @Field("phone") String phone,
                            @Field("name") String name,
-                           @Field("birth_day")String birth_day,
-                           @Field("blood_type")String blood_type,
-                           @Field("gender")String gender,
-                           @Field("user_type")String user_type,
+                           @Field("birth_day") String birth_day,
+                           @Field("blood_type") String blood_type,
+                           @Field("gender") String gender,
+                           @Field("user_type") String user_type,
                            @Field("software_type") String software_type,
                            @Field("diseases_ids[]") List<String> diseases_ids
 
 
-
-
     );
+
     @Multipart
     @POST("api/patient-register")
     Call<UserModel> signup(@Part("phone_code") RequestBody phone_code,
                            @Part("phone") RequestBody phone,
                            @Part("name") RequestBody name,
-                           @Part("birth_day")RequestBody birth_day,
-                           @Part("blood_type")RequestBody blood_type,
-                           @Part("gender")RequestBody gender,
-                           @Part("user_type")RequestBody user_type,
+                           @Part("birth_day") RequestBody birth_day,
+                           @Part("blood_type") RequestBody blood_type,
+                           @Part("gender") RequestBody gender,
+                           @Part("user_type") RequestBody user_type,
                            @Part("software_type") RequestBody software_type,
                            @Part("diseases_ids[]") List<RequestBody> diseases_ids,
                            @Part MultipartBody.Part image
 
 
-
-
-
     );
+
     @GET("api/get-specializations")
     Call<AllSpiclixationModel> getspicailest();
+
     @GET("api/get-cities")
     Call<AllCityModel> getcities();
+
     @GET("api/sliders")
     Call<Slider_Model> get_slider();
 
@@ -122,6 +124,7 @@ public interface Service {
 
 
     );
+
     @GET("api/show-doctor-profile")
     Call<SingleDataDoctorModel> getsingledoctor(
             @Query("doctor_id") String doctor_id,
@@ -129,6 +132,7 @@ public interface Service {
 
 
     );
+
     @GET("api/get-doctor-reservations")
     Call<ReservisionTimeModel> getreservision(
             @Query("doctor_id") String doctor_id,
@@ -138,25 +142,25 @@ public interface Service {
 
 
     );
+
     @GET("api/get-available-doctors")
     Call<DoctorModel> getdoctors(
     );
+
     @FormUrlEncoded
     @POST("api/add-reservations")
     Call<ResponseBody> addreservision(@Field("user_id") String user_id,
                                       @Field("doctor_id") String doctor_id,
-                                       @Field("date") String date,
-                                      @Field("time")String time,
-                                      @Field("cost")String cost,
-                                      @Field("reservation_type")String reservation_type,
-                                      @Field("day_name")String day_name,
-                                      @Field("time_type")String time_type
-
-
-
+                                      @Field("date") String date,
+                                      @Field("time") String time,
+                                      @Field("cost") String cost,
+                                      @Field("reservation_type") String reservation_type,
+                                      @Field("day_name") String day_name,
+                                      @Field("time_type") String time_type
 
 
     );
+
     @GET("api/get-reservations")
     Call<ApointmentModel> getMyApointment(
             @Query("pagination_status") String pagination_status,
@@ -176,30 +180,73 @@ public interface Service {
 
 
     );
+
     @POST("api/logout")
     Call<ResponseBody> logout(@Header("Authorization") String user_token
     );
-    @GET("api/sttings")
+
+    @GET("api/settings")
     Call<SettingModel> getSetting();
+
     @FormUrlEncoded
     @POST("api/change-reservations")
     Call<ResponseBody> updatereservision(@Field("reservation_id") String reservation_id,
-                                      @Field("date") String date,
-                                      @Field("time")String time,
-                                      @Field("time_type")String time_type
+                                         @Field("date") String date,
+                                         @Field("time") String time,
+                                         @Field("time_type") String time_type
 
     );
+
     @GET("api/reason-lists")
     Call<ReasonModel> getreasons();
+
     @FormUrlEncoded
     @POST("api/cancel-reservation")
     Call<ResponseBody> cancelreervision(@Field("reservation_id") String reservation_id,
-                                         @Field("cancel_reason") String cancel_reason
+                                        @Field("cancel_reason") String cancel_reason
 
     );
+
     @GET("api/get-my-notifications")
     Call<NotificationModel> getnotification(
             @Query("user_id") String user_id
+
+
+    );
+
+    @FormUrlEncoded
+    @POST("api/update-patient-register")
+    Call<UserModel> editprofile(
+            @Header("Authorization") String user_token,
+            @Field("phone_code") String phone_code,
+            @Field("phone") String phone,
+            @Field("name") String name,
+            @Field("birth_day") String birth_day,
+            @Field("blood_type") String blood_type,
+            @Field("gender") String gender,
+            @Field("user_type") String user_type,
+            @Field("software_type") String software_type,
+            @Field("diseases_ids[]") List<String> diseases_ids,
+            @Field("id") String id
+
+
+    );
+
+    @Multipart
+    @POST("api/update-patient-register")
+    Call<UserModel> editprofile(
+            @Header("Authorization") String user_token,
+            @Part("phone_code") RequestBody phone_code,
+            @Part("phone") RequestBody phone,
+            @Part("name") RequestBody name,
+            @Part("birth_day") RequestBody birth_day,
+            @Part("blood_type") RequestBody blood_type,
+            @Part("gender") RequestBody gender,
+            @Part("user_type") RequestBody user_type,
+            @Part("software_type") RequestBody software_type,
+            @Part("diseases_ids[]") List<RequestBody> diseases_ids,
+            @Part("id") RequestBody id,
+            @Part MultipartBody.Part image
 
 
     );

@@ -176,7 +176,7 @@ public class ActivityConfirmCodePresenter {
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                         view.onFinishload();
                         if (response.isSuccessful() && response.body() != null) {
-                            //  Log.e("eeeeee", response.body().getUser().getName());
+                             Log.e("eeeeee", response.body().getData().getName());
                             view.onUserFound(response.body());
                         } else {
                             try {

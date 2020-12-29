@@ -2,6 +2,7 @@ package com.motmaen_client.mvp.activity_editprofile_mvp;
 
 
 import com.motmaen_client.models.DiseaseModel;
+import com.motmaen_client.models.UserModel;
 
 import java.util.List;
 
@@ -15,4 +16,10 @@ public interface EditprofileActivityView {
     void onFinishload();
 
     void onFinished();
+
+    void onupdateValid(UserModel body);
+    void onFailed();
+    void onServer();
+
+    void onnotconnect(String msg);
 }

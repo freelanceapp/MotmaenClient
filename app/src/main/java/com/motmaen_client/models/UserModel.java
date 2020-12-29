@@ -55,6 +55,7 @@ public class UserModel implements Serializable {
         private String updated_at;
         private double distance;
         private String token;
+        private List<DiseaseModel> users_with_diseases;
 
         public int getId() {
             return id;
@@ -206,6 +207,10 @@ public class UserModel implements Serializable {
 
         public String getToken() {
             return token;
+        }
+
+        public List<DiseaseModel> getUsers_with_diseases() {
+            return users_with_diseases;
         }
     }
 }

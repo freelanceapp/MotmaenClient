@@ -151,5 +151,7 @@
     <string name="cancel_reason">Cancel Reason</string>
     <string name="Update_resev">Update Reservision</string>
     <string name="not_notification_to_show">No Notificaion To Show</string>
+    <string name="phone_found">Phone Found</string>
+    <string name="select_disease">Select Disease</string>
 
 </resources>

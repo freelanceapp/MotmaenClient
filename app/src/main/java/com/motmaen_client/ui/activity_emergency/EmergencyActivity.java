@@ -93,6 +93,12 @@ public class EmergencyActivity extends AppCompatActivity implements EmergencyAct
         singleDoctorModelList.clear();
         singleDoctorModelList.addAll(body.getData());
         adapter.notifyDataSetChanged();
+        if(singleDoctorModelList.size()==0){
+            binding.tvNoDoctor.setVisibility(View.VISIBLE);
+        }
+        else {
+            binding.tvNoDoctor.setVisibility(View.GONE);
+        }
     }
     public void setItemData(SingleDoctorModel doctorModel, EmergencyDoctorRowBinding binding, int adapterPosition) {
         Intent intent = new Intent(this, DoctorDetailsActivity.class);

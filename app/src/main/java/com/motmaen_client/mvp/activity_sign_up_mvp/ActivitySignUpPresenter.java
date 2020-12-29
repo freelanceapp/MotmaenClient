@@ -188,8 +188,11 @@ public class ActivitySignUpPresenter implements DatePickerDialog.OnDateSetListen
                             if (response.code() == 500) {
                                 view.onServer();
                             } else {
-                                view.onFailed();
-                                //  Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                if (response.code() == 409) {
+                                    view.onFailed(context.getString(R.string.phone_found));
+                                }  else {
+                                    view.onFailed(response.message() + "");
+                                }                                 //  Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -243,8 +246,11 @@ public class ActivitySignUpPresenter implements DatePickerDialog.OnDateSetListen
                             if (response.code() == 500) {
                                 view.onServer();
                             } else {
-                                view.onFailed();
-                                //  Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                if (response.code() == 409) {
+                                    view.onFailed(context.getString(R.string.phone_found));
+                                }  else {
+                                    view.onFailed(response.message() + "");
+                                }                                 //  Toast.makeText(VerificationCodeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

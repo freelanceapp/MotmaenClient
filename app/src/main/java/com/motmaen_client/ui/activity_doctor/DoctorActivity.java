@@ -384,6 +384,7 @@ public class DoctorActivity extends AppCompatActivity implements DoctorsActivity
         specializationModels.clear();
         specializationModels.addAll(allSpiclixationModel.getData());
         spicialAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -398,6 +399,12 @@ public class DoctorActivity extends AppCompatActivity implements DoctorsActivity
         singleDoctorModelList.clear();
         singleDoctorModelList.addAll(body.getData());
         adapter.notifyDataSetChanged();
+        if(singleDoctorModelList.size()==0){
+            binding.tvNoData.setVisibility(View.VISIBLE);
+        }
+        else {
+            binding.tvNoData.setVisibility(View.GONE);
+        }
     }
 
     public void setspicialization(int id) {
