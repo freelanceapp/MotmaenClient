@@ -36,7 +36,7 @@
             android:background="@drawable/msg_right_bg"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="40dp"
-
+android:padding="7dp"
 
             >
             <TextView
