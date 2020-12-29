@@ -5,6 +5,8 @@ import com.motmaen_client.models.AllDiseasesModel;
 import com.motmaen_client.models.AllSpiclixationModel;
 import com.motmaen_client.models.ApointmentModel;
 import com.motmaen_client.models.DoctorModel;
+import com.motmaen_client.models.MessageDataModel;
+import com.motmaen_client.models.MessageModel;
 import com.motmaen_client.models.NearbyModel;
 import com.motmaen_client.models.NotificationModel;
 import com.motmaen_client.models.PlaceDetailsModel;
@@ -12,10 +14,12 @@ import com.motmaen_client.models.PlaceGeocodeData;
 import com.motmaen_client.models.PlaceMapDetailsData;
 import com.motmaen_client.models.ReasonModel;
 import com.motmaen_client.models.ReservisionTimeModel;
+import com.motmaen_client.models.RoomIdModel;
 import com.motmaen_client.models.SettingModel;
 import com.motmaen_client.models.SingleDataDoctorModel;
 import com.motmaen_client.models.Slider_Model;
 import com.motmaen_client.models.UserModel;
+import com.motmaen_client.models.UserRoomModelData;
 
 import java.util.List;
 
@@ -250,4 +254,59 @@ public interface Service {
 
 
     );
+    @GET("api/get-medical-consultings")
+    Call<UserRoomModelData> getRooms(
+            @Query("user_id") int user_id,
+            @Query("user_type") String user_type,
+            @Query("pagination_status") String pagination_status
+
+            );
+
+    @GET("api/get-one-consulting")
+    Call<MessageModel> getRoomMessages(
+            @Query("medical_consulting_id") int medical_consulting_id,
+            @Query("pagination_statuson") String pagination_statuson,
+            @Query("per_link_") int per_link_,
+            @Query("page") int page
+
+
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/add-msg")
+    Call<MessageDataModel> sendmessagetext(
+            @Field("from_user_id") String from_id,
+
+            @Field("to_user_id") String to_id,
+            @Field("type") String type,
+            @Field("medical_consulting_id") String medical_consulting_id,
+            @Field("message") String message
+
+
+    );
+
+    @Multipart
+    @POST("api/add-msg")
+    Call<MessageDataModel> sendmessagewithimage
+            (
+                    @Part("from_user_id") RequestBody from_user_id,
+                    @Part("to_user_id") RequestBody to_user_id,
+                    @Part("type") RequestBody type,
+                    @Part("medical_consulting_id") RequestBody medical_consulting_id,
+                    @Part MultipartBody.Part imagepart
+
+            );
+
+    @FormUrlEncoded
+    @POST("api/add-consulting")
+    Call<RoomIdModel> createroom(
+            @Field("user_id") String user_id,
+            @Field("doctor_id") String doctor_id,
+            @Field("type") String type
+
+
+    );
+
+
 }

@@ -1,14 +1,19 @@
 package com.motmaen_client.mvp.activity_reservation_mvp;
 
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
 import com.motmaen_client.R;
+import com.motmaen_client.models.ApointmentModel;
+import com.motmaen_client.models.RoomIdModel;
 import com.motmaen_client.models.ReservisionTimeModel;
 import com.motmaen_client.models.SingleDoctorModel;
+import com.motmaen_client.models.UserModel;
 import com.motmaen_client.remote.Api;
 import com.motmaen_client.tags.Tags;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -107,5 +112,93 @@ public class ActivityReservationPresenter implements DatePickerDialog.OnDateSetL
                         }
                     }
                 });
+    }
+
+    public void createroom(ApointmentModel.Data apointmentModel, UserModel usermodel) {
+        view.onLoad();
+
+        try {
+            Api.getService(Tags.base_url)
+                    .createroom(usermodel.getData().getId()+"", apointmentModel.getDoctor_id()+"","message").enqueue(new Callback<RoomIdModel>() {
+                @Override
+                public void onResponse(Call<RoomIdModel> call, Response<RoomIdModel> response) {
+                   view.onFinishload();
+                    if (response.isSuccessful()) {
+
+                        Log.e("llll", response.toString());
+                      view.onsucess(response.body());
+                    } else {
+                        try {
+                            view.onFailed(context.getResources().getString(R.string.failed));
+
+                          //  Toast.makeText(CartActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            Log.e("Error", response.errorBody().string());
+                        } catch (Exception e) {
+
+
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<RoomIdModel> call, Throwable t) {
+                   view.onFinishload();
+                    try {
+                        view.onFailed(context.getResources().getString(R.string.something));
+                     //   Toast.makeText(CartActivity.this, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                        Log.e("Error", t.getMessage());
+                    } catch (Exception e) {
+
+                    }
+                }
+            });
+        } catch (Exception e) {
+           view.onFinishload();
+            Log.e("error", e.getMessage().toString());
+        }
+    }
+
+    public void createroom(SingleDoctorModel doctorModel,UserModel usermodel) {
+        view.onLoad();
+
+        try {
+            Api.getService(Tags.base_url)
+                    .createroom(usermodel.getData().getId()+"", doctorModel.getId()+"","message").enqueue(new Callback<RoomIdModel>() {
+                @Override
+                public void onResponse(Call<RoomIdModel> call, Response<RoomIdModel> response) {
+                    view.onFinishload();
+                    if (response.isSuccessful()) {
+
+                        Log.e("llll", response.toString());
+                        view.onsucess(response.body());
+                    } else {
+                        try {
+                            view.onFailed(context.getResources().getString(R.string.failed));
+
+                            //  Toast.makeText(CartActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                            Log.e("Error", response.errorBody().string());
+                        } catch (Exception e) {
+
+
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<RoomIdModel> call, Throwable t) {
+                    view.onFinishload();
+                    try {
+                        view.onFailed(context.getResources().getString(R.string.something));
+                        //   Toast.makeText(CartActivity.this, getString(R.string.something), Toast.LENGTH_SHORT).show();
+                        Log.e("Error", t.getMessage());
+                    } catch (Exception e) {
+
+                    }
+                }
+            });
+        } catch (Exception e) {
+            view.onFinishload();
+            Log.e("error", e.getMessage().toString());
+        }
     }
 }

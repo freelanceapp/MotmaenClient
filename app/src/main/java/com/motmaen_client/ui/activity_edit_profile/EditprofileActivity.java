@@ -127,6 +127,7 @@ public class EditprofileActivity extends AppCompatActivity implements Editprofil
         model = new EditProfileModel();
         updatedata();
         binding.setModel(model);
+        binding.setLang(lang);
         presenter = new ActivityEditprofilePresenter(this, this);
         diseaseModelList = new ArrayList<>();
         selectedDiseasesList = new ArrayList<>();
@@ -225,7 +226,12 @@ public class EditprofileActivity extends AppCompatActivity implements Editprofil
             }
             binding.setModel(model);
         });
-
+        binding.llBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.backPress();
+            }
+        });
         binding.llDate.setOnClickListener(view -> {
             presenter.showDateDialog(getFragmentManager());
         });

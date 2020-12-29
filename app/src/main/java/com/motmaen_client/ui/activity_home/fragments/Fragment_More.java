@@ -31,6 +31,7 @@ import com.motmaen_client.ui.activity_edit_profile.EditprofileActivity;
 import com.motmaen_client.ui.activity_home.HomeActivity;
 import com.motmaen_client.ui.activity_language.LanguageActivity;
 import com.motmaen_client.ui.activity_login.LoginActivity;
+import com.motmaen_client.ui.activity_room.ChatRoomActivity;
 import com.squareup.picasso.Picasso;
 
 import io.paperdb.Paper;
@@ -77,7 +78,16 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
         binding.lleditprofile.setOnClickListener(view -> {
             if (userModel != null) {
                 Intent intent = new Intent(activity, EditprofileActivity.class);
-                startActivity(intent);            } else {
+                startActivity(intent);
+            } else {
+                Common.CreateDialogAlert(activity, activity.getResources().getString(R.string.please_sign_in_or_sign_up));
+            }
+        });
+        binding.llchat.setOnClickListener(view -> {
+            if (userModel != null) {
+                Intent intent = new Intent(activity, ChatRoomActivity.class);
+                startActivity(intent);
+            } else {
                 Common.CreateDialogAlert(activity, activity.getResources().getString(R.string.please_sign_in_or_sign_up));
             }
         });
@@ -164,6 +174,25 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
     @Override
     public void onsetting(SettingModel body) {
         this.setting = body;
+        if (setting.getSettings().getGoogle_plus() == null) {
+            binding.google.setVisibility(View.GONE);
+        }
+        if (setting.getSettings().getInstagram() == null) {
+            binding.instgram.setVisibility(View.GONE);
+        }
+        if (setting.getSettings().getFacebook() == null) {
+            binding.facebook.setVisibility(View.GONE);
+        }
+        if (setting.getSettings().getTwitter() == null) {
+            binding.twitter.setVisibility(View.GONE);
+        }
+        if (setting.getSettings().getGoogle_plus() == null && setting.getSettings().getInstagram() == null && setting.getSettings().getFacebook() == null && setting.getSettings().getTwitter() == null) {
+            binding.tv.setVisibility(View.GONE);
+        } else {
+            binding.tv.setVisibility(View.VISIBLE);
+
+        }
+
     }
 
     private void navigateToSignInActivity() {
@@ -183,15 +212,15 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
     @Override
     public void onResume() {
         super.onResume();
-        if(preferences!=null){
-            userModel=preferences.getUserData(activity);
+        if (preferences != null) {
+            userModel = preferences.getUserData(activity);
             udpate();
         }
     }
 
     private void udpate() {
-        if(userModel!=null&&userModel.getData().getLogo()!=null){
-            Picasso.get().load(Tags.IMAGE_URL+userModel.getData().getLogo()).resize(720, 480).onlyScaleDown().into(binding.image);
+        if (userModel != null && userModel.getData().getLogo() != null) {
+            Picasso.get().load(Tags.IMAGE_URL + userModel.getData().getLogo()).resize(720, 480).onlyScaleDown().into(binding.image);
         }
     }
 }

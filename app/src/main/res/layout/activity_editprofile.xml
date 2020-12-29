@@ -7,7 +7,9 @@
         <variable
             name="model"
             type="com.motmaen_client.models.EditProfileModel" />
-
+<variable
+    name="lang"
+    type="String" />
     </data>
     <ScrollView
         xmlns:tools="http://schemas.android.com/tools"
@@ -23,6 +25,46 @@
             android:orientation="vertical"
             android:background="@color/gray0"
             >
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <androidx.appcompat.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    >
+                    <LinearLayout
+                        android:id="@+id/llBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+
+                        >
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_left_arrow"
+                            android:padding="3dp"
+                            android:clickable="false"
+                            android:longClickable="false"
+                            android:rotation='@{lang.equals("ar")?180:0}'
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:text="@string/back"
+                            android:clickable="false"
+                            android:longClickable="false"
+                            />
+                    </LinearLayout>
+                </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.AppBarLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="250dp"

@@ -22,15 +22,19 @@ import com.motmaen_client.adapters.ReservisionHourAdapter;
 import com.motmaen_client.databinding.ActivityReservationBinding;
 import com.motmaen_client.language.Language;
 import com.motmaen_client.models.ApointmentModel;
-import com.motmaen_client.models.DoctorModel;
+import com.motmaen_client.models.ChatUserModel;
 import com.motmaen_client.models.ReservisionTimeModel;
+import com.motmaen_client.models.RoomIdModel;
 import com.motmaen_client.models.SingleDoctorModel;
 import com.motmaen_client.models.SingleReservisionTimeModel;
+import com.motmaen_client.models.UserModel;
 import com.motmaen_client.mvp.activity_reservation_mvp.ActivityReservationPresenter;
 import com.motmaen_client.mvp.activity_reservation_mvp.ActivityReservationView;
+import com.motmaen_client.preferences.Preferences;
 import com.motmaen_client.share.Common;
 import com.motmaen_client.ui.activity_complete_clinic_reservision.CompleteClinicReservationActivity;
 import com.motmaen_client.ui.activity_live.LiveActivity;
+import com.motmaen_client.ui.chat_activity.ChatActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,8 +47,8 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
     private String lang;
     private ActivityReservationBinding binding;
     private SingleDoctorModel doctorModel;
-    private String type="";
-    private String date ="";
+    private String type = "";
+    private String date = "";
     private String time = "";
     private String dayname = "";
 
@@ -57,15 +61,19 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
     private ChildReservisionHourAdapter childReservisionHourAdapter;
     private ProgressDialog dialog2;
     private ActivityReservationPresenter presenter;
+    private UserModel userModel;
+    private Preferences preferences;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
-        super.attachBaseContext(Language.updateResources(newBase,Paper.book().read("lang","ar")));
+        super.attachBaseContext(Language.updateResources(newBase, Paper.book().read("lang", "ar")));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_reservation);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_reservation);
         getDataFromIntent();
         initView();
 
@@ -83,7 +91,8 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
     private void initView() {
         singleReservisionTimeModelList = new ArrayList<>();
         detialsList = new ArrayList<>();
-
+        preferences = Preferences.getInstance();
+        userModel = preferences.getUserData(this);
         Paper.init(this);
         lang = Paper.book().read("lang", "ar");
         binding.setLang(lang);
@@ -109,7 +118,7 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
             binding.flChat.setBackgroundResource(0);
             binding.flLive.setBackgroundResource(R.drawable.small_rounded_red_strock);
 
-            Intent intent=new Intent(ReservationActivity.this, LiveActivity.class);
+            Intent intent = new Intent(ReservationActivity.this, LiveActivity.class);
             startActivity(intent);
         });
 
@@ -118,6 +127,15 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
             binding.flCall.setBackgroundResource(0);
             binding.flLive.setBackgroundResource(0);
             binding.flChat.setBackgroundResource(R.drawable.small_rounded_red_strock);
+            if (userModel != null) {
+                if (apointmentModel != null) {
+                    presenter.createroom(apointmentModel, userModel);
+                } else {
+                    presenter.createroom(doctorModel, userModel);
+                }
+            } else {
+                Common.CreateDialogAlert(this, getResources().getString(R.string.please_sign_in_or_sign_up));
+            }
 
         });
 
@@ -161,8 +179,12 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
 
     @Override
     public void onLoad() {
-        dialog2 = Common.createProgressDialog(this, getString(R.string.wait));
-        dialog2.setCancelable(false);
+        if (dialog2 == null) {
+            dialog2 = Common.createProgressDialog(this, getString(R.string.wait));
+            dialog2.setCancelable(false);
+        } else {
+            dialog2.dismiss();
+        }
         dialog2.show();
     }
 
@@ -186,6 +208,20 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
         } else {
             binding.tvNoData.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onsucess(RoomIdModel body) {
+        ChatUserModel chatUserModel;
+        if (apointmentModel != null) {
+            chatUserModel = new ChatUserModel(apointmentModel.getDoctor_fk().getName(), apointmentModel.getDoctor_fk().getLogo(), apointmentModel.getDoctor_id() + "", body.getData().getId());
+        } else {
+            chatUserModel = new ChatUserModel(doctorModel.getName(), doctorModel.getLogo(), doctorModel.getId() + "", body.getData().getId());
+
+        }
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra("chat_user_data", chatUserModel);
+        startActivityForResult(intent, 1000);
     }
 
     public void getchild(int position) {
