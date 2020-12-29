@@ -47,7 +47,7 @@
                 android:layout_marginStart="5dp"
                 android:background="@drawable/msg_left_bg"
                 android:orientation="vertical"
-
+                android:paddingLeft="8dp"
 
                 >
 
@@ -55,8 +55,8 @@
                     android:id="@+id/tv_message_content"
                     image="@{messagemodel.image}"
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
 
 
                     android:maxWidth="200dp"
