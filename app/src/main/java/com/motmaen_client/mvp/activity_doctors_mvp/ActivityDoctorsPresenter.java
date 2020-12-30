@@ -115,12 +115,13 @@ public class ActivityDoctorsPresenter {
                 });
     }
 
-    public void getdoctors(String name,String specialization_id,String city_id,String latitude,String longitude,String near,int type)
+    public void getdoctors(String name,String specialization_id,String city_id,String latitude,String longitude,String near,String price,String rates,int type)
     {
+        Log.e("dldlldld",price+" "+rates);
         view.onProgressShow(type);
 
         Api.getService(Tags.base_url)
-                .getdoctors(name,specialization_id,city_id,latitude,longitude,near)
+                .getdoctors(name,specialization_id,city_id,latitude,longitude,near,price,rates)
                 .enqueue(new Callback<DoctorModel>() {
                     @Override
                     public void onResponse(Call<DoctorModel> call, Response<DoctorModel> response) {

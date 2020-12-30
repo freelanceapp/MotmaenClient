@@ -156,6 +156,9 @@ public class ActivitySignUpPresenter implements DatePickerDialog.OnDateSetListen
         RequestBody birth_part = Common.getRequestBodyText(signUpModel.getBirth_date());
         RequestBody blood_part = Common.getRequestBodyText(signUpModel.getBlood_type());
         RequestBody gender_part = Common.getRequestBodyText(signUpModel.getGender());
+        RequestBody weight_part = Common.getRequestBodyText(signUpModel.getWeight());
+        RequestBody heghit_part = Common.getRequestBodyText(signUpModel.getHeight());
+        RequestBody fat_part = Common.getRequestBodyText(signUpModel.getFat()+"%");
 
         RequestBody type_part = Common.getRequestBodyText("patient");
         RequestBody soft_part = Common.getRequestBodyText("android");
@@ -169,7 +172,7 @@ public class ActivitySignUpPresenter implements DatePickerDialog.OnDateSetListen
         MultipartBody.Part image_form_part = Common.getMultiPart(context, Uri.parse(signUpModel.getImageUrl()), "logo");
         view.onLoad();
         Api.getService(Tags.base_url)
-                .signup(phone_code_part, phone_part, name_part, birth_part, blood_part, gender_part, type_part, soft_part, diseases_part, image_form_part)
+                .signup(phone_code_part, phone_part, name_part, birth_part, blood_part, gender_part, type_part, soft_part, diseases_part,weight_part,heghit_part,fat_part, image_form_part)
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -227,7 +230,7 @@ public class ActivitySignUpPresenter implements DatePickerDialog.OnDateSetListen
         }
         view.onLoad();
         Api.getService(Tags.base_url)
-                .signup(signUpModel.getPhone_code(), signUpModel.getPhone(), signUpModel.getName(), signUpModel.getBirth_date(), signUpModel.getBlood_type(), signUpModel.getGender(), "patient", "android", diseases_part)
+                .signup(signUpModel.getPhone_code(), signUpModel.getPhone(), signUpModel.getName(), signUpModel.getBirth_date(), signUpModel.getBlood_type(), signUpModel.getGender(), "patient", "android",signUpModel.getWeight(),signUpModel.getHeight(),signUpModel.getFat()+"%", diseases_part)
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {

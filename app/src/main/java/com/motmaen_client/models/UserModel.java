@@ -55,6 +55,9 @@ public class UserModel implements Serializable {
         private String updated_at;
         private double distance;
         private String token;
+        private String weight;
+        private String length;
+        private String fat_percentage;
         private List<DiseaseModel> users_with_diseases;
 
         public int getId() {
@@ -211,6 +214,18 @@ public class UserModel implements Serializable {
 
         public List<DiseaseModel> getUsers_with_diseases() {
             return users_with_diseases;
+        }
+
+        public String getWeight() {
+            return weight;
+        }
+
+        public String getLength() {
+            return length;
+        }
+
+        public String getFat_percentage() {
+            return fat_percentage;
         }
     }
 }

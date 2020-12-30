@@ -66,7 +66,7 @@ public class DoctorActivity extends AppCompatActivity implements DoctorsActivity
     private List<CityModel> cityModels;
     private List<SingleDoctorModel> singleDoctorModelList;
     private CityAdapter cityAdapter;
-    private String query, near = "off";
+    private String query, near = "off",price="",rates="";
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
@@ -102,7 +102,7 @@ public class DoctorActivity extends AppCompatActivity implements DoctorsActivity
         binding.recView.setLayoutManager(new LinearLayoutManager(this));
         binding.recView.setAdapter(adapter);
         //binding.progBar.setVisibility(View.GONE);
-        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near, 2);
+        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near,price,rates, 2);
         binding.llBack.setOnClickListener(view -> {
             presenter.backPress();
         });
@@ -130,12 +130,12 @@ public class DoctorActivity extends AppCompatActivity implements DoctorsActivity
                 query = binding.editQuery.getText().toString();
                 if (!TextUtils.isEmpty(query)) {
                     Common.CloseKeyBoard(DoctorActivity.this, binding.editQuery);
-                    presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near, 2);
+                    presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near,price,rates, 2);
                     return false;
                 } else {
                     query = "";
                 }
-                presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near, 2);
+                presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near,price,rates, 2);
 
             }
             return false;
@@ -144,14 +144,22 @@ public class DoctorActivity extends AppCompatActivity implements DoctorsActivity
             String title = "";
             if (binding.rbHighPrice.isChecked()){
                 title = getString(R.string.high_price);
+                price="DESC";
+               rates="";
             }else if (binding.rbLowPrice.isChecked()){
                 title = getString(R.string.low_price);
+                price="ASC ";
+                rates="";
             }else if (binding.rbRate.isChecked()){
                 title = getString(R.string.rate);
+                price="";
+                rates="ASC ";
+
             }else if (binding.rbTime.isChecked()){
                 title = getString(R.string.less_time);
             }
             int pos = getItemPos("filter");
+            if(title!=null&&!title.isEmpty()){
             if (pos==-1){
                 FilterModel filterModel = new FilterModel(title,"filter");
                 filterModelList.add(filterModel);
@@ -162,11 +170,15 @@ public class DoctorActivity extends AppCompatActivity implements DoctorsActivity
                 filterModelList.set(pos,filterModel);
                 filterAdapter.notifyItemChanged(pos);
             }
+                binding.llFilter.setVisibility(View.VISIBLE);
+
+            }
             closeSheet(2);
-            binding.llFilter.setVisibility(View.VISIBLE);
+            presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near,price,rates, 2);
+
         });
 
-        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near, 2);
+        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near,price,rates, 2);
 
 
     }
@@ -304,6 +316,8 @@ public class DoctorActivity extends AppCompatActivity implements DoctorsActivity
             binding.rbRate.setChecked(false);
             binding.rbTime.setChecked(false);
             filter = "";
+            price="";
+            rates="";
         }else if (model.getType().equals("specialization")){
             specialization_id = "all";
         }else if (model.getType().equals("city")){
@@ -316,7 +330,7 @@ public class DoctorActivity extends AppCompatActivity implements DoctorsActivity
             binding.llFilter.setVisibility(View.GONE);
 
         }
-        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near, 2);
+        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near,price,rates, 2);
 
     }
 
@@ -427,7 +441,7 @@ public class DoctorActivity extends AppCompatActivity implements DoctorsActivity
         specialization_id = id + "";
 
         closeSheet(1);
-        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near, 2);
+        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near,price,rates, 2);
 
     }
 
@@ -451,7 +465,7 @@ public class DoctorActivity extends AppCompatActivity implements DoctorsActivity
         city_id = id + "";
 
         closeSheet(3);
-        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near, 2);
+        presenter.getdoctors(query, specialization_id, city_id, lat + "", lng + "", near,price,rates, 2);
 
     }
 }

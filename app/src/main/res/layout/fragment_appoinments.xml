@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="18sp"
-            android:text="@string/no_data_to_show"
+            android:text="@string/no_appoinment_to_show"
             android:textColor="@color/black"
             android:visibility="gone"
             />

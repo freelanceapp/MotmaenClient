@@ -82,7 +82,9 @@ public class ActivityEditprofilePresenter implements DatePickerDialog.OnDateSetL
         RequestBody blood_part = Common.getRequestBodyText(editProfileModel.getBlood_type());
         RequestBody gender_part = Common.getRequestBodyText(editProfileModel.getGender().toLowerCase());
         RequestBody user_part = Common.getRequestBodyText(userModel.getData().getId() + "");
-
+        RequestBody weight_part = Common.getRequestBodyText(editProfileModel.getWeight());
+        RequestBody heghit_part = Common.getRequestBodyText(editProfileModel.getHeight());
+        RequestBody fat_part = Common.getRequestBodyText(editProfileModel.getFat()+"%");
         RequestBody type_part = Common.getRequestBodyText("patient");
         RequestBody soft_part = Common.getRequestBodyText("android");
 
@@ -95,7 +97,7 @@ public class ActivityEditprofilePresenter implements DatePickerDialog.OnDateSetL
         MultipartBody.Part image_form_part = Common.getMultiPart(context, Uri.parse(editProfileModel.getImageUrl()), "logo");
         view.onLoad();
         Api.getService(Tags.base_url)
-                .editprofile("Bearer " + userModel.getData().getToken(), phone_code_part, phone_part, name_part, birth_part, blood_part, gender_part, type_part, soft_part, diseases_part, user_part, image_form_part)
+                .editprofile("Bearer " + userModel.getData().getToken(), phone_code_part, phone_part, name_part, birth_part, blood_part, gender_part, type_part, soft_part, diseases_part, user_part,weight_part,heghit_part,fat_part, image_form_part)
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
@@ -153,7 +155,7 @@ public class ActivityEditprofilePresenter implements DatePickerDialog.OnDateSetL
         }
         view.onLoad();
         Api.getService(Tags.base_url)
-                .editprofile("Bearer " + userModel.getData().getToken(), editProfileModel.getPhone_code(), editProfileModel.getPhone(), editProfileModel.getName(), editProfileModel.getBirth_date(), editProfileModel.getBlood_type(), editProfileModel.getGender().toLowerCase(), "patient", "android", diseases_part, userModel.getData().getId() + "")
+                .editprofile("Bearer " + userModel.getData().getToken(), editProfileModel.getPhone_code(), editProfileModel.getPhone(), editProfileModel.getName(), editProfileModel.getBirth_date(), editProfileModel.getBlood_type(), editProfileModel.getGender().toLowerCase(), "patient", "android", diseases_part,editProfileModel.getWeight(),editProfileModel.getHeight(),editProfileModel.getFat()+"%", userModel.getData().getId() + "")
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {

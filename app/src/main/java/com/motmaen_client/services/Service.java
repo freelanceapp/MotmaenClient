@@ -87,6 +87,9 @@ public interface Service {
                            @Field("gender") String gender,
                            @Field("user_type") String user_type,
                            @Field("software_type") String software_type,
+                           @Field("weight") String weight,
+                           @Field("length") String length,
+                           @Field("fat_percentage") String fat_percentage,
                            @Field("diseases_ids[]") List<String> diseases_ids
 
 
@@ -103,6 +106,10 @@ public interface Service {
                            @Part("user_type") RequestBody user_type,
                            @Part("software_type") RequestBody software_type,
                            @Part("diseases_ids[]") List<RequestBody> diseases_ids,
+                           @Part("weight") RequestBody weight,
+                           @Part("length") RequestBody length,
+                           @Part("fat_percentage") RequestBody fat_percentage,
+
                            @Part MultipartBody.Part image
 
 
@@ -124,7 +131,9 @@ public interface Service {
             @Query("city_id") String city_id,
             @Query("latitude") String latitude,
             @Query("longitude") String longitude,
-            @Query("near") String near
+            @Query("near") String near,
+            @Query("price") String price,
+            @Query("rate") String rate
 
 
     );
@@ -160,7 +169,8 @@ public interface Service {
                                       @Field("cost") String cost,
                                       @Field("reservation_type") String reservation_type,
                                       @Field("day_name") String day_name,
-                                      @Field("time_type") String time_type
+                                      @Field("time_type") String time_type,
+                                      @Field("details") String details
 
 
     );
@@ -197,9 +207,11 @@ public interface Service {
     Call<ResponseBody> updatereservision(@Field("reservation_id") String reservation_id,
                                          @Field("date") String date,
                                          @Field("time") String time,
-                                         @Field("time_type") String time_type
+                                         @Field("time_type") String time_type,
+                                         @Field("day_name") String day_name
 
-    );
+
+                                         );
 
     @GET("api/reason-lists")
     Call<ReasonModel> getreasons();
@@ -231,6 +243,9 @@ public interface Service {
             @Field("user_type") String user_type,
             @Field("software_type") String software_type,
             @Field("diseases_ids[]") List<String> diseases_ids,
+            @Field("weight") String weight,
+            @Field("length") String length,
+            @Field("fat_percentage") String fat_percentage,
             @Field("id") String id
 
 
@@ -250,6 +265,9 @@ public interface Service {
             @Part("software_type") RequestBody software_type,
             @Part("diseases_ids[]") List<RequestBody> diseases_ids,
             @Part("id") RequestBody id,
+            @Part("weight") RequestBody weight,
+            @Part("length") RequestBody length,
+            @Part("fat_percentage") RequestBody fat_percentage,
             @Part MultipartBody.Part image
 
 
@@ -265,7 +283,7 @@ public interface Service {
     @GET("api/get-one-consulting")
     Call<MessageModel> getRoomMessages(
             @Query("medical_consulting_id") int medical_consulting_id,
-            @Query("pagination_statuson") String pagination_statuson,
+            @Query("pagination_status") String pagination_status,
             @Query("per_link_") int per_link_,
             @Query("page") int page
 
@@ -307,6 +325,21 @@ public interface Service {
 
 
     );
+    @Multipart
+    @POST("api/add-reservations")
+    Call<ResponseBody> addreservision(@Part("user_id") RequestBody user_id,
+                                      @Part("doctor_id") RequestBody doctor_id,
+                                      @Part("date") RequestBody date,
+                                      @Part("time") RequestBody time,
+                                      @Part("cost") RequestBody cost,
+                                      @Part("reservation_type") RequestBody reservation_type,
+                                      @Part("day_name") RequestBody day_name,
+                                      @Part("time_type") RequestBody time_type,
+                                      @Part("details") RequestBody details,
+                                      @Part List<MultipartBody.Part> image
 
+
+
+    );
 
 }

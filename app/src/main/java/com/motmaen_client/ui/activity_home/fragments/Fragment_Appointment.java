@@ -106,4 +106,5 @@ public class Fragment_Appointment extends Fragment implements ApointmentFragment
         intent.putExtra("data",data);
         startActivity(intent);
     }
+
 }

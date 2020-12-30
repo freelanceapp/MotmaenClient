@@ -472,6 +472,7 @@
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
                             android:text="@string/less_time"
+                            android:visibility="gone"
                             android:layout_marginTop="8dp"
                             />
 

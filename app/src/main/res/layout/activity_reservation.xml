@@ -80,6 +80,7 @@
                             android:textColor="@color/white"
                             android:textSize="18sp"
                             android:textStyle="bold"
+                            android:text='@{model.detection_price+""}'
                             />
                     </LinearLayout>
 

@@ -68,7 +68,7 @@ public class ActivityChatPresenter {
 
                                     Log.e("error", response.code() + "_" + response.errorBody().string());
                                 } catch (IOException e) {
-                                    e.printStackTrace();
+                                 //   e.printStackTrace();
                                 }
 
                                 if (response.code() == 500) {
@@ -141,7 +141,7 @@ public class ActivityChatPresenter {
 
                                         Log.e("error", response.code() + "_" + response.errorBody().string());
                                     } catch (IOException e) {
-                                        e.printStackTrace();
+//                                        e.printStackTrace();
                                     }
                                 }
                             }

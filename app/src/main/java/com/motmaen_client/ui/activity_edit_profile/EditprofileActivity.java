@@ -250,6 +250,9 @@ public class EditprofileActivity extends AppCompatActivity implements Editprofil
     private void updatedata() {
         model.setBirth_date(userModel.getData().getBirth_day());
         model.setBlood_type(userModel.getData().getBlood_type());
+        model.setFat(userModel.getData().getFat_percentage());
+        model.setWeight(userModel.getData().getWeight());
+        model.setHeight(userModel.getData().getLength());
         if (userModel.getData().getUsers_with_diseases() != null && userModel.getData().getUsers_with_diseases().size() > 0) {
             model.setDiseaseModelList(userModel.getData().getUsers_with_diseases());
             model.setHave_diseases(true);

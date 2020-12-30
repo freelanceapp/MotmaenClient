@@ -103,9 +103,13 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
         binding.recViewhour.setAdapter(reservisionHourAdapter);
         binding.recViewchildhour.setLayoutManager(new GridLayoutManager(this, 3));
         binding.recViewchildhour.setAdapter(childReservisionHourAdapter);
+        type = "normal";
+        binding.flCall.setBackgroundResource(R.drawable.small_rounded_red_strock);
+        binding.flLive.setBackgroundResource(0);
+        binding.flChat.setBackgroundResource(0);
 
         binding.cardCall.setOnClickListener(view -> {
-            type = "call";
+            type = "normal";
             binding.flCall.setBackgroundResource(R.drawable.small_rounded_red_strock);
             binding.flLive.setBackgroundResource(0);
             binding.flChat.setBackgroundResource(0);
@@ -113,13 +117,12 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
         });
 
         binding.cardLive.setOnClickListener(view -> {
-            type = "live";
+            type = "online";
             binding.flCall.setBackgroundResource(0);
             binding.flChat.setBackgroundResource(0);
             binding.flLive.setBackgroundResource(R.drawable.small_rounded_red_strock);
 
-            Intent intent = new Intent(ReservationActivity.this, LiveActivity.class);
-            startActivity(intent);
+
         });
 
         binding.cardChat.setOnClickListener(view -> {
@@ -145,20 +148,42 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
 
         binding.llDate.setOnClickListener(view -> presenter.showDateDialog(getFragmentManager()));
         gettimes();
+        if(apointmentModel!=null){
+            if(apointmentModel.getReservation_type().equals("normal")){
+                binding.cardLive.setVisibility(View.GONE);
+                binding.flCall.setBackgroundResource(R.drawable.small_rounded_red_strock);
+                binding.flLive.setBackgroundResource(0);
+                binding.flChat.setBackgroundResource(0);
+
+            }
+            else {
+                binding.cardCall.setVisibility(View.GONE);
+                binding.flCall.setBackgroundResource(0);
+                binding.flChat.setBackgroundResource(0);
+                binding.flLive.setBackgroundResource(R.drawable.small_rounded_red_strock);
+
+            }
+        }
 
     }
 
     private void gettimes() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        String date = dateFormat.format(System.currentTimeMillis());
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE", Locale.ENGLISH);
-        String stringDate = sdf.format(System.currentTimeMillis());
-        this.date = date;
-        this.dayname = stringDate;
+        if (apointmentModel == null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            String date = dateFormat.format(System.currentTimeMillis());
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE", Locale.ENGLISH);
+            String stringDate = sdf.format(System.currentTimeMillis());
+            this.date = date;
+            this.dayname = stringDate;
+        } else if (apointmentModel != null) {
+            this.date = apointmentModel.getDate();
+            this.dayname = apointmentModel.getDay_name();
+            binding.tvDate.setText(date);
+        }
         if (doctorModel != null) {
-            presenter.getreservisiontime(doctorModel, "normal", date, stringDate.toUpperCase());
+            presenter.getreservisiontime(doctorModel, "normal", date, dayname.toUpperCase());
         } else {
-            presenter.getreservisiontime(apointmentModel.getDoctor_fk(), "normal", date, stringDate.toUpperCase());
+            presenter.getreservisiontime(apointmentModel.getDoctor_fk(), "normal", date, dayname.toUpperCase());
         }
     }
 
@@ -234,13 +259,22 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
         Intent intent = new Intent(this, CompleteClinicReservationActivity.class);
         if (doctorModel != null) {
             intent.putExtra("data", doctorModel);
-            intent.putExtra("type", 0);
+            intent.putExtra("type", type);
+            intent.putExtra("resrvid", 0);
+
         } else {
-            intent.putExtra("type", apointmentModel.getId());
+            intent.putExtra("type", type);
+            intent.putExtra("resrvid", apointmentModel.getId());
             intent.putExtra("data", apointmentModel.getDoctor_fk());
+            if (dayname.isEmpty()) {
+                dayname = apointmentModel.getDay_name();
+            }
+
         }
         intent.putExtra("time", detials);
+
         intent.putExtra("dayname", dayname);
+
         intent.putExtra("date", date);
         startActivityForResult(intent, 1);
 
