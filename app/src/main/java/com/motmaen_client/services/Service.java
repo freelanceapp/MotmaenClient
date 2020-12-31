@@ -321,7 +321,8 @@ public interface Service {
     Call<RoomIdModel> createroom(
             @Field("user_id") String user_id,
             @Field("doctor_id") String doctor_id,
-            @Field("type") String type
+            @Field("type") String type,
+            @Field("message")String message
 
 
     );

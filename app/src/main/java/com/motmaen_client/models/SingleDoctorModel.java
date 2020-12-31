@@ -26,7 +26,7 @@ public class SingleDoctorModel implements Serializable {
     private String details;
     private double rates;
     private int app_cost;
-    private int detection_price;
+    private double detection_price;
     private String appointment_time;
     private String is_emergency;
     private String email_verified_at;
@@ -134,7 +134,7 @@ public class SingleDoctorModel implements Serializable {
         return app_cost;
     }
 
-    public int getDetection_price() {
+    public double getDetection_price() {
         return detection_price;
     }
 

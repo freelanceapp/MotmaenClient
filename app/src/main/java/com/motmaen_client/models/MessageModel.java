@@ -27,7 +27,7 @@ public class MessageModel implements Serializable {
     private String room_id;
     private String is_read;
     private long date;
-    private User from;
+    private User from_user_fk;
 
     public MessageModel(int id, String to_user_id, String from_user_id, String message_kind, String message, String image, String room_id, String is_read) {
         this.id = id;
@@ -82,7 +82,7 @@ public class MessageModel implements Serializable {
     }
 
     public User getFrom() {
-        return from;
+        return from_user_fk;
     }
 
     public int getMedical_consulting_id() {

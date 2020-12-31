@@ -121,7 +121,7 @@ public class ActivityReservationPresenter implements DatePickerDialog.OnDateSetL
 
         try {
             Api.getService(Tags.base_url)
-                    .createroom(usermodel.getData().getId()+"", apointmentModel.getDoctor_id()+"","message").enqueue(new Callback<RoomIdModel>() {
+                    .createroom(usermodel.getData().getId()+"", apointmentModel.getDoctor_id()+"","message",context.getResources().getString(R.string.want_resrv)).enqueue(new Callback<RoomIdModel>() {
                 @Override
                 public void onResponse(Call<RoomIdModel> call, Response<RoomIdModel> response) {
                    view.onFinishload();
@@ -165,7 +165,7 @@ public class ActivityReservationPresenter implements DatePickerDialog.OnDateSetL
 
         try {
             Api.getService(Tags.base_url)
-                    .createroom(usermodel.getData().getId()+"", doctorModel.getId()+"","message").enqueue(new Callback<RoomIdModel>() {
+                    .createroom(usermodel.getData().getId()+"", doctorModel.getId()+"","message",context.getResources().getString(R.string.want_resrv)).enqueue(new Callback<RoomIdModel>() {
                 @Override
                 public void onResponse(Call<RoomIdModel> call, Response<RoomIdModel> response) {
                     view.onFinishload();
