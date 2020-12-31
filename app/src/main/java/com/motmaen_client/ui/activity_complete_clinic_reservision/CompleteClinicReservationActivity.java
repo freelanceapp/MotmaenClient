@@ -56,7 +56,7 @@ public class CompleteClinicReservationActivity extends AppCompatActivity impleme
     private String dayname = "";
     private int reservid;
     private ActivityCompleteClinicReservationPresenter presenter;
-    SingleReservisionTimeModel.Detials singletimemodel;
+    private SingleReservisionTimeModel.Detials singletimemodel;
     private ProgressDialog dialog2;
     private UserModel usermodel;
     private Preferences preferences;

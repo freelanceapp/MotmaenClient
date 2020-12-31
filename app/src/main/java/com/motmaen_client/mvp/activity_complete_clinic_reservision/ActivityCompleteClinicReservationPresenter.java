@@ -33,7 +33,7 @@ public class ActivityCompleteClinicReservationPresenter {
 
     public void addresrevision(UserModel userModel, SingleDoctorModel singleDoctorModel, SingleReservisionTimeModel.Detials detials, String date, String dayname,String detialss,String type) {
 
-        //Log.e("llll",detials.getFrom_hour_type());
+        Log.e("llll",type);
         if (userModel != null) {
             view.onLoad();
             Api.getService(Tags.base_url)
