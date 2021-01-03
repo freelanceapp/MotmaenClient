@@ -96,6 +96,7 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
         Paper.init(this);
         lang = Paper.book().read("lang", "ar");
         binding.setLang(lang);
+        binding.setModel(doctorModel);
         presenter = new ActivityReservationPresenter(this, this);
         reservisionHourAdapter = new ReservisionHourAdapter(singleReservisionTimeModelList, this);
         childReservisionHourAdapter = new ChildReservisionHourAdapter(detialsList, this);

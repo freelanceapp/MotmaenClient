@@ -24,9 +24,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+
             android:layoutDirection="ltr"
             android:orientation="horizontal"
             tools:ignore="RtlCompat">
@@ -36,20 +34,26 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical"
+                android:padding="7dp"
 
 
                 >
 
-                <ImageView
-                    android:id="@+id/tv_message_content"
-                    image="@{messagemodel.image}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/msg_right_bg"
-                    android:maxWidth="200dp"
+                    <ImageView
+                        android:id="@+id/tv_message_content"
+                        image="@{messagemodel.image}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxWidth="100dp"
 
-                    android:maxHeight="200dp"
-                    android:src="@drawable/logo" />
+                        android:maxHeight="100dp"
+                        android:src="@drawable/logo"
+
+
+                        />
+
+
+
 
                 <TextView
                     android:id="@+id/tv_time"
@@ -60,8 +64,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="5dp"
-
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -71,6 +74,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="top"
+                android:layout_marginEnd="20dp"
                 android:src="@drawable/logo" />
         </LinearLayout>
     </RelativeLayout>

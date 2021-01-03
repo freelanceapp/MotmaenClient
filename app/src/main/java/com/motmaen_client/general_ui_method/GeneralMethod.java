@@ -77,7 +77,7 @@ public class GeneralMethod {
     @BindingAdapter({"date"})
     public static void displayDate (TextView textView,long date)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm ", Locale.ENGLISH);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm aa", Locale.ENGLISH);
         String m_date = dateFormat.format(new Date(date*1000));
 
         textView.setText(String.format(m_date));

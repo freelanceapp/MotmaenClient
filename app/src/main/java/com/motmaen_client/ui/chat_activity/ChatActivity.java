@@ -120,6 +120,12 @@ public class ChatActivity extends AppCompatActivity implements ChatActivityView 
                 checkdata();
             }
         });
+        binding.llBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+             presenter.backPress();
+            }
+        });
 
         binding.imagePhoto.setOnClickListener(view -> CreateImageAlertDialog());
         binding.recView.addOnScrollListener(new RecyclerView.OnScrollListener() {
