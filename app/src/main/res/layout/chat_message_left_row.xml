@@ -42,7 +42,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/msg_left_bg"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="5dp"
 android:padding="7dp"
@@ -58,6 +57,8 @@ android:padding="7dp"
                 android:text="@{messagemodel.message}"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
+                android:background="@drawable/msg_left_bg"
+
                 />
             <TextView
                 android:id="@+id/tv_time"

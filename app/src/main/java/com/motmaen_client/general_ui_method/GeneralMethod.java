@@ -77,10 +77,10 @@ public class GeneralMethod {
     @BindingAdapter({"date"})
     public static void displayDate (TextView textView,long date)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("E dd MMM yyyy ,HH:mm ", Locale.ENGLISH);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm ", Locale.ENGLISH);
         String m_date = dateFormat.format(new Date(date*1000));
 
-        textView.setText(String.format(":"+m_date));
+        textView.setText(String.format(m_date));
 
     }
 

@@ -7,12 +7,12 @@
         >
         <shape android:shape="rectangle">
             <corners android:radius="20dp"/>
-            <solid android:color="@color/color1"/>
+            <solid android:color="@color/white"/>
         </shape>
     </item>
 
     <item
-        android:top="90dp"
+        android:top="50dp"
         >
         <rotate
 
@@ -21,12 +21,10 @@
             android:pivotX="0%"
 
             >
-
             <shape android:shape="rectangle"
                 >
-                <corners android:topRightRadius="20dp"/>
 
-                <solid android:color="@color/color1"/>
+                <solid android:color="@color/white"/>
 
             </shape>
         </rotate>

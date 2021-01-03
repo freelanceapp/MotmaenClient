@@ -58,6 +58,8 @@ public class SignUpModel extends BaseObservable implements Serializable {
                 !weight.isEmpty()&&
                 !height.isEmpty()&&
                 !fat.isEmpty()
+                &&((have_diseases &&diseaseModelList.size()>0)|| !have_diseases)
+
         ){
 
             error_name.set(null);

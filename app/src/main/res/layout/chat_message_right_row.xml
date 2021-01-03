@@ -35,8 +35,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="40dp"
-                android:background="@drawable/msg_right_bg"
                 android:orientation="vertical"
                 android:padding="7dp"
 
@@ -50,6 +48,8 @@
                     android:layout_marginBottom="5dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
+                    android:background="@drawable/msg_right_bg"
+
                     android:text="@{messagemodel.message}"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
@@ -66,6 +66,12 @@
                     android:textColor="@color/white"
                     android:textSize="13sp" />
             </LinearLayout>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image"
+                user_image="@{messagemodel.from.logo}"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="top" />
         </LinearLayout>
     </RelativeLayout>
 </layout>

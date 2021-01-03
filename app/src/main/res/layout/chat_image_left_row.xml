@@ -45,7 +45,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="5dp"
-                android:background="@drawable/msg_left_bg"
                 android:orientation="vertical"
                 android:paddingLeft="8dp"
 
@@ -58,6 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
 
+                    android:background="@drawable/msg_left_bg"
 
                     android:maxWidth="200dp"
                     android:maxHeight="200dp" />

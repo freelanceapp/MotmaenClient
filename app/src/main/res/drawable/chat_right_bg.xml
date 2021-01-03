@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:top="90dp"
+        android:top="50dp"
         >
         <rotate android:fromDegrees="50"
             android:pivotY="0%"
@@ -11,9 +11,8 @@
             >
             <shape android:shape="rectangle"
                 >
-                <corners android:topLeftRadius=""/>
 
-                <solid android:color="@color/color1"/>
+                <solid android:color="@color/white"/>
 
             </shape>
         </rotate>
@@ -24,7 +23,7 @@
         >
         <shape android:shape="rectangle">
             <corners android:radius="20dp"/>
-            <solid android:color="@color/color1"/>
+            <solid android:color="@color/white"/>
         </shape>
     </item>
 

@@ -35,8 +35,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="40dp"
-                android:background="@drawable/msg_right_bg"
                 android:orientation="vertical"
 
 
@@ -47,23 +45,33 @@
                     image="@{messagemodel.image}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:background="@drawable/msg_right_bg"
                     android:maxWidth="200dp"
+
                     android:maxHeight="200dp"
-                    />
+                    android:src="@drawable/logo" />
 
                 <TextView
                     android:id="@+id/tv_time"
+                    date="@{messagemodel.date}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="5dp"
+
                     android:textColor="@color/white"
-                    android:textSize="13sp"
-                    date="@{messagemodel.date}" />
+                    android:textSize="13sp" />
             </LinearLayout>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image"
+                user_image="@{messagemodel.from.logo}"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="top"
+                android:src="@drawable/logo" />
         </LinearLayout>
     </RelativeLayout>
 </layout>
