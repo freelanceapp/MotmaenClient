@@ -11,6 +11,9 @@
         <variable
             name="model"
             type="com.motmaen_client.models.SingleDoctorModel" />
+        <variable
+            name="appoinmentmodel"
+            type="com.motmaen_client.models.ApointmentModel.Data" />
         <import type="android.view.View"/>
     </data>
 
@@ -80,7 +83,7 @@
                             android:textColor="@color/white"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            android:text='@{model.detection_price+""}'
+                            android:text='@{(model!=null?model.detection_price:appoinmentmodel.doctor_fk.detection_price)+""}'
                             />
                     </LinearLayout>
 
@@ -351,8 +354,8 @@
                 app:layout_constraintHorizontal_bias="0"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:visibility='@{model.appointment_time!=null?View.VISIBLE:View.GONE ,default=visible}'
-                android:text='@{@string/detection_duration+model.appointment_time+@string/min}'
+                android:visibility='@{model!=null?model.appointment_time!=null?View.VISIBLE:View.GONE:appoinmentmodel.doctor_fk.appointment_time!=null?View.VISIBLE:View.GONE ,default=visible}'
+                android:text='@{@string/detection_duration+(model!=null?model.appointment_time:appoinmentmodel.doctor_fk.appointment_time)+@string/min}'
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 />
