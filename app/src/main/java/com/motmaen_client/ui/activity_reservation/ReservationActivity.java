@@ -177,6 +177,8 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
             String stringDate = sdf.format(System.currentTimeMillis());
             this.date = date;
             this.dayname = stringDate;
+            binding.tvDate.setText(date);
+
         } else if (apointmentModel != null) {
             this.date = apointmentModel.getDate();
             this.dayname = apointmentModel.getDay_name();
@@ -292,4 +294,5 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
             finish();
         }
     }
+
 }

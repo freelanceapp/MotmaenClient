@@ -66,7 +66,7 @@ public class DoctorActivity extends AppCompatActivity implements DoctorsActivity
     private List<CityModel> cityModels;
     private List<SingleDoctorModel> singleDoctorModelList;
     private CityAdapter cityAdapter;
-    private String query, near = "off",price="",rates="";
+    private String query, near = "on",price="",rates="";
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);

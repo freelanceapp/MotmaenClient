@@ -11,13 +11,14 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:cardBackgroundColor="@color/colorPrimary"
         app:cardCornerRadius="8dp"
         app:cardElevation="3dp"
-
+android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         >
 
         <LinearLayout
@@ -59,6 +60,7 @@
                         app:srb_isIndicator="true"
                         app:srb_numberOfStars="5"
                         app:srb_rating="5"
+                        android:layout_marginEnd="8dp"
                         app:srb_starBackgroundColor="@color/gray2"
                         app:srb_starBorderWidth="1"
                         app:srb_starSize="14dp"

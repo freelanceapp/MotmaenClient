@@ -117,7 +117,7 @@ public class ActivityDoctorsPresenter {
 
     public void getdoctors(String name,String specialization_id,String city_id,String latitude,String longitude,String near,String price,String rates,int type)
     {
-        Log.e("dldlldld",price+" "+rates);
+        Log.e("dldlldld",latitude+" "+longitude);
         view.onProgressShow(type);
 
         Api.getService(Tags.base_url)

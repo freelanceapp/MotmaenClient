@@ -51,14 +51,14 @@ public class SignUpModel extends BaseObservable implements Serializable {
     }
 
     public boolean isDataValid(Context context){
-        if (!name.isEmpty()&&
-                !gender.isEmpty()&&
-                !birth_date.isEmpty()&&
-                !blood_type.isEmpty()&&
-                !weight.isEmpty()&&
-                !height.isEmpty()&&
-                !fat.isEmpty()
-                &&((have_diseases &&diseaseModelList.size()>0)|| !have_diseases)
+        if (!name.isEmpty()
+//                !gender.isEmpty()&&
+//                !birth_date.isEmpty()&&
+//                !blood_type.isEmpty()&&
+//                !weight.isEmpty()&&
+//                !height.isEmpty()&&
+//                !fat.isEmpty()
+//                &&((have_diseases &&diseaseModelList.size()>0)|| !have_diseases)
 
         ){
 
@@ -68,15 +68,15 @@ public class SignUpModel extends BaseObservable implements Serializable {
             error_height.set(null);
             error_fat.set(null);
 
-            if (have_diseases){
-                if (diseaseModelList.size()>0){
-                    return true;
-                }else {
-                    return false;
-                }
-            }else {
+//            if (have_diseases){
+//                if (diseaseModelList.size()>0){
+//                    return true;
+//                }else {
+//                    return false;
+//                }
+//            }else {
                 return true;
-            }
+           // }
         }else {
             if (name.isEmpty()){
                 error_name.set(context.getString(R.string.field_req));
@@ -84,44 +84,44 @@ public class SignUpModel extends BaseObservable implements Serializable {
                 error_name.set(null);
             }
 
-            if (gender.isEmpty()){
-                Toast.makeText(context, context.getString(R.string.ch_gender), Toast.LENGTH_SHORT).show();
-            }
-
-            if (birth_date.isEmpty()){
-                error_birth_date.set(context.getString(R.string.field_req));
-            }else {
-                error_birth_date.set(null);
-            }
-
-            if (weight.isEmpty()){
-                error_weight.set(context.getString(R.string.field_req));
-            }else {
-                error_weight.set(null);
-            }
-
-            if (height.isEmpty()){
-                error_height.set(context.getString(R.string.field_req));
-            }else {
-                error_height.set(null);
-            }
-
-            if (fat.isEmpty()){
-                error_fat.set(context.getString(R.string.field_req));
-            }else {
-                error_fat.set(null);
-            }
-
-            if (blood_type.isEmpty()){
-                Toast.makeText(context, context.getString(R.string.ch_blood), Toast.LENGTH_SHORT).show();
-            }
-
-            if (have_diseases){
-                if (diseaseModelList.size()==0){
-                    Toast.makeText(context, R.string.ch_diseases, Toast.LENGTH_SHORT).show();
-
-                }
-            }
+//            if (gender.isEmpty()){
+//                Toast.makeText(context, context.getString(R.string.ch_gender), Toast.LENGTH_SHORT).show();
+//            }
+//
+//            if (birth_date.isEmpty()){
+//                error_birth_date.set(context.getString(R.string.field_req));
+//            }else {
+//                error_birth_date.set(null);
+//            }
+//
+//            if (weight.isEmpty()){
+//                error_weight.set(context.getString(R.string.field_req));
+//            }else {
+//                error_weight.set(null);
+//            }
+//
+//            if (height.isEmpty()){
+//                error_height.set(context.getString(R.string.field_req));
+//            }else {
+//                error_height.set(null);
+//            }
+//
+//            if (fat.isEmpty()){
+//                error_fat.set(context.getString(R.string.field_req));
+//            }else {
+//                error_fat.set(null);
+//            }
+//
+//            if (blood_type.isEmpty()){
+//                Toast.makeText(context, context.getString(R.string.ch_blood), Toast.LENGTH_SHORT).show();
+//            }
+//
+//            if (have_diseases){
+//                if (diseaseModelList.size()==0){
+//                    Toast.makeText(context, R.string.ch_diseases, Toast.LENGTH_SHORT).show();
+//
+//                }
+//            }
             return false;
         }
     }
