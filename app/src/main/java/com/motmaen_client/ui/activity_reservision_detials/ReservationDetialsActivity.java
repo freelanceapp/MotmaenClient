@@ -106,7 +106,6 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
             }
         });
 
-
     }
 
 

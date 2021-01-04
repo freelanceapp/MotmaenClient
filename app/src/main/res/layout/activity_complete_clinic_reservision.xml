@@ -172,12 +172,15 @@
 
                         <ImageView
                             android:id="@+id/image"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:src="@drawable/ic_calendar"
                             android:tint="@color/color1"
+
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            />
 
                         <View
                             android:id="@+id/view1"
@@ -243,12 +246,14 @@
 
                         <ImageView
                             android:id="@+id/image2"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:src="@drawable/ic_marker"
                             android:tint="@color/color1"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            />
 
                         <View
                             android:id="@+id/view2"
@@ -314,12 +319,14 @@
 
                         <ImageView
                             android:id="@+id/image3"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:src="@drawable/ic_pay"
                             android:tint="@color/color1"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            />
 
                         <View
                             android:id="@+id/view3"
@@ -453,8 +460,8 @@
                     </androidx.core.widget.NestedScrollView>
                     <ImageView
                         android:id="@+id/imageCamera"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:src="@drawable/ic_camera"
                         android:padding="8dp"
                         android:tint="@color/gray6"
