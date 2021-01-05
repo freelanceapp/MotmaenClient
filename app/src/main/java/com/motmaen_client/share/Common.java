@@ -36,6 +36,8 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
+import static android.app.Activity.RESULT_OK;
+
 public class Common {
 
     public static void CreateDialogAlert(Context context, String msg) {
@@ -48,7 +50,9 @@ public class Common {
         binding.btnCancel.setOnClickListener(v -> {
                     if (context instanceof CompleteClinicReservationActivity) {
                         CompleteClinicReservationActivity completeClinicReservationActivity = (CompleteClinicReservationActivity) context;
-                        completeClinicReservationActivity.finishAffinity();
+                        Intent intent=((CompleteClinicReservationActivity) context).getIntent();
+                        ((CompleteClinicReservationActivity) context).setResult(RESULT_OK,intent);
+                        ((CompleteClinicReservationActivity) context).finish();
                     } else if (msg.equals(context.getResources().getString(R.string.please_sign_in_or_sign_up))) {
                         Intent intent = new Intent(context, LoginActivity.class);
                         context.startActivity(intent);

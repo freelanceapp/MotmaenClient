@@ -34,6 +34,7 @@ import com.motmaen_client.databinding.DialogSelectImageBinding;
 import com.motmaen_client.language.Language;
 import com.motmaen_client.models.ContactUsModel;
 import com.motmaen_client.models.DiseaseModel;
+import com.motmaen_client.models.SettingModel;
 import com.motmaen_client.models.SignUpModel;
 import com.motmaen_client.models.UserModel;
 import com.motmaen_client.mvp.activity_contactus_mvp.ActivityContactusPresenter;
@@ -61,7 +62,7 @@ public class ContactusActivity extends AppCompatActivity implements ActivityCont
     private String lang;
     private ProgressDialog dialog2;
     private UserModel userModel;
-
+    private SettingModel setting;
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
@@ -101,6 +102,23 @@ public class ContactusActivity extends AppCompatActivity implements ActivityCont
                 finish();
             }
         });
+        binding.facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (setting != null && setting.getSettings() != null && setting.getSettings().getFacebook() != null) {
+                    presenter.open(setting.getSettings().getFacebook());
+                }
+            }
+        });
+        binding.whatsapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (setting != null && setting.getSettings() != null && setting.getSettings().getWhatsapp() != null) {
+                    presenter.open("https://api.whatsapp.com/send?phone="+setting.getSettings().getWhatsapp());
+                }
+            }
+        });
+        presenter.getSetting();
 
     }
 
@@ -145,4 +163,24 @@ public class ContactusActivity extends AppCompatActivity implements ActivityCont
         Toast.makeText(ContactusActivity.this, getString(R.string.server_error), Toast.LENGTH_SHORT).show();
 
     }
+    @Override
+    public void onsetting(SettingModel body) {
+        this.setting = body;
+
+        if (setting.getSettings().getWhatsapp() == null) {
+            binding.whatsapp.setVisibility(View.GONE);
+        }
+        if (setting.getSettings().getFacebook() == null) {
+            binding.facebook.setVisibility(View.GONE);
+        }
+
+
+    }
+    @Override
+    public void ViewSocial(String path) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(path));
+        startActivity(intent);
+
+    }
+
 }
