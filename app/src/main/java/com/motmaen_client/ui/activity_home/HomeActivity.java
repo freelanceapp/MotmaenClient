@@ -12,15 +12,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.motmaen_client.R;
 import com.motmaen_client.databinding.ActivityHomeBinding;
 import com.motmaen_client.language.Language;
+import com.motmaen_client.models.SingleDoctorModel;
 import com.motmaen_client.models.UserSettingsModel;
 import com.motmaen_client.mvp.activity_home_mvp.ActivityHomePresenter;
 import com.motmaen_client.mvp.activity_home_mvp.HomeActivityView;
 import com.motmaen_client.ui.activity_doctor.DoctorActivity;
+import com.motmaen_client.ui.activity_doctor_details.DoctorDetailsActivity;
 import com.motmaen_client.ui.activity_login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.motmaen_client.ui.notification_activity.NotificationActivity;
@@ -34,6 +37,7 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityView 
     private FragmentManager fragmentManager;
     private ActivityHomePresenter presenter;
     private double lat=0.0,lng=0.0;
+    private String id;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -51,8 +55,25 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityView 
 
     private void getDataFromIntent() {
         Intent intent  = getIntent();
+
         lat = intent.getDoubleExtra("lat",0.0);
         lng = intent.getDoubleExtra("lng",0.0);
+        if (intent.getData() != null) {
+            List<String> pathSegments = intent.getData().getPathSegments();
+            id = pathSegments.get(pathSegments.size() - 1);
+
+            Log.e("llflfllflf", id+ pathSegments.get(pathSegments.size() - 2));
+            if( pathSegments.get(pathSegments.size() - 2).equals("share-app")){
+                SingleDoctorModel singleDoctorModel=new SingleDoctorModel();
+                singleDoctorModel.setId(Integer.parseInt(id));
+                Intent intent1 = new Intent(HomeActivity.this, DoctorDetailsActivity.class);
+                intent1.putExtra("data", singleDoctorModel);
+                startActivity(intent1);
+            }
+//            Intent intent1 = new Intent(HomeActivity.this, RestuarnantActivity.class);
+//            intent1.putExtra("restaurand_id", id);
+//            startActivity(intent1);
+        }
     }
 
     private void initView() {

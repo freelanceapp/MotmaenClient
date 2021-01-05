@@ -59,16 +59,23 @@
                         android:src="@drawable/ic_user"
                         app:tint="@color/gray9" />
 
-                    <TextView
+                    <FrameLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
-                        android:singleLine="true"
-                        android:textSize="14sp"
-                        android:text="@{model.name}"
-                        android:textColor="@color/gray9" />
+
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:singleLine="true"
+                            android:text="@{model.name}"
+                            android:textColor="@color/gray9"
+                            android:textSize="14sp" />
+                    </FrameLayout>
 
                     <com.iarcuschin.simpleratingbar.SimpleRatingBar
                         android:id="@+id/rateBar"
@@ -102,6 +109,23 @@
                         android:padding="3dp"
                         android:src="@drawable/ic_special"
                         app:tint="@color/gray9" />
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:singleLine="true"
+                            android:text="@{model.specialization_fk.title}"
+                            android:textColor="@color/gray9"
+                            android:textSize="14sp" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -109,10 +133,10 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:singleLine="true"
-                        android:textSize="14sp"
+                        android:text='@{model.detection_price+""}'
 
-                        android:text="@{model.specialization_fk.title}"
-                        android:textColor="@color/gray9" />
+                        android:textColor="@color/gray9"
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -126,30 +150,34 @@
 
                     <ImageView
                         android:layout_width="24dp"
-                        android:layout_height="14dp"
+                        android:layout_height="24dp"
                         android:layout_gravity="center_vertical"
                         android:padding="3dp"
                         android:src="@drawable/ic_pin"
                         app:tint="@color/gray9" />
-
-                    <TextView
+                    <FrameLayout
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        >
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:layout_weight="1"
-                        android:singleLine="true"
                         android:gravity="start"
-                        android:textSize="14sp"
-
+                        android:singleLine="true"
                         android:text="@{model.address}"
-                        android:textColor="@color/gray9" />
 
+                        android:textColor="@color/gray9"
+                        android:textSize="14sp" />
+                    </FrameLayout>
                     <TextView
                         android:id="@+id/tvDistance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text='@{model.distance+@string/km}'
+                        android:text='@{Math.round(model.distance)+@string/km}'
                         android:textColor="@color/color1"
                         android:textSize="14sp"
                         android:transitionName="distance"

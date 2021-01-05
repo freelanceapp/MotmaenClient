@@ -211,7 +211,7 @@ public interface Service {
                                          @Field("day_name") String day_name
 
 
-                                         );
+    );
 
     @GET("api/reason-lists")
     Call<ReasonModel> getreasons();
@@ -272,13 +272,14 @@ public interface Service {
 
 
     );
+
     @GET("api/get-medical-consultings")
     Call<UserRoomModelData> getRooms(
             @Query("user_id") int user_id,
             @Query("user_type") String user_type,
             @Query("pagination_status") String pagination_status
 
-            );
+    );
 
     @GET("api/get-one-consulting")
     Call<MessageModel> getRoomMessages(
@@ -322,10 +323,11 @@ public interface Service {
             @Field("user_id") String user_id,
             @Field("doctor_id") String doctor_id,
             @Field("type") String type,
-            @Field("message")String message
+            @Field("message") String message
 
 
     );
+
     @Multipart
     @POST("api/add-reservations")
     Call<ResponseBody> addreservision(@Part("user_id") RequestBody user_id,
@@ -340,7 +342,12 @@ public interface Service {
                                       @Part List<MultipartBody.Part> image
 
 
-
     );
 
+    @FormUrlEncoded
+    @POST("api/favourite")
+    Call<ResponseBody> likeunlike(@Header("Authorization") String user_token,
+                              @Field("user_id") String user_id,
+                              @Field("doctor_id") String doctor_id
+    );
 }

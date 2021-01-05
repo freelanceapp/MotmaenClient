@@ -10,4 +10,6 @@ public interface DoctorDetialsActivityView {
 
 
     void ondoctorsucess(SingleDataDoctorModel body);
+
+    void onlikesucess();
 }

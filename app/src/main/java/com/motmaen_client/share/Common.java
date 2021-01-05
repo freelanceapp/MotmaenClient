@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -19,12 +20,15 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 
 import com.motmaen_client.R;
 import com.motmaen_client.databinding.DialogAlertBinding;
+import com.motmaen_client.ui.activity_complete_clinic_reservision.CompleteClinicReservationActivity;
+import com.motmaen_client.ui.activity_login.LoginActivity;
 
 import java.io.File;
 
@@ -34,16 +38,24 @@ import okhttp3.RequestBody;
 
 public class Common {
 
-    public static void CreateDialogAlert(Context context,String msg) {
+    public static void CreateDialogAlert(Context context, String msg) {
         final AlertDialog dialog = new AlertDialog.Builder(context)
                 .create();
 
         DialogAlertBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_alert, null, false);
 
         binding.tvMsg.setText(msg);
-        binding.btnCancel.setOnClickListener(v ->
-
-                dialog.dismiss()
+        binding.btnCancel.setOnClickListener(v -> {
+                    if (context instanceof CompleteClinicReservationActivity) {
+                        CompleteClinicReservationActivity completeClinicReservationActivity = (CompleteClinicReservationActivity) context;
+                        completeClinicReservationActivity.finishAffinity();
+                    } else if (msg.equals(context.getResources().getString(R.string.please_sign_in_or_sign_up))) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        context.startActivity(intent);
+                        ((AppCompatActivity) context).finishAffinity();
+                    }
+                    dialog.dismiss();
+                }
 
         );
         dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
@@ -218,7 +230,7 @@ public class Common {
 
     public static MultipartBody.Part getMultiPartImage(Context context, Uri uri, String partName) {
         File file = getFileFromImagePath(getImagePath(context, uri));
-        String name = System.currentTimeMillis()+file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+        String name = System.currentTimeMillis() + file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
         RequestBody requestBody = getRequestBodyImage(file);
         MultipartBody.Part part = MultipartBody.Part.createFormData(partName, name, requestBody);
         return part;
@@ -227,7 +239,7 @@ public class Common {
 
     public static MultipartBody.Part getMultiPartAudio(Context context, String audio_path, String partName) {
         File file = new File(audio_path);
-        String name = System.currentTimeMillis()+file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+        String name = System.currentTimeMillis() + file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
         RequestBody requestBody = getRequestBodyAudio(file);
         MultipartBody.Part part = MultipartBody.Part.createFormData(partName, name, requestBody);
         return part;
@@ -236,7 +248,7 @@ public class Common {
 
     public static MultipartBody.Part getMultiPartVideo(Context context, Uri uri, String partName) {
         File file = getFileFromImagePath(getImagePath(context, uri));
-        String name = System.currentTimeMillis()+file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
+        String name = System.currentTimeMillis() + file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("."));
         RequestBody requestBody = getRequestBodyVideo(file);
         MultipartBody.Part part = MultipartBody.Part.createFormData(partName, name, requestBody);
         return part;

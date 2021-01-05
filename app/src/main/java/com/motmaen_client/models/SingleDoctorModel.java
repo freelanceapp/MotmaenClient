@@ -45,6 +45,7 @@ public class SingleDoctorModel implements Serializable {
     private SpecializationModel specialization_fk;
     private CityModel city_fk;
     private List<Rates> rates_fk;
+    private Favourite fav_fk;
 
     public int getId() {
         return id;
@@ -210,6 +211,14 @@ public class SingleDoctorModel implements Serializable {
         return rates_fk;
     }
 
+    public Favourite getFav_fk() {
+        return fav_fk;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public class Job implements Serializable {
         private int id;
         private String title;
@@ -233,7 +242,7 @@ public class SingleDoctorModel implements Serializable {
         }
     }
 
-    public class Rates implements Serializable{
+    public class Rates implements Serializable {
         private int id;
         private int user_id;
         private int doctor_id;
@@ -468,6 +477,24 @@ public class SingleDoctorModel implements Serializable {
             }
         }
 
+    }
+
+    public class Favourite implements Serializable {
+        private int id;
+        private int user_id;
+        private int doctor_id;
+
+        public int getId() {
+            return id;
+        }
+
+        public int getUser_id() {
+            return user_id;
+        }
+
+        public int getDoctor_id() {
+            return doctor_id;
+        }
     }
 
 }

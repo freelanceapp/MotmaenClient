@@ -168,6 +168,8 @@ public class ActivityConfirmCodePresenter {
     }
 
     private void login() {
+        Log.e("phone",phone_code+phone);
+
         view.onLoad();
         Api.getService(Tags.base_url)
                 .login(phone_code, phone)

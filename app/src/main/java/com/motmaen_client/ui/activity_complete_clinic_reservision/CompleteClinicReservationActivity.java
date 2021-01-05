@@ -165,10 +165,11 @@ public class CompleteClinicReservationActivity extends AppCompatActivity impleme
 
     @Override
     public void onsucsess() {
-        Intent intent=getIntent();
-        setResult(RESULT_OK,intent);
-
-        finish();
+        Common.CreateDialogAlert(this,getResources().getString(R.string.suc));
+//        Intent intent=getIntent();
+//        setResult(RESULT_OK,intent);
+//
+//        finish();
     }
 
     @Override

@@ -151,7 +151,7 @@ public class ActivitySignUpPresenter implements DatePickerDialog.OnDateSetListen
 
     private void sign_up_with_image(SignUpModel signUpModel) {
         RequestBody name_part = Common.getRequestBodyText(signUpModel.getName());
-        RequestBody phone_code_part = Common.getRequestBodyText(signUpModel.getPhone_code().replace("+", "00"));
+        RequestBody phone_code_part = Common.getRequestBodyText(signUpModel.getPhone_code());
         RequestBody phone_part = Common.getRequestBodyText(signUpModel.getPhone());
         RequestBody birth_part = Common.getRequestBodyText(signUpModel.getBirth_date());
         RequestBody blood_part = Common.getRequestBodyText(signUpModel.getBlood_type());
