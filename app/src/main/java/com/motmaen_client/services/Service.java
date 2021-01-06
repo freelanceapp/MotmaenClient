@@ -5,6 +5,7 @@ import com.motmaen_client.models.AllDiseasesModel;
 import com.motmaen_client.models.AllSpiclixationModel;
 import com.motmaen_client.models.ApointmentModel;
 import com.motmaen_client.models.DoctorModel;
+import com.motmaen_client.models.FavouriteDoctorModel;
 import com.motmaen_client.models.MessageDataModel;
 import com.motmaen_client.models.MessageModel;
 import com.motmaen_client.models.NearbyModel;
@@ -350,4 +351,12 @@ public interface Service {
                               @Field("user_id") String user_id,
                               @Field("doctor_id") String doctor_id
     );
+    @GET("api/my-favourites")
+    Call<FavouriteDoctorModel> getdoctorsfav(
+            @Header("Authorization") String user_token,
+            @Query("user_id") String user_id,
+            @Query("pagination_status") String pagination_status
+
+            );
+
 }

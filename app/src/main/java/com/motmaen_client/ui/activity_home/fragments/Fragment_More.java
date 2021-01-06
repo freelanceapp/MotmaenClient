@@ -28,6 +28,7 @@ import com.motmaen_client.share.Common;
 import com.motmaen_client.tags.Tags;
 import com.motmaen_client.ui.activity_contactus.ContactusActivity;
 import com.motmaen_client.ui.activity_edit_profile.EditprofileActivity;
+import com.motmaen_client.ui.activity_favourite.FavouriteActivity;
 import com.motmaen_client.ui.activity_home.HomeActivity;
 import com.motmaen_client.ui.activity_language.LanguageActivity;
 import com.motmaen_client.ui.activity_login.LoginActivity;
@@ -86,6 +87,14 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
         binding.llchat.setOnClickListener(view -> {
             if (userModel != null) {
                 Intent intent = new Intent(activity, ChatRoomActivity.class);
+                startActivity(intent);
+            } else {
+                Common.CreateDialogAlert(activity, activity.getResources().getString(R.string.please_sign_in_or_sign_up));
+            }
+        });
+        binding.llfav.setOnClickListener(view -> {
+            if (userModel != null) {
+                Intent intent = new Intent(activity, FavouriteActivity.class);
                 startActivity(intent);
             } else {
                 Common.CreateDialogAlert(activity, activity.getResources().getString(R.string.please_sign_in_or_sign_up));

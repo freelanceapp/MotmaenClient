@@ -238,7 +238,7 @@ public class DoctorDetailsActivity extends AppCompatActivity implements OnMapRea
     public void share(int id) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, Tags.base_url + "share");
+        intent.putExtra(Intent.EXTRA_TEXT, Tags.base_url + "share-app?id="+id);
         startActivity(intent);
     }
 
