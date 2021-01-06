@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -30,6 +31,7 @@ import com.motmaen_client.adapters.ImagesAdapter;
 import com.motmaen_client.databinding.ActivityCompleteClinicReservisionBinding;
 import com.motmaen_client.databinding.DialogSelectImageBinding;
 import com.motmaen_client.language.Language;
+import com.motmaen_client.models.ApointmentModel;
 import com.motmaen_client.models.SingleDoctorModel;
 import com.motmaen_client.models.SingleReservisionTimeModel;
 import com.motmaen_client.models.UserModel;
@@ -37,10 +39,13 @@ import com.motmaen_client.mvp.activity_complete_clinic_reservision.ActivityCompl
 import com.motmaen_client.mvp.activity_complete_clinic_reservision.ActivityCompleteClinicReservationView;
 import com.motmaen_client.preferences.Preferences;
 import com.motmaen_client.share.Common;
+import com.motmaen_client.ui.activity_live.LiveActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -64,10 +69,13 @@ public class CompleteClinicReservationActivity extends AppCompatActivity impleme
     private final String write_permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private final String camera_permission = Manifest.permission.CAMERA;
     private final int READ_REQ = 1, CAMERA_REQ = 2;
+
+    private static final int REQUEST_PHONE_CALL = 3;
     private List<Uri> imagesList;
     private ImagesAdapter imagesAdapter;
     private AlertDialog dialog;
     private String type;
+    private Intent intent;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -115,6 +123,7 @@ public class CompleteClinicReservationActivity extends AppCompatActivity impleme
         binding.llBack.setOnClickListener(view -> {
             finish();
         });
+
         if(reservid!=0){
             binding.btnConsultationReserve.setText(getResources().getString(R.string.Update_resev));
             binding.tv.setText(getResources().getString(R.string.Update_resev));
@@ -258,28 +267,7 @@ public class CompleteClinicReservationActivity extends AppCompatActivity impleme
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == READ_REQ) {
 
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                SelectImage(requestCode);
-            } else {
-                Toast.makeText(this, getString(R.string.perm_image_denied), Toast.LENGTH_SHORT).show();
-            }
-
-        } else if (requestCode == CAMERA_REQ) {
-            if (grantResults.length > 0 &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED &&
-                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-
-                SelectImage(requestCode);
-            } else {
-                Toast.makeText(this, getString(R.string.perm_image_denied), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -353,4 +341,87 @@ public class CompleteClinicReservationActivity extends AppCompatActivity impleme
             imagesAdapter.notifyItemRemoved(adapterPosition);
         }
     }
+    public void open(ApointmentModel.Data data) {
+        String date = data.getDate()+" " + data.getTime()+" "+data.getTime_type();
+        Log.e("kdkdk", date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss aa", Locale.US);
+        long datetime = 0;
+        try {
+            datetime = sdf.parse(date).getTime();
+        } catch (ParseException e) {
+            Log.e("dldkkd",e.toString());
+        }
+        long currenttime = System.currentTimeMillis();
+        Log.e("kdkdk", date+" "+currenttime+" "+datetime);
+
+          if (currenttime >= datetime) {
+        if (data.getReservation_type().equals("online")) {
+            Intent intent = new Intent(this, LiveActivity.class);
+            intent.putExtra("room", data.getId());
+            startActivity(intent);
+        } else {
+            intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", data.getPatient_fk().getPhone_code() + data.getPatient_fk().getPhone(), null));
+            if (intent != null) {
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                    } else {
+                        startActivity(intent);
+                    }
+                } else {
+                    startActivity(intent);
+                }
+            }
+        }
+        } else {
+            Toast.makeText(this, getResources().getString(R.string.not_avail_now), Toast.LENGTH_LONG).show();
+        }
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PHONE_CALL: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (this.checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    Activity#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for Activity#requestPermissions for more details.
+                            return;
+                        }
+                    }
+                    startActivity(intent);
+                } else {
+
+                }
+                return;
+            }
+        }
+        if (requestCode == READ_REQ) {
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                SelectImage(requestCode);
+            } else {
+                Toast.makeText(this, getString(R.string.perm_image_denied), Toast.LENGTH_SHORT).show();
+            }
+
+        } else if (requestCode == CAMERA_REQ) {
+            if (grantResults.length > 0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
+                SelectImage(requestCode);
+            } else {
+                Toast.makeText(this, getString(R.string.perm_image_denied), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }

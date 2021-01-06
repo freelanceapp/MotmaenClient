@@ -1,19 +1,28 @@
 package com.motmaen_client.ui.activity_reservision_detials;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.motmaen_client.R;
+import com.motmaen_client.adapters.ImagesAdapter;
 import com.motmaen_client.adapters.ReasonAdapter;
 import com.motmaen_client.databinding.ActivityReservisionDetialsBinding;
 import com.motmaen_client.language.Language;
@@ -24,10 +33,14 @@ import com.motmaen_client.mvp.actvity_reservision_detials_mvp.ActivityReservatio
 import com.motmaen_client.mvp.actvity_reservision_detials_mvp.ActivityReservationDetialsView;
 import com.motmaen_client.preferences.Preferences;
 import com.motmaen_client.share.Common;
+import com.motmaen_client.ui.activity_live.LiveActivity;
 import com.motmaen_client.ui.activity_reservation.ReservationActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import io.paperdb.Paper;
 
@@ -42,6 +55,8 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
     private ProgressDialog dialog2;
     private UserModel usermodel;
     private Preferences preferences;
+    private static final int REQUEST_PHONE_CALL = 3;
+    private Intent intent;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -105,6 +120,13 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
 
             }
         });
+        binding.btCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                open(apointmentModel);
+            }
+        });
+
 
     }
 
@@ -240,5 +262,72 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
 
     public void setreason(String reason) {
         presenter.cancelreserv(reason, apointmentModel);
+    }
+
+    public void open(ApointmentModel.Data data) {
+        String date = data.getDate() + " " + data.getTime() + " " + data.getTime_type();
+        Log.e("kdkdk", date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss aa", Locale.US);
+        long datetime = 0;
+        try {
+            datetime = sdf.parse(date).getTime();
+        } catch (ParseException e) {
+            Log.e("dldkkd", e.toString());
+        }
+        long currenttime = System.currentTimeMillis();
+        Log.e("kdkdk", date + " " + currenttime + " " + datetime);
+
+        if (currenttime >= datetime) {
+            if (data.getReservation_type().equals("online")) {
+                Intent intent = new Intent(this, LiveActivity.class);
+                intent.putExtra("room", data.getId());
+                startActivity(intent);
+            } else {
+                intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", data.getDoctor_fk().getPhone_code() + data.getDoctor_fk().getPhone(), null));
+                if (intent != null) {
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                        } else {
+                            startActivity(intent);
+                        }
+                    } else {
+                        startActivity(intent);
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(this, getResources().getString(R.string.not_avail_now), Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PHONE_CALL: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (this.checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    Activity#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for Activity#requestPermissions for more details.
+                            return;
+                        }
+                    }
+                    startActivity(intent);
+                } else {
+
+                }
+                return;
+            }
+        }
+
     }
 }

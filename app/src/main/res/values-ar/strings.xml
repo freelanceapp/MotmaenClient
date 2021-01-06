@@ -161,5 +161,6 @@
     <string name="want_resrv">أريد إستشاره</string>
     <string name="you_can_call_doctor_on">تستطيع مكالمة الدكتور على </string>
     <string name="suc">تم بنجاح</string>
+    <string name="not_avail_now">Not Avaliable Now</string>
 
 </resources>
