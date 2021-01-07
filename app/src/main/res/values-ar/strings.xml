@@ -163,5 +163,8 @@
     <string name="suc">تم بنجاح</string>
     <string name="not_avail_now">غير متاح الان</string>
     <string name="favourite">المفضله</string>
+    <string name="drug_name">اسم العلاج</string>
+    <string name="dose">الجرعه</string>
+    <string name="show_all">عرض الكل</string>
 
 </resources>

@@ -5,6 +5,7 @@ import com.motmaen_client.models.AllDiseasesModel;
 import com.motmaen_client.models.AllSpiclixationModel;
 import com.motmaen_client.models.ApointmentModel;
 import com.motmaen_client.models.DoctorModel;
+import com.motmaen_client.models.DrugDataModel;
 import com.motmaen_client.models.FavouriteDoctorModel;
 import com.motmaen_client.models.MessageDataModel;
 import com.motmaen_client.models.MessageModel;
@@ -358,5 +359,11 @@ public interface Service {
             @Query("pagination_status") String pagination_status
 
             );
+    @GET("api/get-reservation-with-drugs")
+    Call<DrugDataModel> getDrugs(@Header("Authorization") String Authorization,
+                                 @Query("pagination_status") String doctor_id,
+                                 @Query("user_id") int user_id
+
+    );
 
 }

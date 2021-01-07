@@ -163,5 +163,8 @@
     <string name="suc">Success</string>
     <string name="not_avail_now">Not Avaliable Now</string>
     <string name="favourite">Favourite</string>
+    <string name="drug_name">Drug Name</string>
+    <string name="dose">Dose</string>
+    <string name="show_all">ٍShow All</string>
 
 </resources>

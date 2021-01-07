@@ -237,6 +237,7 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
         } else {
             binding.tvNoData.setVisibility(View.GONE);
         }
+
     }
 
     @Override
