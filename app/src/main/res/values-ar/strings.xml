@@ -166,5 +166,6 @@
     <string name="drug_name">اسم العلاج</string>
     <string name="dose">الجرعه</string>
     <string name="show_all">عرض الكل</string>
+    <string name="link_inc">هذا الرابط غير صحيح</string>
 
 </resources>

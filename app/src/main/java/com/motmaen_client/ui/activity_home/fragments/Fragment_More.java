@@ -46,6 +46,7 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
     private UserModel userModel;
     private ProgressDialog dialog;
     private SettingModel setting;
+    private String regex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 
     public static Fragment_More newInstance() {
         return new Fragment_More();
@@ -107,38 +108,56 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
                 Common.CreateDialogAlert(activity, activity.getResources().getString(R.string.please_sign_in_or_sign_up));
             }
         });
-        binding.facebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (setting != null && setting.getSettings() != null && setting.getSettings().getFacebook() != null) {
+        binding.facebook.setOnClickListener(v -> {
+            if (setting != null && setting.getSettings() != null && setting.getSettings().getFacebook() != null) {
+                if (setting.getSettings().getInstagram().matches(regex)) {
                     presenter.open(setting.getSettings().getFacebook());
+
+                } else {
+                    Toast.makeText(activity, R.string.link_inc, Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                Toast.makeText(activity, R.string.not_avail_now, Toast.LENGTH_SHORT).show();
             }
         });
-        binding.instgram.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (setting != null && setting.getSettings() != null && setting.getSettings().getInstagram() != null) {
+        binding.instgram.setOnClickListener(v -> {
+            if (setting != null && setting.getSettings() != null && setting.getSettings().getInstagram() != null) {
+                if (setting.getSettings().getInstagram().matches(regex)) {
                     presenter.open(setting.getSettings().getInstagram());
+
+                } else {
+                    Toast.makeText(activity, R.string.link_inc, Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                Toast.makeText(activity, R.string.not_avail_now, Toast.LENGTH_SHORT).show();
             }
         });
-        binding.google.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (setting != null && setting.getSettings() != null && setting.getSettings().getGoogle_plus() != null) {
-                    presenter.open(setting.getSettings().getGoogle_plus());
-                }
-            }
-        });
-        binding.twitter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (setting != null && setting.getSettings() != null && setting.getSettings().getTwitter() != null) {
+
+        binding.twitter.setOnClickListener(v -> {
+            if (setting != null && setting.getSettings() != null && setting.getSettings().getTwitter() != null) {
+                if (setting.getSettings().getTwitter().matches(regex)) {
                     presenter.open(setting.getSettings().getTwitter());
+
+                } else {
+                    Toast.makeText(activity, R.string.link_inc, Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                Toast.makeText(activity, R.string.not_avail_now, Toast.LENGTH_SHORT).show();
             }
         });
+        binding.google.setOnClickListener(v -> {
+            if (setting != null && setting.getSettings() != null && setting.getSettings().getTwitter() != null) {
+                if (setting.getSettings().getTwitter().matches(regex)) {
+                    presenter.open(setting.getSettings().getTwitter());
+
+                } else {
+                    Toast.makeText(activity, R.string.link_inc, Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(activity, R.string.not_avail_now, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         presenter.getSetting();
     }
 
@@ -183,24 +202,24 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
     @Override
     public void onsetting(SettingModel body) {
         this.setting = body;
-        if (setting.getSettings().getGoogle_plus() == null) {
-            binding.google.setVisibility(View.GONE);
-        }
-        if (setting.getSettings().getInstagram() == null) {
-            binding.instgram.setVisibility(View.GONE);
-        }
-        if (setting.getSettings().getFacebook() == null) {
-            binding.facebook.setVisibility(View.GONE);
-        }
-        if (setting.getSettings().getTwitter() == null) {
-            binding.twitter.setVisibility(View.GONE);
-        }
-        if (setting.getSettings().getGoogle_plus() == null && setting.getSettings().getInstagram() == null && setting.getSettings().getFacebook() == null && setting.getSettings().getTwitter() == null) {
-            binding.tv.setVisibility(View.GONE);
-        } else {
-            binding.tv.setVisibility(View.VISIBLE);
-
-        }
+//        if (setting.getSettings().getGoogle_plus() == null) {
+//            binding.google.setVisibility(View.GONE);
+//        }
+//        if (setting.getSettings().getInstagram() == null) {
+//            binding.instgram.setVisibility(View.GONE);
+//        }
+//        if (setting.getSettings().getFacebook() == null) {
+//            binding.facebook.setVisibility(View.GONE);
+//        }
+//        if (setting.getSettings().getTwitter() == null) {
+//            binding.twitter.setVisibility(View.GONE);
+//        }
+//        if (setting.getSettings().getGoogle_plus() == null && setting.getSettings().getInstagram() == null && setting.getSettings().getFacebook() == null && setting.getSettings().getTwitter() == null) {
+//            binding.tv.setVisibility(View.GONE);
+//        } else {
+//            binding.tv.setVisibility(View.VISIBLE);
+//
+//        }
 
     }
 
@@ -231,5 +250,6 @@ public class Fragment_More extends Fragment implements MoreFragmentView {
         if (userModel != null && userModel.getData().getLogo() != null) {
             Picasso.get().load(Tags.IMAGE_URL + userModel.getData().getLogo()).resize(720, 480).onlyScaleDown().into(binding.image);
         }
+        binding.tvName.setText(userModel.getData().getName());
     }
 }

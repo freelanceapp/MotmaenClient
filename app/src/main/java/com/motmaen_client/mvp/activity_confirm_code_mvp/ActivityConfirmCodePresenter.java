@@ -173,7 +173,7 @@ public class ActivityConfirmCodePresenter {
         view.onLoad();
         Api.getService(Tags.base_url)
                 .
-                        login(phone_code.replace("+","00"), phone)
+                        login(phone_code, phone)
                 .enqueue(new Callback<UserModel>() {
                     @Override
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
