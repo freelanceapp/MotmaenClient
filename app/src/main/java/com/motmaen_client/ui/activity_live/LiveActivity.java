@@ -35,6 +35,7 @@ import io.paperdb.Paper;
 public class LiveActivity extends AppCompatActivity {
     private String lang;
     private ActivityLiveBinding binding;
+    private int roomid;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -46,8 +47,13 @@ public class LiveActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_live);
+        getDataFromIntent();
         initView();
 
+    }
+
+    private void getDataFromIntent() {
+        roomid=getIntent().getIntExtra("room",0);
     }
 
     private void initView() {
@@ -59,7 +65,7 @@ public class LiveActivity extends AppCompatActivity {
             JitsiMeetUserInfo userInfo = new JitsiMeetUserInfo();
             JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
                     .setServerURL(new URL("https://meet.jit.si"))
-                    .setRoom("مطمئن")
+                    .setRoom(roomid+"")
                     .setUserInfo(userInfo)
                     .setAudioMuted(false)
                     .setVideoMuted(false)
@@ -71,5 +77,6 @@ public class LiveActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
 }

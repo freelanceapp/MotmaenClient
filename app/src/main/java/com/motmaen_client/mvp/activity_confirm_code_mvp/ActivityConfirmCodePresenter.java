@@ -183,7 +183,7 @@ public class ActivityConfirmCodePresenter {
                             view.onUserFound(response.body());
                         } else {
                             try {
-                                Log.e("mmmmmmmmmm", response.errorBody().string());
+                                Log.e("mmmmmmmmmm", response.code()+response.errorBody().string());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
