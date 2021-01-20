@@ -126,6 +126,13 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
                 open(apointmentModel);
             }
         });
+      if(apointmentModel.getReservation_status().equals("open")){
+          binding.btCall.setVisibility(View.VISIBLE);
+      }
+      else {
+          binding.btCall.setVisibility(View.GONE);
+
+      }
 
 
     }
@@ -198,6 +205,14 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
     }
 
     @Override
+    public void onSuccess(ApointmentModel.Data data) {
+        Intent intent = new Intent(ReservationDetialsActivity.this, LiveActivity.class);
+        intent.putExtra("room", data.getId());
+        intent.putExtra("type",data.getReservation_type());
+        startActivity(intent);
+    }
+
+    @Override
     public void onnotconnect(String msg) {
         Toast.makeText(ReservationDetialsActivity.this, msg, Toast.LENGTH_SHORT).show();
 
@@ -265,40 +280,14 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
     }
 
     public void open(ApointmentModel.Data data) {
-        String date = data.getDate() + " " + data.getTime() + " " + data.getTime_type();
-        Log.e("kdkdk", date);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss aa", Locale.US);
-        long datetime = 0;
-        try {
-            datetime = sdf.parse(date).getTime();
-        } catch (ParseException e) {
-            Log.e("dldkkd", e.toString());
-        }
-        long currenttime = System.currentTimeMillis();
-        Log.e("kdkdk", date + " " + currenttime + " " + datetime);
 
-        if (currenttime >= datetime) {
-            if (data.getReservation_type().equals("online")) {
+
+
                 Intent intent = new Intent(this, LiveActivity.class);
                 intent.putExtra("room", data.getId());
                 startActivity(intent);
-            } else {
-                intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", data.getDoctor_fk().getPhone_code() + data.getDoctor_fk().getPhone(), null));
-                if (intent != null) {
-                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
-                        } else {
-                            startActivity(intent);
-                        }
-                    } else {
-                        startActivity(intent);
-                    }
-                }
-            }
-        } else {
-            Toast.makeText(this, getResources().getString(R.string.not_avail_now), Toast.LENGTH_LONG).show();
-        }
+
+
 
     }
 

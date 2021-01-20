@@ -365,5 +365,15 @@ public interface Service {
                                  @Query("user_id") int user_id
 
     );
+    @FormUrlEncoded
+    @POST("api/open-call-by-patient")
+    Call<ResponseBody> opencall(
+            @Header("Authorization") String Authorization,
+            @Field("doctor_id") String doctor_id,
+            @Field("patient_id") String patient_id,
+            @Field("reservation_id") String reservation_id
 
+
+
+    );
 }

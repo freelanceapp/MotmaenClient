@@ -1,5 +1,6 @@
 package com.motmaen_client.mvp.actvity_reservision_detials_mvp;
 
+import com.motmaen_client.models.ApointmentModel;
 import com.motmaen_client.models.ReasonModel;
 
 public interface ActivityReservationDetialsView {
@@ -22,4 +23,6 @@ public interface ActivityReservationDetialsView {
     void onProgressHide();
 
     void onSuccess(ReasonModel body);
+
+    void onSuccess(ApointmentModel.Data data);
 }

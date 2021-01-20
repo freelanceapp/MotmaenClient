@@ -3,7 +3,7 @@ package com.motmaen_client.models;
 import java.io.Serializable;
 import java.util.List;
 
-public class ApointmentModel implements Serializable{
+public class ApointmentModel implements Serializable {
 
     private List<Data> data;
 
@@ -22,6 +22,7 @@ public class ApointmentModel implements Serializable{
         public String time;
         public double cost;
         public String reservation_type;
+        private String reservation_status;
         public String status;
         public Object cancel_reason;
         public String day_name;
@@ -69,6 +70,10 @@ public class ApointmentModel implements Serializable{
             return reservation_type;
         }
 
+        public String getReservation_status() {
+            return reservation_status;
+        }
+
         public String getStatus() {
             return status;
         }
@@ -89,7 +94,7 @@ public class ApointmentModel implements Serializable{
             return doctor_fk;
         }
 
-        public class PatientFk implements Serializable{
+        public class PatientFk implements Serializable {
             public int id;
             public String code;
             public String user_type;
@@ -268,7 +273,6 @@ public class ApointmentModel implements Serializable{
                 return distance;
             }
         }
-
 
 
     }
