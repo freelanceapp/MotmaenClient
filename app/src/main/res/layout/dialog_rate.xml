@@ -67,7 +67,7 @@
         app:srb_numberOfStars="5"
         app:srb_starBackgroundColor="@color/white"
         app:srb_starBorderWidth="3"
-        app:srb_starSize="15dp"
+        app:srb_starSize="30dp"
         app:srb_starsSeparation="10dp"
         app:srb_stepSize=".3" />
 

@@ -167,9 +167,9 @@
     <string name="dose">الجرعه</string>
     <string name="show_all">عرض الكل</string>
     <string name="link_inc">هذا الرابط غير صحيح</string>
-    <string name="calling">Calling</string>
-    <string name="rating">Rating</string>
-    <string name="comment">Comment</string>
-    <string name="add_rate">Add Rate</string>
+    <string name="calling">اتصال</string>
+    <string name="rating">تقييم</string>
+    <string name="comment">تعليق</string>
+    <string name="add_rate">اضافة تقييم</string>
 
 </resources>
