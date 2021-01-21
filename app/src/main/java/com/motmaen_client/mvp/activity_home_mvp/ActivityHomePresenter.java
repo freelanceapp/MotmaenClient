@@ -20,7 +20,7 @@ public class ActivityHomePresenter {
     private FragmentManager fragmentManager;
     private HomeActivityView view;
     private Fragment_Home fragment_home;
-    private Fragment_Appointment fragment_appointment;
+    public Fragment_Appointment fragment_appointment;
     private Fragment_Medicine fragment_medicine;
     private Fragment_More fragment_more;
     private Preferences preference;

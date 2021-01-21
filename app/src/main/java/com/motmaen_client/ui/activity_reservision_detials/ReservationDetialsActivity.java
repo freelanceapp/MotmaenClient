@@ -1,7 +1,6 @@
 package com.motmaen_client.ui.activity_reservision_detials;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,17 +9,25 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import com.motmaen_client.R;
 import com.motmaen_client.adapters.ImagesAdapter;
 import com.motmaen_client.adapters.ReasonAdapter;
@@ -42,6 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
 public class ReservationDetialsActivity extends AppCompatActivity implements ActivityReservationDetialsView {
@@ -126,13 +134,12 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
                 open(apointmentModel);
             }
         });
-      if(apointmentModel.getReservation_status().equals("open")){
-          binding.btCall.setVisibility(View.VISIBLE);
-      }
-      else {
-          binding.btCall.setVisibility(View.GONE);
+        if (apointmentModel.getReservation_status().equals("open")) {
+            binding.btCall.setVisibility(View.VISIBLE);
+        } else {
+            binding.btCall.setVisibility(View.GONE);
 
-      }
+        }
 
 
     }
@@ -208,8 +215,13 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
     public void onSuccess(ApointmentModel.Data data) {
         Intent intent = new Intent(ReservationDetialsActivity.this, LiveActivity.class);
         intent.putExtra("room", data.getId());
-        intent.putExtra("type",data.getReservation_type());
-        startActivity(intent);
+        intent.putExtra("type", data.getReservation_type());
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    public void oncloseSuccess() {
+        finish();
     }
 
     @Override
@@ -282,11 +294,7 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
     public void open(ApointmentModel.Data data) {
 
 
-
-                Intent intent = new Intent(this, LiveActivity.class);
-                intent.putExtra("room", data.getId());
-                startActivity(intent);
-
+        presenter.opencall(data, usermodel);
 
 
     }
@@ -318,5 +326,54 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
             }
         }
 
+    }
+
+    public void CreateAddRateAlertDialog() {
+        final androidx.appcompat.app.AlertDialog dialog = new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .create();
+
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_rate, null);
+        ImageView img_close = view.findViewById(R.id.img_close);
+        CircleImageView image = view.findViewById(R.id.image);
+        TextView tv_name = view.findViewById(R.id.tv_name);
+        image.setVisibility(View.GONE);
+
+        final EditText edt_comment = view.findViewById(R.id.edt_comment);
+        final TextView tv_rate = view.findViewById(R.id.tv_rate);
+        final Button btn_rate = view.findViewById(R.id.btn_rate);
+        final SimpleRatingBar rate = view.findViewById(R.id.simplarate);
+        //  Picasso.get().load(Uri.parse(Tags.IMAGE_URL + notificationModel.getFrom_user_image())).fit().into(image);
+        //tv_name.setText(notificationModel.getFrom_user_full_name());
+
+
+        btn_rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String comment = edt_comment.getText().toString().trim();
+                presenter.closecall(apointmentModel, usermodel, comment, rate.getRating());
+            }
+        });
+
+        img_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
+        dialog.setCanceledOnTouchOutside(false);
+        // dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_window_bg);
+        dialog.setView(view);
+        dialog.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            CreateAddRateAlertDialog();
+        }
     }
 }

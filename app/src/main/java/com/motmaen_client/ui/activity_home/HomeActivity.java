@@ -156,4 +156,12 @@ public class HomeActivity extends AppCompatActivity implements HomeActivityView 
     public void onFinished() {
         finish();
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(presenter.fragment_appointment!=null){
+            presenter.fragment_appointment.getdata();
+        }
+    }
 }

@@ -110,18 +110,17 @@
                 android:id="@+id/progBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                />
+                android:layout_gravity="center" />
+
             <TextView
                 android:id="@+id/tvNoDoctor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="16sp"
-                android:textColor="@color/black"
                 android:text="@string/no_doctors_available"
-                android:visibility="gone"
-                />
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:visibility="gone" />
         </FrameLayout>
 
     </LinearLayout>

@@ -25,4 +25,6 @@ public interface ActivityReservationDetialsView {
     void onSuccess(ReasonModel body);
 
     void onSuccess(ApointmentModel.Data data);
+
+    void oncloseSuccess();
 }

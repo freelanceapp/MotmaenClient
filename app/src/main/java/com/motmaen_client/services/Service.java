@@ -372,6 +372,16 @@ public interface Service {
             @Field("doctor_id") String doctor_id,
             @Field("patient_id") String patient_id,
             @Field("reservation_id") String reservation_id
+    );
+    @FormUrlEncoded
+    @POST("api/close-call-by-patient")
+    Call<ResponseBody> closecall(
+            @Header("Authorization") String Authorization,
+            @Field("doctor_id") String doctor_id,
+            @Field("patient_id") String patient_id,
+            @Field("reservation_id") String reservation_id,
+            @Field("comment") String comment,
+            @Field("rate") String rate
 
 
 

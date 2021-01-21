@@ -107,4 +107,9 @@ public class Fragment_Appointment extends Fragment implements ApointmentFragment
         startActivity(intent);
     }
 
+    public void getdata() {
+        apointmentModelList.clear();
+        adapter.notifyDataSetChanged();
+        presenter.getApointment(userModel);
+    }
 }

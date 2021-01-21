@@ -167,5 +167,9 @@
     <string name="dose">Dose</string>
     <string name="show_all">ٍShow All</string>
     <string name="link_inc">This link is incorrect</string>
+    <string name="calling">Calling</string>
+    <string name="rating">Rating</string>
+    <string name="comment">Comment</string>
+    <string name="add_rate">Add Rate</string>
 
 </resources>
