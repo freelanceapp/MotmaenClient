@@ -160,7 +160,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:singleLine="true"
-                    android:text="@{model.fav_fk.address}"
+                    android:text="@{@string/available+model.fav_fk.is_emergency}"
                     android:textColor="@color/gray9"
                     />
             </LinearLayout>
