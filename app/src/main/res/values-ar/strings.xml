@@ -171,6 +171,7 @@
     <string name="rating">تقييم</string>
     <string name="comment">تعليق</string>
     <string name="add_rate">اضافة تقييم</string>
-    <string name="available">متاح : </string>
+    <string name="available">متاح  </string>
+    <string name="notavailable">غير متاح</string>
 
 </resources>

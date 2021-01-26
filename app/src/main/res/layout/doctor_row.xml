@@ -168,7 +168,7 @@
                         android:layout_marginEnd="10dp"
                         android:gravity="start"
                         android:singleLine="true"
-                        android:text="@{@string/available+model.is_emergency}"
+                        android:text='@{model.is_emergency.equals("yes")?@string/available:@string/notavailable}'
 
                         android:textColor="@color/gray9"
                         android:textSize="14sp" />
