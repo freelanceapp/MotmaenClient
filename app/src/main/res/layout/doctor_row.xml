@@ -153,7 +153,7 @@
                         android:layout_height="24dp"
                         android:layout_gravity="center_vertical"
                         android:padding="3dp"
-                        android:src="@drawable/ic_pin"
+                        android:src="@drawable/dot"
                         app:tint="@color/gray9" />
                     <FrameLayout
                         android:layout_width="0dp"
