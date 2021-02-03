@@ -10,11 +10,11 @@ public class FavouriteDoctorModel implements Serializable {
         return data;
     }
 
-    public class Data implements Serializable{
+    public class Data implements Serializable {
         private SingleDoctorModel fav_fk;
 
-    public SingleDoctorModel getFav_fk() {
-        return fav_fk;
+        public SingleDoctorModel getFav_fk() {
+            return fav_fk;
+        }
     }
-}
 }

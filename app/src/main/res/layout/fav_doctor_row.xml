@@ -65,7 +65,7 @@
                     android:textSize="13sp"
                     android:textColor="@color/color1"
                     android:transitionName="tvDistance"
-                    android:text='@{Math.round(model.fav_fk.distance)+@string/km}'
+                    android:text='@{model.fav_fk.online_time_status.equals("off")?(model.fav_fk.online_time_by_min+@string/min):""}'
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -160,7 +160,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:singleLine="true"
-                    android:text='@{model.fav_fk.is_emergency.equals("yes")?@string/available:@string/notavailable}'
+                    android:text='@{model.fav_fk.online_time_status.equals("off")?(@string/notavailable):@string/available}'
                     android:textColor="@color/gray9"
                     />
             </LinearLayout>

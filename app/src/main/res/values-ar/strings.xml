@@ -43,7 +43,7 @@
     <string name="skip">تخطى</string>
     <string name="just_now">الان</string>
     <string name="a_minute_ago">منذ د</string>
-    <string name="min">min</string>
+    <string name="min">دقيقه</string>
     <string name="an_hour_ago">منذ س</string>
     <string name="hs">س</string>
     <string name="yesterday">امس</string>
@@ -115,7 +115,7 @@
     <string name="reserve">حجز</string>
     <string name="reserve_consultation">حجز إستشارة</string>
     <string name="price">سعر الكشف :</string>
-    <string name="clinic">Clinic</string>
+    <string name="clinic">عياده</string>
     <string name="live">فيديو</string>
     <string name="choose_date">إختر اليوم</string>
     <string name="available_appointments">المواعيد المتاحة</string>
@@ -171,7 +171,7 @@
     <string name="rating">تقييم</string>
     <string name="comment">تعليق</string>
     <string name="add_rate">اضافة تقييم</string>
-    <string name="available">متاح  </string>
+    <string name="available">متاح</string>
     <string name="notavailable">غير متاح</string>
     <string name="finished">منتهى</string>
 

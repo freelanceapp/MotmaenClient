@@ -42,6 +42,9 @@ public class SingleDoctorModel implements Serializable {
     private String created_at;
     private String updated_at;
     private double distance;
+       private String online_time_by_min;
+    private String online_time;
+    private String online_time_status;
     private Job job_degree_fk;
     private SpecializationModel specialization_fk;
     private CityModel city_fk;
@@ -198,6 +201,18 @@ public class SingleDoctorModel implements Serializable {
 
     public double getDistance() {
         return distance;
+    }
+
+    public String getOnline_time_by_min() {
+        return online_time_by_min;
+    }
+
+    public String getOnline_time() {
+        return online_time;
+    }
+
+    public String getOnline_time_status() {
+        return online_time_status;
     }
 
     public Job getJob_degree_fk() {

@@ -172,6 +172,6 @@
     <string name="comment">Comment</string>
     <string name="add_rate">Add Rate</string>
     <string name="available">Available </string>
-    <string name="notavailable"> Not Available </string>
+    <string name="notavailable"> Not Available  </string>
 <string name="finished">finished</string>
 </resources>

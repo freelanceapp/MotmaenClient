@@ -134,12 +134,12 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
                 open(apointmentModel);
             }
         });
-        if (apointmentModel.getReservation_status().equals("open")) {
-            binding.btCall.setVisibility(View.VISIBLE);
-        } else {
-            binding.btCall.setVisibility(View.GONE);
-
-        }
+//        if (apointmentModel.getReservation_status().equals("open")) {
+//            binding.btCall.setVisibility(View.VISIBLE);
+//        } else {
+//            binding.btCall.setVisibility(View.GONE);
+//
+//        }
 
 
     }
