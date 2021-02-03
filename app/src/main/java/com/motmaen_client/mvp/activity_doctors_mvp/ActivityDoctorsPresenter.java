@@ -121,7 +121,7 @@ public class ActivityDoctorsPresenter {
         view.onProgressShow(type);
 
         Api.getService(Tags.base_url)
-                .getdoctors(name,specialization_id,city_id,latitude,longitude,near,price,rates)
+                .getdoctors(name,specialization_id,city_id,latitude,longitude,price,rates)
                 .enqueue(new Callback<DoctorModel>() {
                     @Override
                     public void onResponse(Call<DoctorModel> call, Response<DoctorModel> response) {

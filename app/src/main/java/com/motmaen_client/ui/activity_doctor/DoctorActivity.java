@@ -66,7 +66,7 @@ public class DoctorActivity extends AppCompatActivity implements DoctorsActivity
     private List<CityModel> cityModels;
     private List<SingleDoctorModel> singleDoctorModelList;
     private CityAdapter cityAdapter;
-    private String query, near = "on",price="",rates="";
+    private String query, near = "on",price="all",rates="all";
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
@@ -145,14 +145,14 @@ public class DoctorActivity extends AppCompatActivity implements DoctorsActivity
             if (binding.rbHighPrice.isChecked()){
                 title = getString(R.string.high_price);
                 price="DESC";
-               rates="";
+               rates="all";
             }else if (binding.rbLowPrice.isChecked()){
                 title = getString(R.string.low_price);
                 price="ASC ";
-                rates="";
+                rates="all";
             }else if (binding.rbRate.isChecked()){
                 title = getString(R.string.rate);
-                price="";
+                price="all";
                 rates="ASC ";
 
             }else if (binding.rbTime.isChecked()){

@@ -133,11 +133,8 @@ public interface Service {
             @Query("city_id") String city_id,
             @Query("latitude") String latitude,
             @Query("longitude") String longitude,
-            @Query("near") String near,
             @Query("price") String price,
             @Query("rate") String rate
-
-
     );
 
     @GET("api/show-doctor-profile")
@@ -349,22 +346,25 @@ public interface Service {
     @FormUrlEncoded
     @POST("api/favourite")
     Call<ResponseBody> likeunlike(@Header("Authorization") String user_token,
-                              @Field("user_id") String user_id,
-                              @Field("doctor_id") String doctor_id
+                                  @Field("user_id") String user_id,
+                                  @Field("doctor_id") String doctor_id
     );
+
     @GET("api/my-favourites")
     Call<FavouriteDoctorModel> getdoctorsfav(
             @Header("Authorization") String user_token,
             @Query("user_id") String user_id,
             @Query("pagination_status") String pagination_status
 
-            );
+    );
+
     @GET("api/get-reservation-with-drugs")
     Call<DrugDataModel> getDrugs(@Header("Authorization") String Authorization,
                                  @Query("pagination_status") String doctor_id,
                                  @Query("user_id") int user_id
 
     );
+
     @FormUrlEncoded
     @POST("api/open-call-by-patient")
     Call<ResponseBody> opencall(
@@ -373,6 +373,7 @@ public interface Service {
             @Field("patient_id") String patient_id,
             @Field("reservation_id") String reservation_id
     );
+
     @FormUrlEncoded
     @POST("api/close-call-by-patient")
     Call<ResponseBody> closecall(
@@ -382,7 +383,6 @@ public interface Service {
             @Field("reservation_id") String reservation_id,
             @Field("comment") String comment,
             @Field("rate") String rate
-
 
 
     );
