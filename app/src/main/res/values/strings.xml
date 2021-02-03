@@ -116,7 +116,7 @@
     <string name="reserve_consultation">Reserve consultation</string>
     <string name="price">Price :</string>
     <string name="clinic">Clinic</string>
-    <string name="live">Live</string>
+    <string name="live">Video</string>
     <string name="choose_date">Choose Date</string>
     <string name="available_appointments">Available Appointments</string>
     <string name="write_your_consultation">Write your consultation</string>
@@ -173,5 +173,5 @@
     <string name="add_rate">Add Rate</string>
     <string name="available">Available </string>
     <string name="notavailable"> Not Available </string>
-
+<string name="finished">finished</string>
 </resources>

@@ -100,10 +100,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:background='@{model.type.equals("not_booked")?@color/color1:@color/gray8}'
+                android:background='@{(model.type.equals("booked")||model.type.equals("finished"))?@color/gray8:@color/color1}'
                 android:gravity="center"
                 android:singleLine="true"
-                android:text='@{model.type.equals("not_booked")?@string/reserve_now:@string/reserved}'
+                android:text='@{model.type.equals("not_booked")?@string/reserve_now:model.type.equals("finished")?@string/finished:@string/reserved}'
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 

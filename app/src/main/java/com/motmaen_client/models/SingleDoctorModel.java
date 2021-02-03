@@ -26,6 +26,7 @@ public class SingleDoctorModel implements Serializable {
     private String details;
     private double rates;
     private int app_cost;
+    private String title_job_degree;
     private double detection_price;
     private String appointment_time;
     private String is_emergency;
@@ -133,6 +134,10 @@ public class SingleDoctorModel implements Serializable {
 
     public int getApp_cost() {
         return app_cost;
+    }
+
+    public String getTitle_job_degree() {
+        return title_job_degree;
     }
 
     public double getDetection_price() {

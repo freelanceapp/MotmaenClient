@@ -116,7 +116,7 @@
     <string name="reserve_consultation">حجز إستشارة</string>
     <string name="price">سعر الكشف :</string>
     <string name="clinic">Clinic</string>
-    <string name="live">لايف</string>
+    <string name="live">فيديو</string>
     <string name="choose_date">إختر اليوم</string>
     <string name="available_appointments">المواعيد المتاحة</string>
     <string name="write_your_consultation">إكتب إستشارتك</string>
@@ -173,5 +173,6 @@
     <string name="add_rate">اضافة تقييم</string>
     <string name="available">متاح  </string>
     <string name="notavailable">غير متاح</string>
+    <string name="finished">منتهى</string>
 
 </resources>

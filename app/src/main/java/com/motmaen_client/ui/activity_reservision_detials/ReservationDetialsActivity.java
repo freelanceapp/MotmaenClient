@@ -213,10 +213,25 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
 
     @Override
     public void onSuccess(ApointmentModel.Data data) {
+        if(data.getReservation_type().equals("online")){
         Intent intent = new Intent(ReservationDetialsActivity.this, LiveActivity.class);
         intent.putExtra("room", data.getId());
         intent.putExtra("type", data.getReservation_type());
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, 1);}
+        else {
+            intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", data.getDoctor_fk().getPhone_code() + data.getDoctor_fk().getPhone(), null));
+            if (intent != null) {
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                    } else {
+                        startActivity(intent);
+                    }
+                } else {
+                    startActivity(intent);
+                }
+            }
+        }
     }
 
     @Override
