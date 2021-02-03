@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,6 +57,13 @@ public class FavouriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             activity.setItemData(doctorModel,myHolder.binding,myHolder.getAdapterPosition());
         }});
 
+        if (list.get(position).getFav_fk().getIs_emergency().equals("yes")){
+            myHolder.binding.imgAvilable.setColorFilter(ContextCompat.getColor(context,R.color.green));
+            // myHolder.binding.txtAvilable.setHintTextColor(R.color.green);
+        }else {
+            myHolder.binding.imgAvilable.setColorFilter(ContextCompat.getColor(context,R.color.gray5));
+
+        }
     }
 
     @Override

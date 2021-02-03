@@ -146,15 +146,16 @@
                 android:transitionName="lladdress"
                 >
                 <ImageView
+                    android:id="@+id/imgAvilable"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/dot"
-                    app:tint="@color/gray9"
                     android:padding="3dp"
                     android:layout_gravity="center_vertical"
                     />
 
                 <TextView
+                    android:id="@+id/txtAvilable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"

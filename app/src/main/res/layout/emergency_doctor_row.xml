@@ -146,6 +146,8 @@
                 android:transitionName="lladdress"
                 >
                 <ImageView
+                    android:id="@+id/imgAvilable"
+
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/dot"
