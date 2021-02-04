@@ -129,7 +129,6 @@ public class ApointmentModel implements Serializable {
             public Object forget_password_code;
             public String software_type;
             public Object deleted_at;
-
             public int distance;
 
 

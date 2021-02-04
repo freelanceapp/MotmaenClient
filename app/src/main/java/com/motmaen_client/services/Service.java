@@ -4,6 +4,7 @@ import com.motmaen_client.models.AllCityModel;
 import com.motmaen_client.models.AllDiseasesModel;
 import com.motmaen_client.models.AllSpiclixationModel;
 import com.motmaen_client.models.ApointmentModel;
+import com.motmaen_client.models.DayModel;
 import com.motmaen_client.models.DoctorModel;
 import com.motmaen_client.models.DrugDataModel;
 import com.motmaen_client.models.FavouriteDoctorModel;
@@ -386,4 +387,12 @@ public interface Service {
 
 
     );
+    @GET("api/Get-Days-with-Times")
+    Call<DayModel> getDays(
+            @Header("Authorization") String user_token,
+            @Query("doctor_id") int doctor_id,
+            @Query("pagination_status") String pagination_status
+
+    );
+
 }

@@ -46,6 +46,8 @@ import com.motmaen_client.ui.activity_reservation.ReservationActivity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -134,6 +136,25 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
                 open(apointmentModel);
             }
         });
+        String myTime = apointmentModel.getDate() + " " + apointmentModel.getTime() + " " + apointmentModel.getTime_type();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss aa", Locale.US);
+        Date d = null;
+        Log.e("dlldl", myTime);
+        try {
+            d = df.parse(myTime);
+        } catch (ParseException e) {
+            Log.e("llflfl", e.toString());
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        cal.add(Calendar.MINUTE, Integer.parseInt(apointmentModel.getDoctor_fk().getDetection_time()));
+        long time = System.currentTimeMillis();
+
+        if (time > cal.getTimeInMillis()) {
+            binding.btCall.setEnabled(false);
+            binding.btCall.setClickable(false);
+
+        }
 //        if (apointmentModel.getReservation_status().equals("open")) {
 //            binding.btCall.setVisibility(View.VISIBLE);
 //        } else {
@@ -213,12 +234,12 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
 
     @Override
     public void onSuccess(ApointmentModel.Data data) {
-        if(data.getReservation_type().equals("online")){
-        Intent intent = new Intent(ReservationDetialsActivity.this, LiveActivity.class);
-        intent.putExtra("room", data.getId());
-        intent.putExtra("type", data.getReservation_type());
-        startActivityForResult(intent, 1);}
-        else {
+        if (data.getReservation_type().equals("online")) {
+            Intent intent = new Intent(ReservationDetialsActivity.this, LiveActivity.class);
+            intent.putExtra("room", data.getId());
+            intent.putExtra("type", data.getReservation_type());
+            startActivityForResult(intent, 1);
+        } else {
             intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", data.getDoctor_fk().getPhone_code() + data.getDoctor_fk().getPhone(), null));
             if (intent != null) {
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

@@ -2,6 +2,7 @@ package com.motmaen_client.adapters;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -17,7 +18,12 @@ import com.motmaen_client.databinding.LoadMoreRowBinding;
 import com.motmaen_client.models.ApointmentModel;
 import com.motmaen_client.ui.activity_home.fragments.Fragment_Appointment;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AppointmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int DATA = 1;

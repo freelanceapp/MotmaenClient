@@ -50,6 +50,7 @@ public class SingleDoctorModel implements Serializable {
     private CityModel city_fk;
     private List<Rates> rates_fk;
     private Favourite fav_fk;
+    private String detection_time;
 
     public int getId() {
         return id;
@@ -233,6 +234,10 @@ public class SingleDoctorModel implements Serializable {
 
     public Favourite getFav_fk() {
         return fav_fk;
+    }
+
+    public String getDetection_time() {
+        return detection_time;
     }
 
     public void setId(int id) {

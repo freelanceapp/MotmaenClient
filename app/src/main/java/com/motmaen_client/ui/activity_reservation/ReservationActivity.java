@@ -23,6 +23,7 @@ import com.motmaen_client.databinding.ActivityReservationBinding;
 import com.motmaen_client.language.Language;
 import com.motmaen_client.models.ApointmentModel;
 import com.motmaen_client.models.ChatUserModel;
+import com.motmaen_client.models.DayModel;
 import com.motmaen_client.models.ReservisionTimeModel;
 import com.motmaen_client.models.RoomIdModel;
 import com.motmaen_client.models.SingleDoctorModel;
@@ -38,6 +39,9 @@ import com.motmaen_client.ui.chat_activity.ChatActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -150,21 +154,25 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
 
         binding.llDate.setOnClickListener(view -> presenter.showDateDialog(getFragmentManager()));
         gettimes();
-        if(apointmentModel!=null){
-            if(apointmentModel.getReservation_type().equals("normal")){
+        if (apointmentModel != null) {
+            presenter.getDays(userModel, apointmentModel.getDoctor_id());
+
+            if (apointmentModel.getReservation_type().equals("normal")) {
                 binding.cardLive.setVisibility(View.GONE);
                 binding.flCall.setBackgroundResource(R.drawable.small_rounded_red_strock);
                 binding.flLive.setBackgroundResource(0);
                 binding.flChat.setBackgroundResource(0);
 
-            }
-            else {
+            } else {
                 binding.cardCall.setVisibility(View.GONE);
                 binding.flCall.setBackgroundResource(0);
                 binding.flChat.setBackgroundResource(0);
                 binding.flLive.setBackgroundResource(R.drawable.small_rounded_red_strock);
 
             }
+        } else {
+            presenter.getDays(userModel, doctorModel.getId());
+
         }
 
     }
@@ -196,7 +204,10 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
         this.date = date;
         binding.tvDate.setText(date);
         this.dayname = dayname;
-
+        detialsList.clear();
+        singleReservisionTimeModelList.clear();
+        reservisionHourAdapter.notifyDataSetChanged();
+        childReservisionHourAdapter.notifyDataSetChanged();
         Log.e("llll", dayname);
         if (doctorModel != null) {
             presenter.getreservisiontime(doctorModel, "normal", date, dayname);
@@ -252,6 +263,46 @@ public class ReservationActivity extends AppCompatActivity implements ActivityRe
         Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra("chat_user_data", chatUserModel);
         startActivityForResult(intent, 1000);
+    }
+
+    @Override
+    public void ondata(DayModel body) {
+
+        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+        calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+// Get the number of days in that month
+        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        Log.e("llldlld", daysInMonth + "");
+        List<String> alldate = new ArrayList<>();
+        for (int i = 0; i < body.getData().size(); i++) {
+            Log.e("dkdkdk", body.getData().get(i).getDay_name());
+            alldate.add(body.getData().get(i).getDay_name().toLowerCase());
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE", Locale.ENGLISH);
+        List<Calendar> calendarList = new ArrayList<Calendar>();
+        for (int j = 1; j <= daysInMonth; j++) {
+            Calendar calendar2 = Calendar.getInstance(Locale.ENGLISH);
+            calendar2.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+            calendar2.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+            calendar2.set(Calendar.DAY_OF_MONTH, j);
+            String day = sdf.format(new Date(calendar2.getTimeInMillis()));
+            Log.e("llll", day);
+            if (alldate.contains(day.toLowerCase())) {
+                calendarList.add(calendar2);
+            }
+
+
+        }
+        Calendar calendars1[] = new Calendar[calendarList.size()];
+        for (int i = 0; i < calendarList.size(); i++) {
+            calendars1[i] = calendarList.get(i);
+            Log.e("sssssss", calendarList.get(i).getTime() + " ");
+
+        }
+        presenter.setdisable(calendars1);
+
+        Log.e("dldldll", calendarList.size() + " ");
     }
 
     public void getchild(int position) {
