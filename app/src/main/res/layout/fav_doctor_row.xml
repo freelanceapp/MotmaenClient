@@ -161,7 +161,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:singleLine="true"
-                    android:text='@{model.fav_fk.online_time_status.equals("off")?(@string/notavailable):@string/available}'
+                    android:text='@{(model.fav_fk.online_time_status.equals("off")&amp;&amp;(!model.fav_fk.online_time_by_min.equals("0")))?(@string/notavailable):@string/available}'
                     android:textColor="@color/gray9"
                     />
             </LinearLayout>

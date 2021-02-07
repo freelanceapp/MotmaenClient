@@ -169,7 +169,7 @@
                         android:layout_marginEnd="10dp"
                         android:gravity="start"
                         android:singleLine="true"
-                        android:text='@{model.online_time_status.equals("off")?(@string/notavailable):@string/available}'
+                        android:text='@{(model.online_time_status.equals("off")&amp;&amp;(!model.online_time_by_min.equals("0")))?(@string/notavailable):@string/available}'
 
                         android:textColor="@color/gray9"
                         android:textSize="14sp" />
@@ -178,7 +178,7 @@
                         android:id="@+id/tvDistance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text='@{model.online_time_status.equals("off")?(model.online_time_by_min+@string/min):""}'
+                        android:text='@{(model.online_time_status.equals("off")&amp;&amp;(!model.online_time_by_min.equals("0")))?(model.online_time_by_min+@string/min):""}'
                         android:textColor="@color/color1"
                         android:textSize="14sp"
                         android:transitionName="distance"
