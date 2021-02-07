@@ -150,11 +150,11 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
         cal.add(Calendar.MINUTE, Integer.parseInt(apointmentModel.getDoctor_fk().getDetection_time()));
         long time = System.currentTimeMillis();
 
-        if (time > cal.getTimeInMillis()) {
+//        if (time > cal.getTimeInMillis()) {
 
             binding.btCall.setVisibility(View.GONE);
 
-        }
+//        }
 //        if (apointmentModel.getReservation_status().equals("open")) {
 //            binding.btCall.setVisibility(View.VISIBLE);
 //        } else {
