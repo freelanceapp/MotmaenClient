@@ -59,7 +59,6 @@ public class ActivityReservationPresenter implements DatePickerDialog.OnDateSetL
         datePickerDialog.setVersion(DatePickerDialog.Version.VERSION_1);
         datePickerDialog.setMinDate(calendar);
         datePickerDialog.setMaxDate(calendar2);
-        Log.e("d;ldld", calendar2.getTime().toString());
 
     }
 

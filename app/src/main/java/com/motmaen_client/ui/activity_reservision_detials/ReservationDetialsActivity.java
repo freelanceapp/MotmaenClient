@@ -151,8 +151,8 @@ public class ReservationDetialsActivity extends AppCompatActivity implements Act
         long time = System.currentTimeMillis();
 
         if (time > cal.getTimeInMillis()) {
-            binding.btCall.setEnabled(false);
-            binding.btCall.setClickable(false);
+
+            binding.btCall.setVisibility(View.GONE);
 
         }
 //        if (apointmentModel.getReservation_status().equals("open")) {

@@ -178,8 +178,9 @@ public class ChatActivity extends AppCompatActivity implements ChatActivityView 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void listenToNewMessage(MessageModel messageModel) {
-        messagedatalist.add(messageModel);
-        scrollToLastPosition();
+        presenter.getChatMessages(chatUserModel);
+//        messagedatalist.add(messageModel);
+//        scrollToLastPosition();
     }
 
     private void scrollToLastPosition() {
